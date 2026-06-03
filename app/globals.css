@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --max: 1200px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #FAFAF7; /* paper */
+  color: #14141A;       /* ink */
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Koppen in Nunito met strakke tracking, zoals brandbook */
+h1, h2, h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #14141A;
+}
+
+/* Klein label-kapje boven secties (mono-achtig, gesperd) */
+.kicker {
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4A4A55;
+  font-weight: 600;
+}
+
+/* De vijf-kleuren accentbalk uit het brandbook (cover/presentatie) */
+.merkbalk {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    to right,
+    #A1367E 0% 20%,
+    #01B6E3 20% 40%,
+    #009D46 40% 60%,
+    #CCD50A 60% 80%,
+    #F29828 80% 100%
+  );
+}
