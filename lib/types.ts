@@ -51,6 +51,39 @@ export interface SiteSettings {
   footerTekst: string;
 }
 
+// ── Referentieprojecten ────────────────────────────────────
+// Uitgevoerde inrichtingen die laten zien wat Weststrate kan.
+export interface Project {
+  _id: string;
+  title: string;
+  slug: string;
+  klant: string; // bv. "Gemeente Middelburg"
+  sector: string; // bv. "Overheid", "Zorg", "Horeca"
+  jaar: string;
+  locatie: string;
+  intro: string; // korte samenvatting voor de kaart
+  uitdaging: string;
+  aanpak: string;
+  resultaat: string;
+  // Meetbare cijfers (brandbook: cijfers i.p.v. superlatieven)
+  cijfers: { waarde: string; label: string }[];
+  image: string; // hoofdbeeld (leeg = placeholder)
+  categorieen: string[]; // bv. ["Bureaus", "Vergadertafels"]
+}
+
+// ── Blog / inspiratie ──────────────────────────────────────
+export interface BlogPost {
+  _id: string;
+  title: string;
+  slug: string;
+  datum: string; // ISO, bv. "2026-05-12"
+  thema: string; // bv. "Ergonomie", "Akoestiek"
+  leestijd: number; // minuten
+  samenvatting: string;
+  body: string; // platte tekst met dubbele newlines tussen alinea's
+  image: string; // (leeg = placeholder)
+}
+
 // ── Offerte ────────────────────────────────────────────────
 
 // Een gekozen optie op een offerteregel.

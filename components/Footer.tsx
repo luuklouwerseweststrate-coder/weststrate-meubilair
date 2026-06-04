@@ -17,13 +17,18 @@ export default async function Footer() {
           <p className="kicker mb-3">Menu</p>
           <ul className="space-y-2 text-sm text-ink-2">
             <li>
+              <Link href="/projecten" className="hover:text-brand">
+                Projecten
+              </Link>
+            </li>
+            <li>
               <Link href="/catalogus" className="hover:text-brand">
                 Catalogus
               </Link>
             </li>
             <li>
-              <Link href="/offerte" className="hover:text-brand">
-                Mijn offerte
+              <Link href="/blog" className="hover:text-brand">
+                Inspiratie
               </Link>
             </li>
             <li>

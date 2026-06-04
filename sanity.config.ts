@@ -77,6 +77,33 @@ export default defineConfig({
                     }),
                   ])
               ),
+
+            S.divider(),
+
+            // ── Projecten (sleepbaar) ──────────────────────
+            S.listItem()
+              .title("🏢 Projecten")
+              .child(
+                S.list()
+                  .title("Projecten")
+                  .items([
+                    orderableDocumentListDeskItem({
+                      type: "project",
+                      title: "Projecten (sleep om volgorde te bepalen)",
+                      S,
+                      context,
+                    }),
+                  ])
+              ),
+
+            // ── Blog ───────────────────────────────────────
+            S.listItem()
+              .title("✍️ Blog")
+              .child(
+                S.documentTypeList("post")
+                  .title("Blogartikelen")
+                  .defaultOrdering([{ field: "datum", direction: "desc" }])
+              ),
           ]),
     }),
   ],

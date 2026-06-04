@@ -54,3 +54,50 @@ export const SITE_SETTINGS = groq`
     footerTekst
   }
 `;
+
+// Alle referentieprojecten (handmatige volgorde).
+const PROJECT_VELDEN = groq`
+  "_id": _id,
+  title,
+  "slug": slug.current,
+  klant,
+  sector,
+  jaar,
+  locatie,
+  intro,
+  uitdaging,
+  aanpak,
+  resultaat,
+  cijfers[]{ waarde, label },
+  "image": image.asset->url,
+  categorieen
+`;
+
+export const ALLE_PROJECTEN = groq`
+  *[_type == "project"] | order(orderRank asc) { ${PROJECT_VELDEN} }
+`;
+
+export const PROJECT_OP_SLUG = groq`
+  *[_type == "project" && slug.current == $slug][0] { ${PROJECT_VELDEN} }
+`;
+
+// Blogartikelen (nieuwste eerst).
+const POST_VELDEN = groq`
+  "_id": _id,
+  title,
+  "slug": slug.current,
+  "datum": datum,
+  thema,
+  leestijd,
+  samenvatting,
+  "body": pt::text(body),
+  "image": image.asset->url
+`;
+
+export const ALLE_POSTS = groq`
+  *[_type == "post"] | order(datum desc) { ${POST_VELDEN} }
+`;
+
+export const POST_OP_SLUG = groq`
+  *[_type == "post" && slug.current == $slug][0] { ${POST_VELDEN} }
+`;
