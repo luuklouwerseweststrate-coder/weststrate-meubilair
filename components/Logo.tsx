@@ -1,38 +1,20 @@
-// Weststrate-logo: de W-mark (vijf merkkleuren) + wordmark + pay-off.
-// De W is opgebouwd als zigzag-streek met een verloop door de vijf
-// primaire kleuren (magenta → cyaan → groen → lime → oranje), conform
-// het brandbook ("één kleur per poot van de W").
-//
-// Dit is een nette interpretatie in code. Levert Luuk het officiële
-// SVG aan, dan vervangen we alleen de <WMark> hieronder.
+// Weststrate-logo: de officiële W-mark (public/beelden/logo.png, transparante
+// achtergrond) + het woordmerk als tekst + pay-off. Het woordmerk zetten we in
+// de merkfont zodat we de donker/licht-variant (header op wit, footer op
+// donker) zelf kunnen sturen.
 
-export function WMark({ className = "h-8 w-8" }: { className?: string }) {
+import Image from "next/image";
+
+export function WMark({ className = "h-8 w-auto" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 64 44"
+    <Image
+      src="/beelden/logo.png"
+      alt="Weststrate"
+      width={447}
+      height={343}
+      priority
       className={className}
-      role="img"
-      aria-label="Weststrate"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="wmark" x1="0" y1="0" x2="64" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#A1367E" />
-          <stop offset="27%" stopColor="#01B6E3" />
-          <stop offset="52%" stopColor="#009D46" />
-          <stop offset="76%" stopColor="#CCD50A" />
-          <stop offset="100%" stopColor="#F29828" />
-        </linearGradient>
-      </defs>
-      <polyline
-        points="5,5 17,39 32,17 47,39 59,5"
-        stroke="url(#wmark)"
-        strokeWidth="9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    />
   );
 }
 

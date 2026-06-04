@@ -1,0 +1,7 @@
+feat: echt Weststrate-logo in header en footer
+
+Vervangt de nagebouwde W-mark door het officiele logo (public/beelden/logo.png,
+transparante achtergrond) in components/Logo.tsx. Woordmerk blijft als tekst
+zodat de donker/licht-variant blijft werken.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
