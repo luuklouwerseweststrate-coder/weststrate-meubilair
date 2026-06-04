@@ -96,6 +96,7 @@ export interface Project {
   // Meetbare cijfers (brandbook: cijfers i.p.v. superlatieven)
   cijfers: { waarde: string; label: string }[];
   image: string; // hoofdbeeld (leeg = placeholder)
+  images?: string[]; // extra foto's voor de galerij op de detailpagina
   categorieen: string[]; // bv. ["Bureaus", "Vergadertafels"]
 }
 
