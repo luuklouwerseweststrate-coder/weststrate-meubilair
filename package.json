@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync": "node scripts/sync-swan.mjs",
+    "catalogus": "node scripts/excel-to-json.mjs"
   },
   "dependencies": {
     "@sanity/image-url": "^1.0.2",
@@ -25,6 +27,7 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "xlsx": "^0.18.5"
   }
 }

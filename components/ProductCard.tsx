@@ -8,15 +8,11 @@ export default function ProductCard({ product }: { product: Product }) {
       href={`/product/${product.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-rule bg-white transition-shadow hover:shadow-md"
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <ProductMedia
-          src={product.images[0]}
-          alt={product.name}
-          category={product.category}
-        />
+      <div className="relative aspect-[4/3] overflow-hidden bg-paper-2">
+        <ProductMedia src={product.image} alt={product.name} />
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <p className="font-mono text-xs text-ink-2">{product.articleNumber}</p>
+        <p className="text-xs text-ink-2">{product.subcategory}</p>
         <h3 className="mt-1 text-lg leading-snug group-hover:text-brand">
           {product.name}
         </h3>

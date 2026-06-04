@@ -123,16 +123,8 @@ export default function OfferteClient({
                   {/* Gekozen opties */}
                   <ul className="mt-3 space-y-1 text-sm text-ink-2">
                     {r.gekozenOpties.map((o, i) => (
-                      <li key={i} className="flex justify-between">
-                        <span>
-                          {o.groepLabel}: {o.keuzeLabel}
-                        </span>
-                        {o.priceDelta !== 0 && (
-                          <span>
-                            {o.priceDelta > 0 ? "+" : ""}
-                            {euro(o.priceDelta)}
-                          </span>
-                        )}
+                      <li key={i}>
+                        {o.groepLabel}: {o.keuzeLabel}
                       </li>
                     ))}
                   </ul>

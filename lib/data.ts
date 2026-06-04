@@ -1,62 +1,103 @@
 import { client, sanityIngesteld } from "@/sanity/lib/client";
 import {
-  ALLE_PRODUCTEN,
-  PRODUCT_OP_SLUG,
   SITE_SETTINGS,
   ALLE_PROJECTEN,
   PROJECT_OP_SLUG,
   ALLE_POSTS,
   POST_OP_SLUG,
 } from "@/sanity/lib/queries";
-import {
-  MOCK_PRODUCTS,
-  MOCK_SETTINGS,
-  MOCK_PROJECTS,
-  MOCK_POSTS,
-} from "./mock-data";
-import type {
-  Categorie,
-  Product,
-  SiteSettings,
-  Project,
-  BlogPost,
-} from "./types";
+import { MOCK_SETTINGS, MOCK_PROJECTS, MOCK_POSTS } from "./mock-data";
+import { slugify } from "./types";
+import type { Product, SiteSettings, Project, BlogPost } from "./types";
+import catalogus from "@/data/swan-catalogus.json";
 
-// Data-laag. Zolang Sanity niet gekoppeld is (geen project-ID),
-// draait alles op de mock-data uit lib/mock-data.ts. Zodra de
-// env-var NEXT_PUBLIC_SANITY_PROJECT_ID gevuld is, komt de data
-// uit het CMS. Bij een lege CMS valt het terug op mock-data.
+// Data-laag.
+//
+// Producten komen uit data/swan-catalogus.json — die wordt gevuld door het
+// sync-script (scripts/sync-swan.mjs) dat het Swan-snelleverprogramma ophaalt.
+// De site raakt de Swan-API zelf nooit aan; alles is statisch en snel.
+//
+// Projecten, blog en site-instellingen komen nog uit Sanity (met terugval op
+// mock-data zolang Sanity niet gekoppeld is).
 
-export async function getProducten(): Promise<Product[]> {
-  if (!sanityIngesteld) return MOCK_PRODUCTS;
-  try {
-    const data = await client.fetch<Product[]>(ALLE_PRODUCTEN);
-    return data && data.length > 0 ? data : MOCK_PRODUCTS;
-  } catch {
-    return MOCK_PRODUCTS;
-  }
+const ALLE_PRODUCTEN = catalogus as unknown as Product[];
+
+function eersteBeschikbareAfbeelding(product: Product): string {
+  return product.image || product.variants.find((v) => v.image)?.image || "";
 }
 
-export async function getProductenPerCategorie(
-  categorie: Categorie
-): Promise<Product[]> {
-  const alle = await getProducten();
-  return alle.filter((p) => p.category === categorie);
+// ── Producten (uit de Swan-catalogus) ────────────────────────
+export async function getProducten(): Promise<Product[]> {
+  return ALLE_PRODUCTEN;
 }
 
 export async function getProduct(slug: string): Promise<Product | null> {
-  if (!sanityIngesteld) {
-    return MOCK_PRODUCTS.find((p) => p.slug === slug) ?? null;
-  }
-  try {
-    const data = await client.fetch<Product | null>(PRODUCT_OP_SLUG, { slug });
-    if (data) return data;
-  } catch {
-    // val terug op mock
-  }
-  return MOCK_PRODUCTS.find((p) => p.slug === slug) ?? null;
+  return ALLE_PRODUCTEN.find((p) => p.slug === slug) ?? null;
 }
 
+// ── Categorie-structuur (dynamisch afgeleid) ─────────────────
+// Eén subcategorie binnen een hoofdcategorie, met aantal en URL-slug.
+export interface SubcategorieInfo {
+  sub: string; // bv. "Bureaus"
+  slug: string; // bv. "bureaus"
+  aantal: number;
+  beeld: string; // representatief productbeeld
+}
+
+export interface CategorieGroep {
+  hoofd: string; // bv. "Werken"
+  subs: SubcategorieInfo[];
+}
+
+// Groepeert alle producten per hoofdcategorie -> subcategorieën.
+export async function getCategorieStructuur(): Promise<CategorieGroep[]> {
+  const groepen = new Map<string, Map<string, SubcategorieInfo>>();
+
+  for (const p of ALLE_PRODUCTEN) {
+    if (!groepen.has(p.category)) groepen.set(p.category, new Map());
+    const subs = groepen.get(p.category)!;
+    const bestaand = subs.get(p.subcategory);
+    if (bestaand) {
+      bestaand.aantal += 1;
+      if (!bestaand.beeld) bestaand.beeld = eersteBeschikbareAfbeelding(p);
+    } else {
+      subs.set(p.subcategory, {
+        sub: p.subcategory,
+        slug: slugify(p.subcategory),
+        aantal: 1,
+        beeld: eersteBeschikbareAfbeelding(p),
+      });
+    }
+  }
+
+  return [...groepen.entries()]
+    .map(([hoofd, subs]) => ({
+      hoofd,
+      subs: [...subs.values()].sort((a, b) => a.sub.localeCompare(b.sub)),
+    }))
+    .sort((a, b) => a.hoofd.localeCompare(b.hoofd));
+}
+
+// Alle subcategorie-slugs (voor generateStaticParams van /catalogus/[categorie]).
+export async function getSubcategorieSlugs(): Promise<string[]> {
+  const slugs = new Set<string>();
+  for (const p of ALLE_PRODUCTEN) slugs.add(slugify(p.subcategory));
+  return [...slugs];
+}
+
+// Producten binnen één subcategorie (op slug). Geeft ook de nette naam terug.
+export async function getProductenPerSubSlug(
+  slug: string
+): Promise<{ sub: string; hoofd: string; producten: Product[] }> {
+  const producten = ALLE_PRODUCTEN.filter((p) => slugify(p.subcategory) === slug);
+  return {
+    sub: producten[0]?.subcategory ?? "",
+    hoofd: producten[0]?.category ?? "",
+    producten,
+  };
+}
+
+// ── Site-instellingen ────────────────────────────────────────
 export async function getSettings(): Promise<SiteSettings> {
   if (!sanityIngesteld) return MOCK_SETTINGS;
   try {

@@ -1,62 +1,76 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { getProducten } from "@/lib/data";
-import { CATEGORIE_LABELS, type Categorie } from "@/lib/types";
-import ProductCard from "@/components/ProductCard";
+import { getCategorieStructuur } from "@/lib/data";
+import { slugify } from "@/lib/types";
+import ProductMedia from "@/components/ProductMedia";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Catalogus",
   description:
-    "Alle bureaustoelen, bureaus en vergadertafels van Weststrate Meubilair.",
+    "Het volledige snelleverprogramma van Weststrate Meubilair: bureaus, stoelen, tafels en opbergmeubilair.",
 };
 
 export default async function CatalogusPage() {
-  const producten = await getProducten();
-  const categorieen = Object.keys(CATEGORIE_LABELS) as Categorie[];
+  const structuur = await getCategorieStructuur();
 
   return (
     <div className="mx-auto max-w-content px-5 py-14">
       <p className="kicker mb-3">Catalogus</p>
       <h1 className="text-4xl">Ons assortiment</h1>
+      <p className="mt-4 max-w-2xl text-lg text-ink-2">
+        Direct leverbaar uit het snelleverprogramma. Kies een categorie en stel
+        je eigen uitvoering samen.
+      </p>
 
-      {/* Categorie-filters (links) */}
+      {/* Snelnavigatie naar de hoofdcategorieën */}
       <div className="mt-6 flex flex-wrap gap-2">
-        {categorieen.map((cat) => (
-          <Link
-            key={cat}
-            href={`/catalogus/${cat}`}
+        {structuur.map((groep) => (
+          <a
+            key={groep.hoofd}
+            href={`#${slugify(groep.hoofd)}`}
             className="rounded-full border border-rule px-4 py-2 text-sm text-ink-2 transition-colors hover:border-brand hover:text-brand"
           >
-            {CATEGORIE_LABELS[cat]}
-          </Link>
+            {groep.hoofd}
+          </a>
         ))}
       </div>
 
-      {/* Per categorie een blok */}
-      {categorieen.map((cat) => {
-        const items = producten.filter((p) => p.category === cat);
-        if (items.length === 0) return null;
-        return (
-          <section key={cat} className="mt-14">
-            <div className="mb-5 flex items-end justify-between">
-              <h2 className="text-2xl">{CATEGORIE_LABELS[cat]}</h2>
+      {/* Per hoofdcategorie een blok met subcategorie-tegels */}
+      {structuur.map((groep) => (
+        <section
+          key={groep.hoofd}
+          id={slugify(groep.hoofd)}
+          className="mt-16 scroll-mt-24"
+        >
+          <h2 className="text-2xl">{groep.hoofd}</h2>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {groep.subs.map((sub) => (
               <Link
-                href={`/catalogus/${cat}`}
-                className="text-sm font-semibold text-brand hover:underline"
+                key={sub.slug}
+                href={`/catalogus/${sub.slug}`}
+                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-rule bg-paper-2"
               >
-                Alles bekijken →
+                <ProductMedia
+                  src={sub.beeld}
+                  alt={sub.sub}
+                  naam={sub.sub}
+                  categorie={groep.hoofd}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5">
+                  <h3 className="text-lg text-white">{sub.sub}</h3>
+                  <p className="text-sm text-white/80">
+                    {sub.aantal} {sub.aantal === 1 ? "product" : "producten"}
+                  </p>
+                </div>
               </Link>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((p) => (
-                <ProductCard key={p._id} product={p} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }

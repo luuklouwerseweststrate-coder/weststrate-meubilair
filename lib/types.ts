@@ -1,24 +1,40 @@
-// Gedeelde types voor producten, opties en de offerte.
+// Gedeelde types voor producten, varianten, opties en de offerte.
+//
+// Het productmodel is een "variant-matrix": een product (productlijn uit het
+// Swan-snelleverprogramma) heeft optiegroepen (de keuze-assen, bv. Framekleur)
+// en een lijst varianten. Elke variant is één concrete combinatie met een
+// eigen artikelcode, prijs en foto. Kiest de klant andere opties, dan zoeken
+// we de bijbehorende variant op en wisselt prijs én beeld mee.
 
-export type Categorie = "bureaustoelen" | "bureaus" | "vergadertafels";
+// ── Categorieën ─────────────────────────────────────────────
+// Categorieën zijn dynamisch (afgeleid uit de Swan-data), dus gewoon string.
+// Voorbeelden: hoofdcategorie "Werken", subcategorie "Bureaus".
 
-export const CATEGORIE_LABELS: Record<Categorie, string> = {
-  bureaustoelen: "Bureaustoelen",
-  bureaus: "Bureaus",
-  vergadertafels: "Vergadertafels",
-};
-
-// Eén keuze binnen een optiegroep, bv. "Wit" met +25 euro meerprijs.
-export interface OptieKeuze {
-  label: string;
-  priceDelta: number; // meerprijs t.o.v. basisprijs (mag 0 of negatief)
+// Maakt een URL-veilige slug van een categorie- of productnaam.
+export function slugify(tekst: string): string {
+  return tekst
+    .toLowerCase()
+    .normalize("NFD") // splits diacritics af (é -> e + accent)
+    .replace(/[̀-ͯ]/g, "") // verwijder de accenttekens
+    .replace(/[^a-z0-9]+/g, "-") // alles wat geen letter/cijfer is -> koppelteken
+    .replace(/^-+|-+$/g, ""); // koppeltekens aan begin/eind weg
 }
 
-// Een groep keuzes, bv. "Bladkleur".
+// ── Product + varianten ─────────────────────────────────────
+
+// Eén keuze-as, bv. "Framekleur" met waarden ["Zwart", "Antraciet"].
 export interface OptieGroep {
   label: string;
-  required: boolean;
-  choices: OptieKeuze[];
+  waarden: string[];
+}
+
+// Eén concrete combinatie. opties koppelt elke groep-label aan de gekozen
+// waarde, bv. { "Framekleur": "Zwart", "Blad": "Wit" }.
+export interface Variant {
+  articleNumber: string;
+  price: number;
+  image: string;
+  opties: Record<string, string>;
 }
 
 export interface Spec {
@@ -30,15 +46,27 @@ export interface Product {
   _id: string;
   name: string;
   slug: string;
-  articleNumber: string;
-  category: Categorie;
+  category: string; // hoofdcategorie, bv. "Werken"
+  subcategory: string; // subcategorie, bv. "Bureaus"
   shortDescription: string;
   description?: string;
-  basePrice: number;
-  // Afbeelding-URL's; leeg = gekleurde placeholder
-  images: string[];
+  basePrice: number; // prijs van de goedkoopste variant ("vanaf")
+  image: string; // standaardbeeld (van de standaardvariant)
   specs: Spec[];
   optionGroups: OptieGroep[];
+  variants: Variant[];
+}
+
+// Zoekt de variant die exact bij de gekozen opties past. Valt terug op de
+// eerste variant als er (nog) geen match is.
+export function vindVariant(
+  product: Product,
+  keuzes: Record<string, string>
+): Variant {
+  const match = product.variants.find((v) =>
+    product.optionGroups.every((g) => v.opties[g.label] === keuzes[g.label])
+  );
+  return match ?? product.variants[0];
 }
 
 export interface SiteSettings {
@@ -86,33 +114,31 @@ export interface BlogPost {
 
 // ── Offerte ────────────────────────────────────────────────
 
-// Een gekozen optie op een offerteregel.
+// Een gekozen optie op een offerteregel (puur ter weergave).
 export interface GekozenOptie {
   groepLabel: string;
   keuzeLabel: string;
-  priceDelta: number;
 }
 
-// Eén regel in de offerte (een product met gekozen opties).
+// Eén regel in de offerte: een gekozen variant met aantal.
 export interface OfferteRegel {
   id: string; // unieke regel-id
   productId: string;
   productName: string;
-  articleNumber: string;
-  basePrice: number;
+  articleNumber: string; // artikelcode van de gekozen variant
+  stuksprijs: number; // exacte prijs van de gekozen variant
   gekozenOpties: GekozenOptie[];
   aantal: number;
 }
 
-// Stuksprijs = basisprijs + som van alle meerprijzen.
+// Stuksprijs = de exacte variantprijs die op de regel is vastgelegd.
 export function stuksprijs(regel: OfferteRegel): number {
-  const opties = regel.gekozenOpties.reduce((s, o) => s + o.priceDelta, 0);
-  return regel.basePrice + opties;
+  return regel.stuksprijs;
 }
 
 // Regeltotaal = stuksprijs x aantal.
 export function regelTotaal(regel: OfferteRegel): number {
-  return stuksprijs(regel) * regel.aantal;
+  return regel.stuksprijs * regel.aantal;
 }
 
 // Prijsweergave in euro's (NL-notatie). Staat hier (server-veilig) zodat

@@ -1,0 +1,48 @@
+name: Sync Swan snelleverprogramma
+
+# Haalt dagelijks het Swan-snelleverprogramma op en commit de bijgewerkte
+# data/swan-catalogus.json. Vercel deployt automatisch bij de push naar main.
+# Handmatig starten kan via "Run workflow" (workflow_dispatch).
+
+on:
+  schedule:
+    # Elke nacht om 03:30 UTC (zo staat de catalogus 's ochtends vers klaar).
+    - cron: "30 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node opzetten
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Dependencies installeren
+        run: npm ci
+
+      - name: Swan-catalogus synchroniseren
+        env:
+          SWAN_USERNAME: ${{ secrets.SWAN_USERNAME }}
+          SWAN_PASSWORD: ${{ secrets.SWAN_PASSWORD }}
+        run: npm run sync
+
+      - name: Wijzigingen committen en pushen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/swan-catalogus.json)" ]; then
+            git add data/swan-catalogus.json
+            git commit -m "chore: sync Swan-catalogus"
+            git push
+          else
+            echo "Geen wijzigingen in de catalogus."
+          fi

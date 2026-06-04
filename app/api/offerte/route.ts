@@ -23,14 +23,7 @@ function euro(bedrag: number): string {
 
 function optiesTekst(opties: GekozenOptie[]): string {
   return opties
-    .map(
-      (o) =>
-        `   - ${o.groepLabel}: ${o.keuzeLabel}${
-          o.priceDelta !== 0
-            ? ` (${o.priceDelta > 0 ? "+" : ""}${euro(o.priceDelta)})`
-            : ""
-        }`
-    )
+    .map((o) => `   - ${o.groepLabel}: ${o.keuzeLabel}`)
     .join("\n");
 }
 
@@ -74,14 +67,7 @@ function htmlOfferte(
   const rijen = regels
     .map((r) => {
       const opties = r.gekozenOpties
-        .map(
-          (o) =>
-            `${o.groepLabel}: ${o.keuzeLabel}${
-              o.priceDelta !== 0
-                ? ` (${o.priceDelta > 0 ? "+" : ""}${euro(o.priceDelta)})`
-                : ""
-            }`
-        )
+        .map((o) => `${o.groepLabel}: ${o.keuzeLabel}`)
         .join("<br>");
       return `
         <tr>

@@ -1,16 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProductenPerCategorie } from "@/lib/data";
-import { CATEGORIE_LABELS, type Categorie } from "@/lib/types";
+import { getProductenPerSubSlug, getSubcategorieSlugs } from "@/lib/data";
 import ProductCard from "@/components/ProductCard";
 
 export const revalidate = 3600;
 
-const GELDIG: Categorie[] = ["bureaustoelen", "bureaus", "vergadertafels"];
-
-export function generateStaticParams() {
-  return GELDIG.map((categorie) => ({ categorie }));
+export async function generateStaticParams() {
+  const slugs = await getSubcategorieSlugs();
+  return slugs.map((categorie) => ({ categorie }));
 }
 
 export async function generateMetadata({
@@ -18,9 +16,8 @@ export async function generateMetadata({
 }: {
   params: { categorie: string };
 }): Promise<Metadata> {
-  const cat = params.categorie as Categorie;
-  const label = CATEGORIE_LABELS[cat] ?? "Catalogus";
-  return { title: label };
+  const { sub } = await getProductenPerSubSlug(params.categorie);
+  return { title: sub || "Catalogus" };
 }
 
 export default async function CategoriePage({
@@ -28,10 +25,10 @@ export default async function CategoriePage({
 }: {
   params: { categorie: string };
 }) {
-  const cat = params.categorie as Categorie;
-  if (!GELDIG.includes(cat)) notFound();
-
-  const producten = await getProductenPerCategorie(cat);
+  const { sub, hoofd, producten } = await getProductenPerSubSlug(
+    params.categorie
+  );
+  if (producten.length === 0) notFound();
 
   return (
     <div className="mx-auto max-w-content px-5 py-14">
@@ -40,22 +37,22 @@ export default async function CategoriePage({
           Catalogus
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-ink">{CATEGORIE_LABELS[cat]}</span>
+        <span className="text-ink-2">{hoofd}</span>
+        <span className="mx-2">/</span>
+        <span className="text-ink">{sub}</span>
       </nav>
 
-      <h1 className="text-4xl">{CATEGORIE_LABELS[cat]}</h1>
+      <h1 className="text-4xl">{sub}</h1>
+      <p className="mt-2 text-ink-2">
+        {producten.length} {producten.length === 1 ? "product" : "producten"}{" "}
+        leverbaar
+      </p>
 
-      {producten.length === 0 ? (
-        <p className="mt-8 text-ink-2">
-          Er staan nog geen producten in deze categorie.
-        </p>
-      ) : (
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {producten.map((p) => (
-            <ProductCard key={p._id} product={p} />
-          ))}
-        </div>
-      )}
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {producten.map((p) => (
+          <ProductCard key={p._id} product={p} />
+        ))}
+      </div>
     </div>
   );
 }

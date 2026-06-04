@@ -1,33 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getProducten, getProjecten, getPosts } from "@/lib/data";
-import { CATEGORIE_LABELS, type Categorie } from "@/lib/types";
+import { getCategorieStructuur, getProjecten, getPosts } from "@/lib/data";
+import { slugify } from "@/lib/types";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
+import ProductMedia from "@/components/ProductMedia";
 
 export const revalidate = 3600; // ISR: elk uur verversen
 
-// Beeld + accent per categorie voor de visuele catalogus-tegels.
-const CATEGORIE_TEGEL: Record<
-  Categorie,
-  { kleur: string; beeld: string; tekst: string }
-> = {
-  bureaustoelen: {
-    kleur: "#A1367E",
-    beeld: "/beelden/project-directiekamer.png",
-    tekst: "Ergonomisch zitten, van flexplek tot directiekamer.",
-  },
-  bureaus: {
-    kleur: "#01B6E3",
-    beeld: "/beelden/hero-kantoor.png",
-    tekst: "Vaste en zit-sta bureaus, in de maat die past.",
-  },
-  vergadertafels: {
-    kleur: "#009D46",
-    beeld: "/beelden/project-vergaderruimte.png",
-    tekst: "Overlegtafels voor elk team en elke ruimte.",
-  },
+// Accentkleur + korte tekst per hoofdcategorie uit het snelleverprogramma.
+// Onbekende categorieën vallen terug op het laatste item.
+const HOOFD_INFO: Record<string, { kleur: string; tekst: string }> = {
+  Werken: { kleur: "#01B6E3", tekst: "Bureaus en werkplekken in elke maat." },
+  Zitten: { kleur: "#A1367E", tekst: "Stoelen voor elke werkhouding." },
+  Vergaderen: { kleur: "#009D46", tekst: "Tafels voor elk team en overleg." },
+  Opbergen: { kleur: "#F29828", tekst: "Kasten en opbergmeubilair." },
 };
+const HOOFD_FALLBACK = { kleur: "#673981", tekst: "Bekijk het assortiment." };
 
 const DISCIPLINES = [
   {
@@ -48,8 +37,8 @@ const DISCIPLINES = [
 ];
 
 export default async function HomePage() {
-  const [producten, projecten, posts] = await Promise.all([
-    getProducten(),
+  const [structuur, projecten, posts] = await Promise.all([
+    getCategorieStructuur(),
     getProjecten(),
     getPosts(),
   ]);
@@ -158,32 +147,32 @@ export default async function HomePage() {
           <p className="kicker mb-3">Het assortiment</p>
           <h2 className="text-3xl md:text-4xl">Waaruit je kiest</h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {(Object.keys(CATEGORIE_LABELS) as Categorie[]).map((cat) => {
-            const tegel = CATEGORIE_TEGEL[cat];
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {structuur.map((groep) => {
+            const info = HOOFD_INFO[groep.hoofd] ?? HOOFD_FALLBACK;
+            const beeld = groep.subs[0]?.beeld;
             return (
               <Link
-                key={cat}
-                href={`/catalogus/${cat}`}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl"
+                key={groep.hoofd}
+                href={`/catalogus#${slugify(groep.hoofd)}`}
+                className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-2"
               >
-                <Image
-                  src={tegel.beeld}
-                  alt={CATEGORIE_LABELS[cat]}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                <ProductMedia
+                  src={beeld}
+                  alt={groep.hoofd}
+                  naam={groep.hoofd}
+                  categorie={groep.hoofd}
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  className="object-contain p-8 transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
                   <span
                     className="block h-1 w-10 rounded-full"
-                    style={{ background: tegel.kleur }}
+                    style={{ background: info.kleur }}
                   />
-                  <h3 className="mt-3 text-2xl text-white">
-                    {CATEGORIE_LABELS[cat]}
-                  </h3>
-                  <p className="mt-1 text-sm text-white/80">{tegel.tekst}</p>
+                  <h3 className="mt-3 text-2xl text-white">{groep.hoofd}</h3>
+                  <p className="mt-1 text-sm text-white/80">{info.tekst}</p>
                 </div>
               </Link>
             );

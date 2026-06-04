@@ -33,3 +33,6 @@ yarn-error.log*
 
 # sanity
 /dist
+
+# Excel tijdelijke lock-bestanden (ontstaan als de xlsx open staat)
+~$*.xlsx
