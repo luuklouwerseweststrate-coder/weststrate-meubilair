@@ -67,8 +67,8 @@ export default function OfferteClient({
         <div className="merkbalk mx-auto mb-8 max-w-xs rounded-full" />
         <h1 className="text-3xl">Bedankt voor je aanvraag</h1>
         <p className="mx-auto mt-4 max-w-md text-ink-2">
-          We hebben je offerte ontvangen en nemen zo snel mogelijk contact met
-          je op.
+          We hebben je offerte ontvangen. John Provoost, onze accountmanager
+          meubilair, neemt zo snel mogelijk contact met je op.
         </p>
         <Link
           href="/catalogus"

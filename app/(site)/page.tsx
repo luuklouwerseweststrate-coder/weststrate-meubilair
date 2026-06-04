@@ -240,8 +240,8 @@ export default async function HomePage() {
             Benieuwd wat we voor jouw werkplek kunnen betekenen?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-white/75">
-            Stel vrijblijvend een selectie samen, of leg je vraag voor aan een
-            van onze specialisten. We denken graag mee.
+            Stel vrijblijvend een selectie samen, of leg je vraag voor aan John
+            Provoost, onze accountmanager meubilair. Hij denkt graag met je mee.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
@@ -257,6 +257,15 @@ export default async function HomePage() {
               Neem contact op
             </Link>
           </div>
+          <p className="mt-6 text-sm text-white/70">
+            Of bel John direct:{" "}
+            <a
+              href="tel:+31653834752"
+              className="font-semibold text-white hover:underline"
+            >
+              06 53 83 47 52
+            </a>
+          </p>
         </Reveal>
       </section>
     </div>

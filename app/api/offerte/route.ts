@@ -138,15 +138,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const ontvanger = process.env.OFFERTE_ONTVANGER || "verkoop@weststrate.nl";
+    // Feitelijke ontvanger van de offerte-mail. In Resend-testmodus wordt
+    // alleen het account-adres (Luuks Gmail) afgeleverd; op de site tonen we
+    // info@weststrate.nl als contactadres. In productie zet je OFFERTE_ONTVANGER
+    // in Vercel op het gewenste Weststrate-adres.
+    const ontvanger =
+      process.env.OFFERTE_ONTVANGER || "luuklouwerse.weststrate@gmail.com";
     const afzender = process.env.OFFERTE_AFZENDER || "onboarding@resend.dev";
     const apiKey = process.env.RESEND_API_KEY;
 
     // ── Resend nog niet gekoppeld: geef een mailto-link terug ──
+    // De klant ziet hier het publieke adres (info@weststrate.nl), nooit het
+    // interne afleveradres.
     if (!apiKey) {
       const onderwerp = `Offerteaanvraag — ${klant.naam}`;
       const body = plattekstOfferte(klant, regels, totaal);
-      const mailto = `mailto:${ontvanger}?subject=${encodeURIComponent(
+      const mailto = `mailto:info@weststrate.nl?subject=${encodeURIComponent(
         onderwerp
       )}&body=${encodeURIComponent(body)}`;
       return NextResponse.json({ ok: true, mailto });

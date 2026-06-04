@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { getProject, getProjecten } from "@/lib/data";
 import Reveal from "@/components/motion/Reveal";
 import ProjectGallery from "@/components/ProjectGallery";
+import Accountmanager from "@/components/Accountmanager";
 
 export const revalidate = 3600;
 
@@ -139,12 +140,10 @@ export default async function ProjectPage({
               </div>
             )}
 
-            <Link
-              href="/contact"
-              className="mt-8 inline-block rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
-            >
-              Bespreek jouw project
-            </Link>
+            <Accountmanager
+              className="mt-6"
+              titel="Een soortgelijk project? Bespreek het met John Provoost,"
+            />
           </aside>
         </div>
 
