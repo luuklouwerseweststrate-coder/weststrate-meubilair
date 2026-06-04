@@ -22,7 +22,10 @@ export const MOCK_SETTINGS: SiteSettings = {
 // bewust leeg gelaten: die vult Luuk met de échte projecttekst — niets
 // verzonnen. Het hoofdbeeld is de eerste foto, de rest vormt de galerij.
 // Zodra Sanity gevuld is, neemt die het over (zie lib/data.ts).
-const WST = "https://weststrate.nl/media/media_cached/1xheight/media/Projecten";
+// Originele (niet-gecachte) mediapaden: deze bestaan altijd. De
+// media_cached/1xheight-varianten waren maar voor een handvol foto's
+// aangemaakt; next/image optimaliseert het origineel zelf.
+const WST = "https://weststrate.nl/media/Projecten";
 
 export const MOCK_PROJECTS: Project[] = [
   {
