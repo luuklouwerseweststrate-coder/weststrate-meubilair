@@ -5,12 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavHoofd } from "@/lib/categorieen";
 
-// De horizontale categoriebalk met megamenu, in de Weststrate-stijl (cyaan balk
-// zoals weststrate.nl). Op desktop klapt per hoofdcategorie een paneel met de
-// subcategorieën uit (hover). Op mobiel een scrollbare balk (zie Header).
+// De horizontale categoriebalk met megamenu. Donkere, ingetogen balk (ink) met
+// per hoofdcategorie een klein accent-stipje in de eigen merkkleur en een nette
+// onderlijn bij hover/actief. Op desktop klapt per hoofdcategorie een paneel met
+// de subcategorieën uit (hover); op mobiel een scrollbare balk (zie Header).
 //
-// De getallen tonen de echte diepte van het assortiment: aantal series én
-// aantal uitvoeringen (kleur-/formaatcombinaties), zodat het overzicht klopt.
+// Bewust géén kale aantallen meer in de balk zelf: die ogen als ruis. De diepte
+// van het assortiment (series + uitvoeringen) staat in het megamenu, waar het
+// context heeft.
 
 export default function CategoryNav({
   categorieen,
@@ -22,14 +24,14 @@ export default function CategoryNav({
 
   return (
     <nav
-      className="relative hidden border-t border-white/20 bg-cyaan text-white md:block"
+      className="relative hidden bg-ink text-white md:block"
       aria-label="Productcategorieën"
       onMouseLeave={() => setOpen(null)}
     >
       <div className="mx-auto flex max-w-content items-stretch px-5">
         <Link
           href="/catalogus"
-          className="flex items-center px-4 py-3 text-sm font-semibold hover:bg-white/10"
+          className="flex items-center gap-2 py-3.5 pr-5 text-sm font-semibold text-white/90 transition-colors hover:text-white"
         >
           Alle meubilair
         </Link>
@@ -40,15 +42,40 @@ export default function CategoryNav({
             <div key={cat.hoofd} onMouseEnter={() => setOpen(cat.hoofd)}>
               <Link
                 href={`/catalogus#${slug(cat.hoofd)}`}
-                className={`flex h-full items-center gap-2 px-4 py-3 text-sm transition-colors ${
-                  actief ? "bg-white/15 font-semibold" : "hover:bg-white/10"
+                className={`relative flex h-full items-center gap-2 px-4 py-3.5 text-sm transition-colors ${
+                  actief ? "text-white" : "text-white/80 hover:text-white"
                 }`}
                 aria-expanded={actief}
               >
+                {/* Accent-stipje in de eigen merkkleur van de categorie */}
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ background: cat.kleur }}
+                />
                 {cat.hoofd}
-                <span className="text-xs text-white/70">
-                  {cat.uitvoeringen}
-                </span>
+                <svg
+                  viewBox="0 0 10 6"
+                  className={`h-1.5 w-2.5 transition-transform duration-200 ${
+                    actief ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  aria-hidden
+                >
+                  <path
+                    d="M1 1l4 4 4-4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {/* Onderlijn die invliegt bij hover/actief, in de merkkleur */}
+                <span
+                  className={`absolute inset-x-3 bottom-0 h-0.5 origin-left rounded-full transition-transform duration-200 ${
+                    actief ? "scale-x-100" : "scale-x-0"
+                  }`}
+                  style={{ background: cat.kleur }}
+                />
               </Link>
 
               {/* Megamenu-paneel */}

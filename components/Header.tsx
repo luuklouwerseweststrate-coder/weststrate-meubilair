@@ -77,7 +77,7 @@ export default function Header({ categorieen }: { categorieen: NavHoofd[] }) {
             </Link>
           ))}
         </nav>
-        <nav className="flex items-center gap-2 overflow-x-auto bg-cyaan px-5 py-2.5 text-white">
+        <nav className="flex items-center gap-2 overflow-x-auto bg-ink px-5 py-2.5 text-white">
           <Link
             href="/catalogus"
             className="whitespace-nowrap text-sm font-semibold"
@@ -92,8 +92,12 @@ export default function Header({ categorieen }: { categorieen: NavHoofd[] }) {
                 .normalize("NFD")
                 .replace(/[̀-ͯ]/g, "")
                 .replace(/[^a-z0-9]+/g, "-")}`}
-              className="whitespace-nowrap rounded-full bg-white/15 px-3 py-1 text-sm"
+              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1 text-sm"
             >
+              <span
+                className="h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ background: cat.kleur }}
+              />
               {cat.hoofd}
             </Link>
           ))}

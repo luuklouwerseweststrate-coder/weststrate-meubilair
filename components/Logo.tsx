@@ -13,6 +13,8 @@ export function WMark({ className = "h-8 w-auto" }: { className?: string }) {
       width={447}
       height={343}
       priority
+      // h-… stuurt de hoogte, w-auto bewaart de juiste 447×343-verhouding
+      // (anders perst een vaste breedte het logo samen → "ingezoomd").
       className={className}
     />
   );
@@ -30,7 +32,7 @@ export default function Logo({
 
   return (
     <span className="inline-flex items-center gap-2.5">
-      <WMark className="h-9 w-9 shrink-0" />
+      <WMark className="h-9 w-auto shrink-0" />
       <span className="inline-flex flex-col leading-none">
         <span
           className={`font-display text-xl font-extrabold lowercase tracking-tight ${tekstKleur}`}
