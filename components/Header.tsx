@@ -77,7 +77,7 @@ export default function Header({ categorieen }: { categorieen: NavHoofd[] }) {
             </Link>
           ))}
         </nav>
-        <nav className="flex items-center gap-2 overflow-x-auto bg-brand px-5 py-2.5 text-white">
+        <nav className="flex items-center gap-2 overflow-x-auto bg-cyaan px-5 py-2.5 text-white">
           <Link
             href="/catalogus"
             className="whitespace-nowrap text-sm font-semibold"

@@ -40,7 +40,8 @@ export async function getProduct(slug: string): Promise<Product | null> {
 export interface SubcategorieInfo {
   sub: string; // bv. "Bureaus"
   slug: string; // bv. "bureaus"
-  aantal: number;
+  aantal: number; // aantal productseries
+  uitvoeringen: number; // aantal varianten (kleur/formaat-combinaties)
   beeld: string; // representatief productbeeld
 }
 
@@ -59,12 +60,14 @@ export async function getCategorieStructuur(): Promise<CategorieGroep[]> {
     const bestaand = subs.get(p.subcategory);
     if (bestaand) {
       bestaand.aantal += 1;
+      bestaand.uitvoeringen += p.variants.length;
       if (!bestaand.beeld) bestaand.beeld = eersteBeschikbareAfbeelding(p);
     } else {
       subs.set(p.subcategory, {
         sub: p.subcategory,
         slug: slugify(p.subcategory),
         aantal: 1,
+        uitvoeringen: p.variants.length,
         beeld: eersteBeschikbareAfbeelding(p),
       });
     }

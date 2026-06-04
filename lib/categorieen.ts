@@ -44,14 +44,16 @@ export function subLabel(sub: string): string {
 export interface NavSub {
   label: string;
   slug: string;
-  aantal: number;
+  aantal: number; // aantal series
+  uitvoeringen: number; // aantal varianten
 }
 
 export interface NavHoofd {
   hoofd: string;
   tagline: string;
   kleur: string;
-  totaal: number;
+  series: number; // aantal productseries
+  uitvoeringen: number; // aantal varianten (kleur/formaat)
   subs: NavSub[];
 }
 
@@ -73,12 +75,14 @@ export function ordenNav(structuur: CategorieGroep[]): NavHoofd[] {
       label: subLabel(s.sub),
       slug: s.slug,
       aantal: s.aantal,
+      uitvoeringen: s.uitvoeringen,
     }));
     return {
       hoofd,
       tagline: meta.tagline,
       kleur: meta.kleur,
-      totaal: subs.reduce((som, s) => som + s.aantal, 0),
+      series: subs.reduce((som, s) => som + s.aantal, 0),
+      uitvoeringen: subs.reduce((som, s) => som + s.uitvoeringen, 0),
       subs,
     };
   });

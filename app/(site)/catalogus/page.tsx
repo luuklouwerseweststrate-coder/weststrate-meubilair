@@ -61,7 +61,7 @@ export default async function CatalogusPage() {
             id={slugify(groep.hoofd)}
             className="mt-16 scroll-mt-28"
           >
-            <div className="flex items-baseline gap-3">
+            <div className="flex flex-wrap items-baseline gap-3">
               <span
                 className="h-6 w-1.5 rounded-full"
                 style={{ background: meta?.kleur ?? "#A1367E" }}
@@ -70,6 +70,15 @@ export default async function CatalogusPage() {
               {meta?.tagline && (
                 <span className="text-sm text-ink-2">{meta.tagline}</span>
               )}
+              {(() => {
+                const series = groep.subs.reduce((s, x) => s + x.aantal, 0);
+                const uitv = groep.subs.reduce((s, x) => s + x.uitvoeringen, 0);
+                return (
+                  <span className="ml-auto text-sm text-ink-2">
+                    {series} series · {uitv} uitvoeringen
+                  </span>
+                );
+              })()}
             </div>
             <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {groep.subs.map((sub) => (
@@ -89,7 +98,8 @@ export default async function CatalogusPage() {
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5">
                     <h3 className="text-lg text-white">{subLabel(sub.sub)}</h3>
                     <p className="text-sm text-white/80">
-                      {sub.aantal} {sub.aantal === 1 ? "product" : "producten"}
+                      {sub.aantal} {sub.aantal === 1 ? "serie" : "series"} ·{" "}
+                      {sub.uitvoeringen} uitvoeringen
                     </p>
                   </div>
                 </Link>
