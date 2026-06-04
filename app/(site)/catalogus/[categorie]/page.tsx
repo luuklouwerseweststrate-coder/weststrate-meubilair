@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductenPerSubSlug, getSubcategorieSlugs } from "@/lib/data";
+import { subLabel } from "@/lib/categorieen";
+import { slugify } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
 
 export const revalidate = 3600;
@@ -17,7 +19,7 @@ export async function generateMetadata({
   params: { categorie: string };
 }): Promise<Metadata> {
   const { sub } = await getProductenPerSubSlug(params.categorie);
-  return { title: sub || "Catalogus" };
+  return { title: subLabel(sub) || "Catalogus" };
 }
 
 export default async function CategoriePage({
@@ -37,12 +39,14 @@ export default async function CategoriePage({
           Catalogus
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-ink-2">{hoofd}</span>
+        <a href={`/catalogus#${slugify(hoofd)}`} className="hover:text-brand">
+          {hoofd}
+        </a>
         <span className="mx-2">/</span>
-        <span className="text-ink">{sub}</span>
+        <span className="text-ink">{subLabel(sub)}</span>
       </nav>
 
-      <h1 className="text-4xl">{sub}</h1>
+      <h1 className="text-4xl">{subLabel(sub)}</h1>
       <p className="mt-2 text-ink-2">
         {producten.length} {producten.length === 1 ? "product" : "producten"}{" "}
         leverbaar

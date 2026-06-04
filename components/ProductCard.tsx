@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { euro, type Product } from "@/lib/types";
+import { subLabel } from "@/lib/categorieen";
 import ProductMedia from "./ProductMedia";
 
 export default function ProductCard({ product }: { product: Product }) {
@@ -12,7 +13,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <ProductMedia src={product.image} alt={product.name} />
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs text-ink-2">{product.subcategory}</p>
+        <p className="text-xs text-ink-2">{subLabel(product.subcategory)}</p>
         <h3 className="mt-1 text-lg leading-snug group-hover:text-brand">
           {product.name}
         </h3>

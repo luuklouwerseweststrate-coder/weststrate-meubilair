@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Product, GekozenOptie } from "@/lib/types";
 import { vindVariant } from "@/lib/types";
+import { subLabel } from "@/lib/categorieen";
 import { euro, useOfferte } from "@/lib/offerte";
 import ProductMedia from "./ProductMedia";
 
@@ -97,7 +98,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
 
       {/* Rechterkolom: titel + configurator */}
       <div>
-        <p className="text-sm text-ink-2">{product.subcategory}</p>
+        <p className="text-sm text-ink-2">{subLabel(product.subcategory)}</p>
         <h1 className="mt-1 text-3xl">{product.name}</h1>
         <p className="mt-3 text-ink-2">{product.shortDescription}</p>
         <p className="mt-2 font-mono text-xs text-ink-2">

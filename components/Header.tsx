@@ -3,18 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useOfferte } from "@/lib/offerte";
+import type { NavHoofd } from "@/lib/categorieen";
 import Logo from "./Logo";
+import CategoryNav from "./CategoryNav";
 
+// Hulp-/contextnav (boven). De producten zelf zitten in de categoriebalk eronder.
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/projecten", label: "Projecten" },
-  { href: "/catalogus", label: "Catalogus" },
   { href: "/blog", label: "Inspiratie" },
   { href: "/over", label: "Over ons" },
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header() {
+export default function Header({ categorieen }: { categorieen: NavHoofd[] }) {
   const pathname = usePathname();
   const { aantalItems } = useOfferte();
 
@@ -59,18 +61,44 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* Mobiele navigatie */}
-      <nav className="flex items-center gap-5 overflow-x-auto border-t border-rule px-5 py-2.5 md:hidden">
-        {NAV.map((item) => (
+      {/* Categoriebalk met megamenu (desktop) */}
+      <CategoryNav categorieen={categorieen} />
+
+      {/* Mobiele navigatie: contextnav + categorieën */}
+      <div className="md:hidden">
+        <nav className="flex items-center gap-5 overflow-x-auto border-t border-rule px-5 py-2.5">
+          {NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="whitespace-nowrap text-sm text-ink-2"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <nav className="flex items-center gap-2 overflow-x-auto bg-brand px-5 py-2.5 text-white">
           <Link
-            key={item.href}
-            href={item.href}
-            className="whitespace-nowrap text-sm text-ink-2"
+            href="/catalogus"
+            className="whitespace-nowrap text-sm font-semibold"
           >
-            {item.label}
+            Alle meubilair
           </Link>
-        ))}
-      </nav>
+          {categorieen.map((cat) => (
+            <Link
+              key={cat.hoofd}
+              href={`/catalogus#${cat.hoofd
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[̀-ͯ]/g, "")
+                .replace(/[^a-z0-9]+/g, "-")}`}
+              className="whitespace-nowrap rounded-full bg-white/15 px-3 py-1 text-sm"
+            >
+              {cat.hoofd}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

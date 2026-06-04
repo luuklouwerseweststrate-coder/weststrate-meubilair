@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProduct, getProducten } from "@/lib/data";
 import { slugify } from "@/lib/types";
+import { subLabel } from "@/lib/categorieen";
 import ProductConfigurator from "@/components/ProductConfigurator";
 
 export const revalidate = 3600;
@@ -45,7 +46,7 @@ export default async function ProductPage({
           href={`/catalogus/${slugify(product.subcategory)}`}
           className="hover:text-brand"
         >
-          {product.subcategory}
+          {subLabel(product.subcategory)}
         </Link>
         <span className="mx-2">/</span>
         <span className="text-ink">{product.name}</span>

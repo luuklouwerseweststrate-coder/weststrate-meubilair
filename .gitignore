@@ -36,3 +36,7 @@ yarn-error.log*
 
 # Excel tijdelijke lock-bestanden (ontstaan als de xlsx open staat)
 ~$*.xlsx
+
+# Windows map-instellingen en tijdelijke commit-berichten
+desktop.ini
+.commit-msg.tmp
