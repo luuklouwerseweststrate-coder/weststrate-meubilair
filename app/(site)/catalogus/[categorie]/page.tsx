@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { getProductenPerSubSlug, getSubcategorieSlugs } from "@/lib/data";
 import { subLabel } from "@/lib/categorieen";
 import { slugify } from "@/lib/types";
-import ProductCard from "@/components/ProductCard";
+import SubcatalogusClient from "@/components/SubcatalogusClient";
 
 export const revalidate = 3600;
 
@@ -48,15 +48,11 @@ export default async function CategoriePage({
 
       <h1 className="text-4xl">{subLabel(sub)}</h1>
       <p className="mt-2 text-ink-2">
-        {producten.length} {producten.length === 1 ? "product" : "producten"}{" "}
+        {producten.length} {producten.length === 1 ? "serie" : "series"}{" "}
         leverbaar
       </p>
 
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {producten.map((p) => (
-          <ProductCard key={p._id} product={p} />
-        ))}
-      </div>
+      <SubcatalogusClient producten={producten} />
     </div>
   );
 }

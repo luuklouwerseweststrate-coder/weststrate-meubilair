@@ -81,6 +81,31 @@ export async function getCategorieStructuur(): Promise<CategorieGroep[]> {
     .sort((a, b) => a.hoofd.localeCompare(b.hoofd));
 }
 
+// Kerncijfers over de catalogus, voor de stats-band op de homepage.
+export interface CatalogusStats {
+  series: number; // aantal productlijnen
+  uitvoeringen: number; // som van alle varianten (kleur/formaat-combinaties)
+  categorieen: number; // aantal hoofdcategorieën
+  subcategorieen: number; // aantal subcategorieën
+}
+
+export async function getCatalogusStats(): Promise<CatalogusStats> {
+  const categorieen = new Set<string>();
+  const subcategorieen = new Set<string>();
+  let uitvoeringen = 0;
+  for (const p of ALLE_PRODUCTEN) {
+    categorieen.add(p.category);
+    subcategorieen.add(p.subcategory);
+    uitvoeringen += p.variants.length;
+  }
+  return {
+    series: ALLE_PRODUCTEN.length,
+    uitvoeringen,
+    categorieen: categorieen.size,
+    subcategorieen: subcategorieen.size,
+  };
+}
+
 // Alle subcategorie-slugs (voor generateStaticParams van /catalogus/[categorie]).
 export async function getSubcategorieSlugs(): Promise<string[]> {
   const slugs = new Set<string>();

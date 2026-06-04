@@ -1,10 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getCategorieStructuur, getProjecten, getPosts } from "@/lib/data";
+import {
+  getCategorieStructuur,
+  getProjecten,
+  getPosts,
+  getCatalogusStats,
+} from "@/lib/data";
 import { slugify } from "@/lib/types";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
 import ProductMedia from "@/components/ProductMedia";
+import StatsBand from "@/components/StatsBand";
+import Reveal from "@/components/motion/Reveal";
 
 export const revalidate = 3600; // ISR: elk uur verversen
 
@@ -37,10 +44,11 @@ const DISCIPLINES = [
 ];
 
 export default async function HomePage() {
-  const [structuur, projecten, posts] = await Promise.all([
+  const [structuur, projecten, posts, stats] = await Promise.all([
     getCategorieStructuur(),
     getProjecten(),
     getPosts(),
+    getCatalogusStats(),
   ]);
   const uitgelichteProjecten = projecten.slice(0, 3);
   const uitgelichtePosts = posts.slice(0, 3);
@@ -62,7 +70,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-ink/70 via-ink/30 to-transparent" />
           <div className="absolute inset-0 flex items-center">
             <div className="mx-auto w-full max-w-content px-5">
-              <div className="max-w-xl text-white">
+              <Reveal className="max-w-xl text-white" y={24}>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
                   Werkplekinrichting voor dealers en bedrijven
                 </p>
@@ -76,7 +84,7 @@ export default async function HomePage() {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
                     href="/projecten"
-                    className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-opacity hover:opacity-90"
+                    className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
                   >
                     Bekijk onze projecten
                   </Link>
@@ -87,16 +95,19 @@ export default async function HomePage() {
                     Naar de catalogus
                   </Link>
                 </div>
-              </div>
+              </Reveal>
             </div>
           </div>
         </div>
         <div className="merkbalk" />
       </section>
 
+      {/* ── Stats / vertrouwen (cijfers uit de catalogus) ── */}
+      <StatsBand stats={stats} />
+
       {/* ── Wat Weststrate doet ────────────────────────── */}
       <section className="mx-auto max-w-content px-5 py-20">
-        <div className="max-w-2xl">
+        <Reveal className="max-w-2xl">
           <p className="kicker mb-3">De veelzijdige specialist</p>
           <h2 className="text-3xl md:text-4xl">
             Eén partner voor de hele inrichting.
@@ -106,14 +117,14 @@ export default async function HomePage() {
             het advies, de meubels en de montage — afgestemd op jouw mensen en
             jouw ruimte.
           </p>
-        </div>
+        </Reveal>
         <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-rule bg-rule md:grid-cols-3">
           {DISCIPLINES.map((d, i) => (
-            <div key={d.titel} className="bg-white p-8">
+            <Reveal key={d.titel} delay={i * 0.08} className="bg-white p-8">
               <p className="font-mono text-sm text-brand">0{i + 1}</p>
               <h3 className="mt-3 text-xl">{d.titel}</h3>
               <p className="mt-2 text-sm text-ink-2">{d.tekst}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -121,7 +132,7 @@ export default async function HomePage() {
       {/* ── Projecten (visueel bewijs) ─────────────────── */}
       <section className="bg-paper-2 py-20">
         <div className="mx-auto max-w-content px-5">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="kicker mb-3">Recent uitgevoerd</p>
               <h2 className="text-3xl md:text-4xl">Zo ziet het er in de praktijk uit</h2>
@@ -132,10 +143,12 @@ export default async function HomePage() {
             >
               Alle projecten →
             </Link>
-          </div>
+          </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
-            {uitgelichteProjecten.map((p) => (
-              <ProjectCard key={p._id} project={p} />
+            {uitgelichteProjecten.map((p, i) => (
+              <Reveal key={p._id} delay={i * 0.08}>
+                <ProjectCard project={p} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -143,47 +156,62 @@ export default async function HomePage() {
 
       {/* ── Categorieën visueel ────────────────────────── */}
       <section className="mx-auto max-w-content px-5 py-20">
-        <div className="mb-10">
+        <Reveal className="mb-10">
           <p className="kicker mb-3">Het assortiment</p>
           <h2 className="text-3xl md:text-4xl">Waaruit je kiest</h2>
-        </div>
+        </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {structuur.map((groep) => {
+          {structuur.map((groep, i) => {
             const info = HOOFD_INFO[groep.hoofd] ?? HOOFD_FALLBACK;
             const beeld = groep.subs[0]?.beeld;
             return (
-              <Link
-                key={groep.hoofd}
-                href={`/catalogus#${slugify(groep.hoofd)}`}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-paper-2"
-              >
-                <ProductMedia
-                  src={beeld}
-                  alt={groep.hoofd}
-                  naam={groep.hoofd}
-                  categorie={groep.hoofd}
-                  sizes="(max-width: 768px) 100vw, 25vw"
-                  className="object-contain p-8 transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <span
-                    className="block h-1 w-10 rounded-full"
-                    style={{ background: info.kleur }}
+              <Reveal key={groep.hoofd} delay={i * 0.06}>
+                <Link
+                  href={`/catalogus#${slugify(groep.hoofd)}`}
+                  className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-paper-2"
+                >
+                  <ProductMedia
+                    src={beeld}
+                    alt={groep.hoofd}
+                    naam={groep.hoofd}
+                    categorie={groep.hoofd}
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    className="object-contain p-8 transition-transform duration-500 group-hover:scale-105"
                   />
-                  <h3 className="mt-3 text-2xl text-white">{groep.hoofd}</h3>
-                  <p className="mt-1 text-sm text-white/80">{info.tekst}</p>
-                </div>
-              </Link>
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                    <span
+                      className="block h-1 w-10 rounded-full"
+                      style={{ background: info.kleur }}
+                    />
+                    <h3 className="mt-3 text-2xl text-white">{groep.hoofd}</h3>
+                    <p className="mt-1 text-sm text-white/80">{info.tekst}</p>
+                  </div>
+                </Link>
+              </Reveal>
             );
           })}
         </div>
       </section>
 
+      {/* ── Klantquote (placeholder tot echte review) ──── */}
+      <section className="mx-auto max-w-content px-5 pb-4">
+        <Reveal className="rounded-3xl border border-rule bg-white px-8 py-14 text-center md:px-16">
+          <div className="merkbalk mx-auto mb-8 max-w-24 rounded-full" />
+          <blockquote className="mx-auto max-w-3xl font-display text-2xl font-extrabold leading-snug text-ink md:text-3xl">
+            “Van advies tot montage liep alles via één aanspreekpunt. De
+            werkplekken stonden klaar op de dag dat we verhuisden.”
+          </blockquote>
+          <p className="mt-6 text-sm text-ink-2">
+            Facilitair manager — voorbeeldquote, vervangen door een echte review
+          </p>
+        </Reveal>
+      </section>
+
       {/* ── Inspiratie / blog ──────────────────────────── */}
       <section className="bg-paper-2 py-20">
         <div className="mx-auto max-w-content px-5">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="kicker mb-3">Inspiratie</p>
               <h2 className="text-3xl md:text-4xl">Kennis over werkplekken</h2>
@@ -194,10 +222,12 @@ export default async function HomePage() {
             >
               Alle artikelen →
             </Link>
-          </div>
+          </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
-            {uitgelichtePosts.map((p) => (
-              <PostCard key={p._id} post={p} />
+            {uitgelichtePosts.map((p, i) => (
+              <Reveal key={p._id} delay={i * 0.08}>
+                <PostCard post={p} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -205,7 +235,7 @@ export default async function HomePage() {
 
       {/* ── Afsluitende CTA (offerte secundair) ────────── */}
       <section className="mx-auto max-w-content px-5 py-24">
-        <div className="rounded-3xl bg-ink px-8 py-16 text-center text-white md:px-16">
+        <Reveal className="rounded-3xl bg-ink px-8 py-16 text-center text-white md:px-16">
           <h2 className="mx-auto max-w-2xl text-3xl text-white md:text-4xl">
             Benieuwd wat we voor jouw werkplek kunnen betekenen?
           </h2>
@@ -216,7 +246,7 @@ export default async function HomePage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/catalogus"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-opacity hover:opacity-90"
+              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
             >
               Bekijk de catalogus
             </Link>
@@ -227,7 +257,7 @@ export default async function HomePage() {
               Neem contact op
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

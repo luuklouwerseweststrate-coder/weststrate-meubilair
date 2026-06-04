@@ -34,6 +34,20 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
+/* Toegankelijkheid: wie systeembreed minder beweging wil, krijgt vrijwel geen
+   animatie of overgangen. Framer Motion regelt zijn eigen reductie via
+   useReducedMotion; dit is het vangnet voor CSS-transitions/animaties. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* De vijf-kleuren accentbalk uit het brandbook (cover/presentatie) */
 .merkbalk {
   height: 4px;
