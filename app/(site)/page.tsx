@@ -14,6 +14,7 @@ import ProductMedia from "@/components/ProductMedia";
 import BrancheCard from "@/components/BrancheCard";
 import StatsBand from "@/components/StatsBand";
 import Reveal from "@/components/motion/Reveal";
+import { JOHN } from "@/components/Accountmanager";
 
 export const revalidate = 3600; // ISR: elk uur verversen
 
@@ -309,39 +310,53 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Afsluitende CTA (offerte secundair) ────────── */}
+      {/* ── Afsluitende CTA: persoonlijk, met John ─────── */}
       <section className="mx-auto max-w-content px-5 py-24">
-        <Reveal className="rounded-3xl bg-ink px-8 py-16 text-center text-white md:px-16">
-          <h2 className="mx-auto max-w-2xl text-3xl text-white md:text-4xl">
-            Benieuwd wat we voor jouw werkplek kunnen betekenen?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/75">
-            Stel vrijblijvend een selectie samen, of leg je vraag voor aan John
-            Provoost, onze accountmanager meubilair. Hij denkt graag met je mee.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/catalogus"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
-            >
-              Bekijk de catalogus
-            </Link>
-            <Link
-              href="/contact"
-              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
-              Neem contact op
-            </Link>
+        <Reveal className="overflow-hidden rounded-3xl bg-groen text-white">
+          <div className="grid items-center gap-8 p-8 text-center md:grid-cols-[auto_1fr] md:gap-12 md:p-14 md:text-left">
+            {/* John in beeld */}
+            <div className="shrink-0">
+              <div className="mx-auto h-40 w-40 overflow-hidden rounded-full bg-white/10 ring-4 ring-white/30 md:h-48 md:w-48">
+                <Image
+                  src={JOHN.foto}
+                  alt={`${JOHN.naam}, ${JOHN.rol}`}
+                  width={192}
+                  height={192}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <p className="mt-4 font-display text-lg text-white">
+                {JOHN.naam}
+              </p>
+              <p className="text-sm text-white/80">{JOHN.rol}</p>
+            </div>
+
+            {/* Tekst + acties */}
+            <div>
+              <h2 className="text-3xl text-white md:text-4xl">
+                Benieuwd wat we voor jouw werkplek kunnen betekenen?
+              </h2>
+              <p className="mt-4 max-w-xl text-white/85">
+                Leg je vraag voor aan John Provoost, onze accountmanager
+                meubilair. Hij denkt graag met je mee, van één werkplek tot een
+                compleet pand.
+              </p>
+              <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
+                <a
+                  href={`tel:${JOHN.telefoonLink}`}
+                  className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-groen transition-transform hover:scale-[1.03]"
+                >
+                  Bel John: {JOHN.telefoonWeergave}
+                </a>
+                <Link
+                  href="/contact"
+                  className="rounded-full border border-white/50 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                >
+                  Neem contact op
+                </Link>
+              </div>
+            </div>
           </div>
-          <p className="mt-6 text-sm text-white/70">
-            Of bel John direct:{" "}
-            <a
-              href="tel:+31653834752"
-              className="font-semibold text-white hover:underline"
-            >
-              06 53 83 47 52
-            </a>
-          </p>
         </Reveal>
       </section>
     </div>
