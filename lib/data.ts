@@ -18,6 +18,7 @@ import type {
 import { subLabel } from "./categorieen";
 import { JOHN } from "@/components/Accountmanager";
 import catalogus from "@/data/swan-catalogus.json";
+import bureaustoelen from "@/data/bureaustoelen-weststrate.json";
 
 // Data-laag.
 //
@@ -28,7 +29,15 @@ import catalogus from "@/data/swan-catalogus.json";
 // Projecten, blog en site-instellingen komen nog uit Sanity (met terugval op
 // mock-data zolang Sanity niet gekoppeld is).
 
-const ALLE_PRODUCTEN = catalogus as unknown as Product[];
+// De Swan-catalogus (sync-script) plus een handmatig samengestelde set echte
+// Weststrate-bureaustoelen (data/bureaustoelen-weststrate.json). Die laatste
+// bevat de echte catalogusprijzen excl. btw (omgerekend van de incl.-btw-prijzen
+// op weststrate.nl). Wijzigt een prijs op de live site? Pas dan het bijbehorende
+// "price"-veld in dat bestand aan.
+const ALLE_PRODUCTEN = [
+  ...(catalogus as unknown as Product[]),
+  ...(bureaustoelen as unknown as Product[]),
+];
 
 function eersteBeschikbareAfbeelding(product: Product): string {
   return product.image || product.variants.find((v) => v.image)?.image || "";

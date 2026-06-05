@@ -1,0 +1,446 @@
+[
+  {
+    "_id": "ws-325",
+    "name": "Ergonomische bureaustoel 325",
+    "slug": "ergonomische-bureaustoel-325",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Ergonomische bureaustoel voor kantoor en thuiswerkplek. Je stelt de zithoogte, rugleuning en armleggers in op je eigen houding. Leverbaar in vier kleuren, met of zonder hoofdsteun.",
+    "basePrice": 399,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/f/4/0/1/Bureaustoel%20325ZW%20zwart%2C%20zonder%20hoofdsteun.png",
+    "specs": [
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Mechaniek",
+        "value": "Synchroon"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [
+      {
+        "label": "Kleur",
+        "waarden": [
+          "Zwart",
+          "Blauw",
+          "Grijs",
+          "Grafiet"
+        ]
+      },
+      {
+        "label": "Hoofdsteun",
+        "waarden": [
+          "Zonder hoofdsteun",
+          "Met hoofdsteun"
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "articleNumber": "k281080",
+        "price": 399,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/f/4/0/1/Bureaustoel%20325ZW%20zwart%2C%20zonder%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Zwart",
+          "Hoofdsteun": "Zonder hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281081",
+        "price": 399,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/7/b/7/8/Bureaustoel%20325BL%20blauw%2C%20zonder%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Blauw",
+          "Hoofdsteun": "Zonder hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281082",
+        "price": 399,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/9/e/5/3/Bureaustoel%20325GR%20Grijs%2C%20zonder%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Grijs",
+          "Hoofdsteun": "Zonder hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281083",
+        "price": 399,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/9/0/e/5/Bureaustoel%20325GR%20grafiet%20zonder%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Grafiet",
+          "Hoofdsteun": "Zonder hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281084",
+        "price": 465,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/f/0/8/b/Bureaustoel%20325ZW%20zwart%20met%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Zwart",
+          "Hoofdsteun": "Met hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281085",
+        "price": 465,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/9/0/d/4/Bureaustoel%20325BL%20blauw%20met%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Blauw",
+          "Hoofdsteun": "Met hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281086",
+        "price": 465,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/4/7/b/8/Bureaustoel%20325GR%20Grijs%20met%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Grijs",
+          "Hoofdsteun": "Met hoofdsteun"
+        }
+      },
+      {
+        "articleNumber": "k281087",
+        "price": 465,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/d/0/9/3/Bureaustoel%20325GR%20Grafiet%20met%20hoofdsteun.png",
+        "opties": {
+          "Kleur": "Grafiet",
+          "Hoofdsteun": "Met hoofdsteun"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "ws-k279418",
+    "name": "Be Proud 100 bureaustoel",
+    "slug": "be-proud-100-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Bureaustoel voor dagelijks kantoorgebruik, geschikt voor gebruikers tot 120 kg. Antraciet stoffering met zwarte armleggers.",
+    "basePrice": 756,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/2/d/7/5/Bureaustoel%202402%20Be%20Proud%20100%20%2B%2001zw%20armlegger.png",
+    "specs": [
+      {
+        "label": "Draagvermogen",
+        "value": "Tot 120 kg"
+      },
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "k279418",
+        "price": 756,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/2/d/7/5/Bureaustoel%202402%20Be%20Proud%20100%20%2B%2001zw%20armlegger.png",
+        "opties": {}
+      }
+    ]
+  },
+  {
+    "_id": "ws-k281710",
+    "name": "Be Brave 200 bureaustoel",
+    "slug": "be-brave-200-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Ergonomische bureaustoel met synchroonmechaniek voor intensief kantoorgebruik. Zwarte stoffering, instelbare armleggers.",
+    "basePrice": 974,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/e/3/c/0/BeBrave%20%5B9313%5D%20200%2C%20arml.%2040ZW%2C%20stof%20Fame%20zwart.png",
+    "specs": [
+      {
+        "label": "Mechaniek",
+        "value": "Synchroon"
+      },
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "k281710",
+        "price": 974,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/e/3/c/0/BeBrave%20%5B9313%5D%20200%2C%20arml.%2040ZW%2C%20stof%20Fame%20zwart.png",
+        "opties": {}
+      }
+    ]
+  },
+  {
+    "_id": "ws-k279712",
+    "name": "W2020 bureaustoel (NEN 1335)",
+    "slug": "w2020-bureaustoel-nen-1335",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Instapmodel voor de werkplek, voldoet aan NEN-EN 1335. Zwarte stoffering, geschikt voor wisselende gebruikers.",
+    "basePrice": 437,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/c/2/2/0/K279712-1..jpg",
+    "specs": [
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Wielen",
+        "value": "Met remwielen, geschikt voor harde vloer"
+      },
+      {
+        "label": "Garantie",
+        "value": "3 jaar"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "k279712",
+        "price": 437,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/c/2/2/0/K279712-1..jpg",
+        "opties": {}
+      }
+    ]
+  },
+  {
+    "_id": "ws-r2hd",
+    "name": "R2 Heavy Duty 24-uurs bureaustoel",
+    "slug": "r2-heavy-duty-24-uurs-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Bureaustoel voor 24-uursgebruik en zwaardere gebruikers, bijvoorbeeld bij meldkamers en controlekamers. Keuze uit stoffering of leder.",
+    "basePrice": 825,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/4/1/6/6/R2%20heavy%20duty%2024uurs%20bureaustoel%20stof.png",
+    "specs": [
+      {
+        "label": "Gebruik",
+        "value": "24-uurs"
+      },
+      {
+        "label": "Draagvermogen",
+        "value": "Tot 150 kg"
+      },
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [
+      {
+        "label": "Bekleding",
+        "waarden": [
+          "Stoffering",
+          "Leder"
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "articleNumber": "k281435",
+        "price": 825,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/4/1/6/6/R2%20heavy%20duty%2024uurs%20bureaustoel%20stof.png",
+        "opties": {
+          "Bekleding": "Stoffering"
+        }
+      },
+      {
+        "articleNumber": "k281436",
+        "price": 895,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/9/8/e/5/R2%20heavy%20duty%2024uurs%20bureaustoel%20leder.png",
+        "opties": {
+          "Bekleding": "Leder"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "ws-tbhd",
+    "name": "TB Heavy Duty 24-uurs bureaustoel",
+    "slug": "tb-heavy-duty-24-uurs-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Zware 24-uurs bureaustoel voor continudiensten. Keuze uit stoffering of leder, met stevige onderstel en instelbare armleggers.",
+    "basePrice": 799,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/8/0/8/c/TB%20heavy%20duty%2024uurs%20bureaustoel%20stof.png",
+    "specs": [
+      {
+        "label": "Gebruik",
+        "value": "24-uurs"
+      },
+      {
+        "label": "Draagvermogen",
+        "value": "Tot 150 kg"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [
+      {
+        "label": "Bekleding",
+        "waarden": [
+          "Stoffering",
+          "Leder"
+        ]
+      }
+    ],
+    "variants": [
+      {
+        "articleNumber": "k281438",
+        "price": 799,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/8/0/8/c/TB%20heavy%20duty%2024uurs%20bureaustoel%20stof.png",
+        "opties": {
+          "Bekleding": "Stoffering"
+        }
+      },
+      {
+        "articleNumber": "k281437",
+        "price": 899,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/d/5/9/3/TB%20heavy%20duty%2024uurs%20bureaustoel%20leder.png",
+        "opties": {
+          "Bekleding": "Leder"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "ws-28012136",
+    "name": "Be Brave 200 Netweave bureaustoel",
+    "slug": "be-brave-200-netweave-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Bureaustoel met netweave rugleuning die de rug ventileert tijdens lange werkdagen. Zwarte uitvoering.",
+    "basePrice": 860,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/e/0/9/b/Be%20Brave%20200%20Zwart.png",
+    "specs": [
+      {
+        "label": "Rugleuning",
+        "value": "Netweave (mesh)"
+      },
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "28012136",
+        "price": 860,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/e/0/9/b/Be%20Brave%20200%20Zwart.png",
+        "opties": {}
+      }
+    ]
+  },
+  {
+    "_id": "ws-k279427",
+    "name": "Be Brave bureaustoel",
+    "slug": "be-brave-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Comfortabele bureaustoel voor de standaard kantoorwerkplek. Eenvoudig in te stellen op je zithouding.",
+    "basePrice": 937,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/f/1/e/4/K279427%20foto%201.JPG",
+    "specs": [
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "k279427",
+        "price": 937,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/f/1/e/4/K279427%20foto%201.JPG",
+        "opties": {}
+      }
+    ]
+  },
+  {
+    "_id": "ws-k281180",
+    "name": "Be Sure 2477 bureaustoel",
+    "slug": "be-sure-2477-bureaustoel",
+    "category": "Zitten",
+    "subcategory": "Bureaustoelen",
+    "shortDescription": "Bureaustoel met stamskin bekleding, geschikt voor werkplekken waar de stoel goed schoon te houden moet zijn. Grijze uitvoering.",
+    "basePrice": 655,
+    "image": "https://weststrate.nl/media/media_cached/1x1_white/1/6/b/7/K281180%20bureaustoel-be-sure-grijs.jpg",
+    "specs": [
+      {
+        "label": "Bekleding",
+        "value": "Stamskin"
+      },
+      {
+        "label": "Norm",
+        "value": "NEN-EN 1335"
+      },
+      {
+        "label": "Armleggers",
+        "value": "In hoogte instelbaar"
+      },
+      {
+        "label": "Garantie",
+        "value": "5 jaar"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "k281180",
+        "price": 655,
+        "image": "https://weststrate.nl/media/media_cached/1x1_white/1/6/b/7/K281180%20bureaustoel-be-sure-grijs.jpg",
+        "opties": {}
+      }
+    ]
+  }
+]
