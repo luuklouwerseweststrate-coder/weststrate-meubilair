@@ -113,6 +113,27 @@ export interface BlogPost {
   image: string; // (leeg = placeholder)
 }
 
+// ── Zoeken ─────────────────────────────────────────────────
+// De inhoudssoorten die in de globale zoekfunctie verschijnen. De volgorde
+// hier bepaalt ook de volgorde van de groepen in het zoekvenster.
+export type ZoekType =
+  | "Product"
+  | "Categorie"
+  | "Project"
+  | "Inspiratie"
+  | "Specialist"
+  | "Pagina";
+
+// Eén doorzoekbaar item. Bewust plat en licht: dit gaat als JSON naar de client.
+export interface ZoekItem {
+  type: ZoekType;
+  titel: string;
+  sub?: string; // korte context onder de titel (categorie, sector, thema…)
+  href: string;
+  beeld?: string; // optionele thumbnail
+  trefwoorden?: string; // extra zoekwoorden die niet zichtbaar hoeven
+}
+
 // ── Offerte ────────────────────────────────────────────────
 
 // Een gekozen optie op een offerteregel (puur ter weergave).

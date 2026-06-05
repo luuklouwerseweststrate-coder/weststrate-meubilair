@@ -1,5 +1,5 @@
 import { OfferteProvider } from "@/lib/offerte";
-import { getCategorieStructuur } from "@/lib/data";
+import { getCategorieStructuur, getZoekIndex } from "@/lib/data";
 import { ordenNav } from "@/lib/categorieen";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,14 +9,17 @@ export default async function SiteLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Categorie-structuur server-side afleiden uit de Swan-catalogus en als lichte
-  // navigatie-data doorgeven aan de Header (de zware JSON blijft op de server).
-  const structuur = await getCategorieStructuur();
+  // Categorie-structuur en zoekindex server-side afleiden en als lichte data aan
+  // de Header doorgeven (de zware catalogus-JSON blijft op de server).
+  const [structuur, zoekIndex] = await Promise.all([
+    getCategorieStructuur(),
+    getZoekIndex(),
+  ]);
   const categorieen = ordenNav(structuur);
 
   return (
     <OfferteProvider>
-      <Header categorieen={categorieen} />
+      <Header categorieen={categorieen} zoekIndex={zoekIndex} />
       <main className="min-h-[60vh]">{children}</main>
       <Footer />
     </OfferteProvider>

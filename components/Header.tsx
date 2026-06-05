@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useOfferte } from "@/lib/offerte";
 import type { NavHoofd } from "@/lib/categorieen";
+import type { ZoekItem } from "@/lib/types";
 import Logo from "./Logo";
 import CategoryNav from "./CategoryNav";
+import Zoek from "./Zoek";
 
 // Hulp-/contextnav (boven). De producten zelf zitten in de categoriebalk eronder.
 const NAV = [
@@ -16,7 +18,13 @@ const NAV = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header({ categorieen }: { categorieen: NavHoofd[] }) {
+export default function Header({
+  categorieen,
+  zoekIndex,
+}: {
+  categorieen: NavHoofd[];
+  zoekIndex: ZoekItem[];
+}) {
   const pathname = usePathname();
   const { aantalItems } = useOfferte();
 
@@ -48,17 +56,20 @@ export default function Header({ categorieen }: { categorieen: NavHoofd[] }) {
           })}
         </nav>
 
-        <Link
-          href="/offerte"
-          className="relative inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          Offerte
-          {aantalItems > 0 && (
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-xs font-bold text-brand">
-              {aantalItems}
-            </span>
-          )}
-        </Link>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Zoek items={zoekIndex} />
+          <Link
+            href="/offerte"
+            className="relative inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            Offerte
+            {aantalItems > 0 && (
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-xs font-bold text-brand">
+                {aantalItems}
+              </span>
+            )}
+          </Link>
+        </div>
       </div>
 
       {/* Categoriebalk met megamenu (desktop) */}

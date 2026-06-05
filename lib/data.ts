@@ -8,7 +8,15 @@ import {
 } from "@/sanity/lib/queries";
 import { MOCK_SETTINGS, MOCK_PROJECTS, MOCK_POSTS } from "./mock-data";
 import { slugify } from "./types";
-import type { Product, SiteSettings, Project, BlogPost } from "./types";
+import type {
+  Product,
+  SiteSettings,
+  Project,
+  BlogPost,
+  ZoekItem,
+} from "./types";
+import { subLabel } from "./categorieen";
+import { JOHN } from "@/components/Accountmanager";
 import catalogus from "@/data/swan-catalogus.json";
 
 // Data-laag.
@@ -123,6 +131,100 @@ export async function getProductenPerSubSlug(
     hoofd: producten[0]?.category ?? "",
     producten,
   };
+}
+
+// ── Globale zoekindex ────────────────────────────────────────
+// Bundelt alle doorzoekbare content (producten, categorieën, projecten,
+// inspiratie, specialisten en kernpagina's) tot één lichte lijst. Die gaat als
+// JSON naar het zoekvenster in de header, waar het filteren client-side gebeurt.
+// We nemen bewust geen zware velden mee (geen volledige body's), zodat de
+// payload klein blijft.
+//
+// Statische kernpagina's die we altijd vindbaar willen maken.
+const ZOEK_PAGINAS: { titel: string; sub: string; href: string }[] = [
+  { titel: "Home", sub: "Startpagina", href: "/" },
+  { titel: "Catalogus", sub: "Al het meubilair", href: "/catalogus" },
+  { titel: "Projecten", sub: "Uitgevoerd werk", href: "/projecten" },
+  { titel: "Inspiratie", sub: "Kennis en artikelen", href: "/blog" },
+  { titel: "Over ons", sub: "Wie is Weststrate", href: "/over" },
+  { titel: "Contact", sub: "Bereik John direct", href: "/contact" },
+  { titel: "Offerte aanvragen", sub: "Stel een selectie samen", href: "/offerte" },
+];
+
+export async function getZoekIndex(): Promise<ZoekItem[]> {
+  const [projecten, posts, structuur] = await Promise.all([
+    getProjecten(),
+    getPosts(),
+    getCategorieStructuur(),
+  ]);
+
+  const items: ZoekItem[] = [];
+
+  // Producten
+  for (const p of ALLE_PRODUCTEN) {
+    items.push({
+      type: "Product",
+      titel: p.name,
+      sub: `${p.category} · ${p.subcategory}`,
+      href: `/product/${p.slug}`,
+      beeld: eersteBeschikbareAfbeelding(p),
+      trefwoorden: p.shortDescription,
+    });
+  }
+
+  // Categorieën (subcategorieën, met hun hoofdcategorie als context)
+  for (const groep of structuur) {
+    for (const sub of groep.subs) {
+      items.push({
+        type: "Categorie",
+        titel: subLabel(sub.sub),
+        sub: `${groep.hoofd} · ${sub.aantal} series`,
+        href: `/catalogus/${sub.slug}`,
+        beeld: sub.beeld,
+      });
+    }
+  }
+
+  // Projecten
+  for (const pr of projecten) {
+    items.push({
+      type: "Project",
+      titel: pr.title,
+      sub: [pr.klant, pr.sector].filter(Boolean).join(" · "),
+      href: `/projecten/${pr.slug}`,
+      beeld: pr.image,
+      trefwoorden: `${pr.locatie} ${pr.categorieen.join(" ")} ${pr.intro}`,
+    });
+  }
+
+  // Inspiratie / blog
+  for (const post of posts) {
+    items.push({
+      type: "Inspiratie",
+      titel: post.title,
+      sub: post.thema,
+      href: `/blog/${post.slug}`,
+      beeld: post.image,
+      trefwoorden: post.samenvatting,
+    });
+  }
+
+  // Specialisten
+  items.push({
+    type: "Specialist",
+    titel: JOHN.naam,
+    sub: JOHN.rol,
+    href: "/contact",
+    beeld: JOHN.foto,
+    trefwoorden: `${JOHN.email} ${JOHN.telefoonWeergave} accountmanager`,
+  });
+
+  // Kernpagina's
+  for (const pg of ZOEK_PAGINAS) {
+    items.push({ type: "Pagina", titel: pg.titel, sub: pg.sub, href: pg.href });
+  }
+
+  return items;
 }
 
 // ── Site-instellingen ────────────────────────────────────────
