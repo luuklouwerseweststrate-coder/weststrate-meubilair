@@ -8,6 +8,7 @@ import {
   getBrancheKaarten,
 } from "@/lib/data";
 import { slugify } from "@/lib/types";
+import { HOOFD_VOLGORDE, HOOFD_META } from "@/lib/categorieen";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
 import ProductMedia from "@/components/ProductMedia";
@@ -19,15 +20,10 @@ import SpecialistCTA from "@/components/SpecialistCTA";
 
 export const revalidate = 3600; // ISR: elk uur verversen
 
-// Accentkleur + korte tekst per hoofdcategorie uit het snelleverprogramma.
-// Onbekende categorieën vallen terug op het laatste item.
-const HOOFD_INFO: Record<string, { kleur: string; tekst: string }> = {
-  Werken: { kleur: "#01B6E3", tekst: "Bureaus en werkplekken in elke maat." },
-  Zitten: { kleur: "#A1367E", tekst: "Stoelen voor elke werkhouding." },
-  Vergaderen: { kleur: "#009D46", tekst: "Tafels voor elk team en overleg." },
-  Opbergen: { kleur: "#F29828", tekst: "Kasten en opbergmeubilair." },
-};
-const HOOFD_FALLBACK = { kleur: "#673981", tekst: "Bekijk het assortiment." };
+// Accentkleur + tagline per hoofdcategorie komen uit de centrale mapping
+// (lib/categorieen.ts), dezelfde bron als de zwarte categoriebalk. Zo
+// corresponderen kleur én volgorde van deze kaarten met die balk.
+const HOOFD_FALLBACK = { kleur: "#673981", tagline: "Bekijk het assortiment." };
 
 const DISCIPLINES = [
   {
@@ -215,8 +211,14 @@ export default async function HomePage() {
           <h2 className="text-3xl md:text-4xl">Waaruit je kiest</h2>
         </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {structuur.map((groep, i) => {
-            const info = HOOFD_INFO[groep.hoofd] ?? HOOFD_FALLBACK;
+          {[...structuur]
+            .sort(
+              (a, b) =>
+                (HOOFD_VOLGORDE.indexOf(a.hoofd) + 1 || 99) -
+                (HOOFD_VOLGORDE.indexOf(b.hoofd) + 1 || 99)
+            )
+            .map((groep, i) => {
+            const info = HOOFD_META[groep.hoofd] ?? HOOFD_FALLBACK;
             const beeld = groep.subs[0]?.beeld;
             return (
               <Reveal key={groep.hoofd} delay={i * 0.06}>
@@ -239,7 +241,7 @@ export default async function HomePage() {
                       style={{ background: info.kleur }}
                     />
                     <h3 className="mt-3 text-2xl text-white">{groep.hoofd}</h3>
-                    <p className="mt-1 text-sm text-white/80">{info.tekst}</p>
+                    <p className="mt-1 text-sm text-white/80">{info.tagline}</p>
                   </div>
                 </Link>
               </Reveal>
