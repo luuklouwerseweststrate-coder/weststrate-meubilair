@@ -159,8 +159,9 @@ export default async function HomePage() {
               Voor welke ruimte richten we in?
             </h2>
             <p className="mt-4 text-lg text-ink-2">
-              We verkopen geen losse meubels, we richten ruimtes in. Kies je
-              branche of het type ruimte en zie wat we voor jouw situatie doen.
+              Of het nu om losse meubels gaat of om een complete inrichting:
+              kies je branche of het type ruimte en zie wat we voor jouw
+              situatie doen.
             </p>
           </div>
           <Link

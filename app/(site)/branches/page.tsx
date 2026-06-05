@@ -23,7 +23,7 @@ export default async function BranchesPage() {
       <Reveal className="max-w-2xl">
         <p className="kicker mb-3">Inrichting per branche en ruimte</p>
         <h1 className="text-4xl md:text-5xl">
-          We richten ruimtes in, geen losse meubels
+          Van losse meubels tot de complete inrichting
         </h1>
         <p className="mt-4 text-lg text-ink-2">
           Of je nu een kantoor, een zorglocatie, een school of een
