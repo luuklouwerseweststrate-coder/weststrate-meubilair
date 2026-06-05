@@ -13,7 +13,6 @@ import Zoek from "./Zoek";
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/branches", label: "Branches" },
-  { href: "/werkplek", label: "Werkplek samenstellen" },
   { href: "/projecten", label: "Projecten" },
   { href: "/blog", label: "Inspiratie" },
   { href: "/over", label: "Over ons" },
