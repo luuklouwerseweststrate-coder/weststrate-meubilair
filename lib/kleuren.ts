@@ -13,6 +13,10 @@ interface KleurRegel {
 
 // Volgorde is belangrijk: het eerste trefwoord dat voorkomt, wint.
 const KLEUR_REGELS: KleurRegel[] = [
+  // Specifieke eik-tinten vóór de algemene "eiken"-regel, zodat Eiken Natuur en
+  // Eiken Cremona elk een eigen staal krijgen (anders zien ze er identiek uit).
+  { trefwoorden: ["cremona"], hex: "#C9B188" }, // lichte, grijzige eik
+  { trefwoorden: ["eiken natuur", "natuur eiken"], hex: "#B58049" }, // warme eik
   // Houtkleuren
   { trefwoorden: ["oak dark", "donker eiken"], hex: "#6B4A2B" },
   { trefwoorden: ["oak light", "naturel", "halifax", "light"], hex: "#CBA978" },

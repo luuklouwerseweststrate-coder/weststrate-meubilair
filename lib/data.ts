@@ -19,6 +19,7 @@ import { subLabel } from "./categorieen";
 import { JOHN } from "@/components/Accountmanager";
 import catalogus from "@/data/swan-catalogus.json";
 import bureaustoelen from "@/data/bureaustoelen-weststrate.json";
+import zitStaBureaus from "@/data/zit-sta-bureaus-weststrate.json";
 
 // Data-laag.
 //
@@ -35,9 +36,13 @@ import bureaustoelen from "@/data/bureaustoelen-weststrate.json";
 // op weststrate.nl). Wijzigt een prijs op de live site? Pas dan het bijbehorende
 // "price"-veld in dat bestand aan.
 // De handmatige bureaustoelen staan bewust vóór de Swan-catalogus, zodat de
-// 325-serie bovenaan de Bureaustoelen-subcategorie verschijnt.
+// 325-serie bovenaan de Bureaustoelen-subcategorie verschijnt. De zit-sta
+// bureaus (PRESTO RT + Leitz, data/zit-sta-bureaus-weststrate.json) vormen de
+// nieuwe subcategorie "Zit-sta bureaus" onder Werken, met echte artikelnummers
+// en prijzen excl. btw (omgerekend van de incl.-btw-prijzen op weststrate.nl).
 const ALLE_PRODUCTEN = [
   ...(bureaustoelen as unknown as Product[]),
+  ...(zitStaBureaus as unknown as Product[]),
   ...(catalogus as unknown as Product[]),
 ];
 

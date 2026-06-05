@@ -1,0 +1,225 @@
+[
+  {
+    "_id": "ws-presto-rt",
+    "name": "PRESTO RT elektrisch zit-sta bureau",
+    "slug": "presto-rt-elektrisch-zit-sta-bureau",
+    "category": "Werken",
+    "subcategory": "Zit-sta bureaus",
+    "shortDescription": "Elektrisch zit-sta bureau met traploze hoogteverstelling. Je wisselt tijdens je werkdag eenvoudig tussen zittend en staand werken. Leverbaar in vier maten, drie bladkleuren en twee framekleuren.",
+    "description": "Het PRESTO RT is een elektrisch zit-sta bureau voor kantoor, thuiswerkplek en flexplek. Met de elektrische hoogteverstelling wissel je gedurende de dag tussen zittend en staand werken, wat bijdraagt aan een gezonde werkhouding. Je kiest zelf de maat, de kleur van het blad en de kleur van het frame.\n\nNiet elke combinatie van maat, blad en frame is leverbaar. Kies je een combinatie die niet bestaat, dan past de configurator je keuze aan naar de dichtstbijzijnde leverbare uitvoering.",
+    "basePrice": 1021,
+    "image": "/producten/bureaus/presto-eiken-natuur-wit.png",
+    "specs": [
+      {
+        "label": "Type",
+        "value": "Elektrisch zit-sta bureau"
+      },
+      {
+        "label": "Hoogteverstelling",
+        "value": "Elektrisch, traploos"
+      },
+      {
+        "label": "Bladdikte",
+        "value": "18 mm"
+      },
+      {
+        "label": "Montage",
+        "value": "Door eigen monteurs"
+      }
+    ],
+    "optionGroups": [
+      {
+        "label": "Formaat",
+        "waarden": ["120x80 cm", "140x80 cm", "160x80 cm", "180x80 cm"]
+      },
+      {
+        "label": "Blad",
+        "waarden": ["Eiken Natuur", "Eiken Cremona", "Wit"]
+      },
+      {
+        "label": "Frame",
+        "waarden": ["Wit", "Zwart"]
+      }
+    ],
+    "variants": [
+      {
+        "articleNumber": "28001110",
+        "price": 1154,
+        "image": "/producten/bureaus/presto-eiken-natuur-wit.png",
+        "opties": { "Formaat": "120x80 cm", "Blad": "Eiken Natuur", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28001111",
+        "price": 1154,
+        "image": "/producten/bureaus/presto-eiken-natuur-zwart.png",
+        "opties": { "Formaat": "120x80 cm", "Blad": "Eiken Natuur", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28001113",
+        "price": 1154,
+        "image": "/producten/bureaus/presto-eiken-cremona-wit.png",
+        "opties": { "Formaat": "120x80 cm", "Blad": "Eiken Cremona", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28001114",
+        "price": 1154,
+        "image": "/producten/bureaus/presto-eiken-cremona-zwart.png",
+        "opties": { "Formaat": "120x80 cm", "Blad": "Eiken Cremona", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28001125",
+        "price": 1154,
+        "image": "/producten/bureaus/presto-wit-wit.png",
+        "opties": { "Formaat": "120x80 cm", "Blad": "Wit", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28001126",
+        "price": 1154,
+        "image": "/producten/bureaus/presto-wit-zwart.png",
+        "opties": { "Formaat": "120x80 cm", "Blad": "Wit", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28001813",
+        "price": 1171,
+        "image": "/producten/bureaus/presto-eiken-natuur-wit.png",
+        "opties": { "Formaat": "140x80 cm", "Blad": "Eiken Natuur", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28001814",
+        "price": 1171,
+        "image": "/producten/bureaus/presto-eiken-natuur-zwart.png",
+        "opties": { "Formaat": "140x80 cm", "Blad": "Eiken Natuur", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28001816",
+        "price": 1171,
+        "image": "/producten/bureaus/presto-eiken-cremona-wit.png",
+        "opties": { "Formaat": "140x80 cm", "Blad": "Eiken Cremona", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28001817",
+        "price": 1171,
+        "image": "/producten/bureaus/presto-eiken-cremona-zwart.png",
+        "opties": { "Formaat": "140x80 cm", "Blad": "Eiken Cremona", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28001828",
+        "price": 1171,
+        "image": "/producten/bureaus/presto-wit-wit.png",
+        "opties": { "Formaat": "140x80 cm", "Blad": "Wit", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28001829",
+        "price": 1171,
+        "image": "/producten/bureaus/presto-wit-zwart.png",
+        "opties": { "Formaat": "140x80 cm", "Blad": "Wit", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28002430",
+        "price": 1189,
+        "image": "/producten/bureaus/presto-eiken-natuur-wit.png",
+        "opties": { "Formaat": "160x80 cm", "Blad": "Eiken Natuur", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28002431",
+        "price": 1189,
+        "image": "/producten/bureaus/presto-eiken-natuur-zwart.png",
+        "opties": { "Formaat": "160x80 cm", "Blad": "Eiken Natuur", "Frame": "Zwart" }
+      },
+      {
+        "articleNumber": "28002433",
+        "price": 1189,
+        "image": "/producten/bureaus/presto-eiken-cremona-wit.png",
+        "opties": { "Formaat": "160x80 cm", "Blad": "Eiken Cremona", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28002445",
+        "price": 1021,
+        "image": "/producten/bureaus/presto-wit-wit.png",
+        "opties": { "Formaat": "160x80 cm", "Blad": "Wit", "Frame": "Wit" }
+      },
+      {
+        "articleNumber": "28010256",
+        "price": 1110,
+        "image": "/producten/bureaus/presto-eiken-cremona-zwart.png",
+        "opties": { "Formaat": "180x80 cm", "Blad": "Eiken Cremona", "Frame": "Zwart" }
+      }
+    ]
+  },
+  {
+    "_id": "ws-leitz-ergo",
+    "name": "Leitz Ergo verrijdbaar zit-sta bureau",
+    "slug": "leitz-ergo-verrijdbaar-zit-sta-bureau",
+    "category": "Werken",
+    "subcategory": "Zit-sta bureaus",
+    "shortDescription": "Verrijdbaar elektrisch zit-sta bureau van 60x80 cm. Compact en mobiel, geschikt voor kleine ruimtes, thuiskantoren en flexplekken. Met elektrische hoogteverstelling wissel je tussen zittend en staand werken.",
+    "description": "Het Leitz Ergo is een verrijdbaar elektrisch zit-sta bureau. Door de wielen verplaats je het bureau eenvoudig naar een andere plek, wat het geschikt maakt voor kleine ruimtes, thuiskantoren en flexplekken. De elektrische hoogteverstelling laat je afwisselen tussen zittend en staand werken.",
+    "basePrice": 302,
+    "image": "/producten/bureaus/leitz-ergo-65360001.png",
+    "specs": [
+      {
+        "label": "Type",
+        "value": "Verrijdbaar zit-sta bureau"
+      },
+      {
+        "label": "Formaat",
+        "value": "60 x 80 cm"
+      },
+      {
+        "label": "Kleur",
+        "value": "Wit"
+      },
+      {
+        "label": "Hoogteverstelling",
+        "value": "Elektrisch"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "65360001",
+        "price": 302,
+        "image": "/producten/bureaus/leitz-ergo-65360001.png",
+        "opties": {}
+      }
+    ]
+  },
+  {
+    "_id": "ws-leitz-ergo-compact",
+    "name": "Leitz Ergo Compact zit-sta bureau",
+    "slug": "leitz-ergo-compact-zit-sta-bureau",
+    "category": "Werken",
+    "subcategory": "Zit-sta bureaus",
+    "shortDescription": "Compact elektrisch zit-sta bureau van 80x60 cm met elektrische hoogteverstelling, geheugenstanden en sta-op-herinnering. Geschikt voor thuis en op kantoor.",
+    "description": "Het Leitz Ergo Compact is een compact elektrisch zit-sta bureau voor thuis en op kantoor. Met de geheugenstanden zet je het bureau met één druk op de knop op je vaste zit- en stahoogte, en de sta-op-herinnering helpt je om regelmatig van houding te wisselen.",
+    "basePrice": 381,
+    "image": "/producten/bureaus/leitz-ergo-compact-65340001.png",
+    "specs": [
+      {
+        "label": "Type",
+        "value": "Compact zit-sta bureau"
+      },
+      {
+        "label": "Formaat",
+        "value": "80 x 60 cm"
+      },
+      {
+        "label": "Kleur",
+        "value": "Wit"
+      },
+      {
+        "label": "Functies",
+        "value": "Geheugenstanden, sta-op-herinnering"
+      }
+    ],
+    "optionGroups": [],
+    "variants": [
+      {
+        "articleNumber": "65340001",
+        "price": 381,
+        "image": "/producten/bureaus/leitz-ergo-compact-65340001.png",
+        "opties": {}
+      }
+    ]
+  }
+]
