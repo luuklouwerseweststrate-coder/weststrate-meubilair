@@ -11,6 +11,8 @@ const config: Config = {
         magenta: "#A1367E",
         cyaan:   "#01B6E3",
         groen:   "#009D46",
+        // Zachte pastelgroen — vaste achtergrond voor de specialist-CTA (John)
+        "groen-zacht": "#D4EDDA",
         lime:    "#CCD50A",
         oranje:  "#F29828",
         // Secundair / overlap
