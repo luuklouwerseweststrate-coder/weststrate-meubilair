@@ -116,7 +116,7 @@ export default async function HomePage() {
           </h2>
           <p className="mt-4 text-lg text-ink-2">
             Je hoeft niet te kiezen tussen losse leveranciers. Weststrate regelt
-            het advies, de meubels en de montage — afgestemd op jouw mensen en
+            het advies, de meubels en de montage, afgestemd op jouw mensen en
             jouw ruimte.
           </p>
         </Reveal>
@@ -205,7 +205,7 @@ export default async function HomePage() {
             werkplekken stonden klaar op de dag dat we verhuisden.”
           </blockquote>
           <p className="mt-6 text-sm text-ink-2">
-            Facilitair manager — voorbeeldquote, vervangen door een echte review
+            Facilitair manager (voorbeeldquote, vervangen door een echte review)
           </p>
         </Reveal>
       </section>

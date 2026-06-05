@@ -92,7 +92,7 @@ function htmlOfferte(
     <div style="height:4px;background:linear-gradient(to right,#A1367E,#01B6E3,#009D46,#CCD50A,#F29828)"></div>
     <h2 style="color:#14141A">Nieuwe offerteaanvraag</h2>
     <p style="color:#4A4A55">
-      <strong>${klant.naam}</strong>${klant.bedrijf ? ` — ${klant.bedrijf}` : ""}<br>
+      <strong>${klant.naam}</strong>${klant.bedrijf ? `, ${klant.bedrijf}` : ""}<br>
       ${klant.email}${klant.telefoon ? ` · ${klant.telefoon}` : ""}
     </p>
     ${
@@ -151,7 +151,7 @@ export async function POST(request: Request) {
     // De klant ziet hier het publieke adres (info@weststrate.nl), nooit het
     // interne afleveradres.
     if (!apiKey) {
-      const onderwerp = `Offerteaanvraag — ${klant.naam}`;
+      const onderwerp = `Offerteaanvraag: ${klant.naam}`;
       const body = plattekstOfferte(klant, regels, totaal);
       const mailto = `mailto:info@weststrate.nl?subject=${encodeURIComponent(
         onderwerp
@@ -167,7 +167,7 @@ export async function POST(request: Request) {
       from: `Weststrate Meubilair <${afzender}>`,
       to: [ontvanger],
       replyTo: klant.email,
-      subject: `Offerteaanvraag — ${klant.naam}${
+      subject: `Offerteaanvraag: ${klant.naam}${
         klant.bedrijf ? ` (${klant.bedrijf})` : ""
       }`,
       html: htmlOfferte(klant, regels, totaal),

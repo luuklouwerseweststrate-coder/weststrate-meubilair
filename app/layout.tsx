@@ -18,7 +18,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Weststrate Meubilair — kantoormeubilair voor dealers",
+    default: "Weststrate Meubilair | Kantoormeubilair voor dealers",
     template: "%s · Weststrate Meubilair",
   },
   description:

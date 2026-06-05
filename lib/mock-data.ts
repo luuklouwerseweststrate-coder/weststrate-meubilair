@@ -7,7 +7,7 @@ export const MOCK_SETTINGS: SiteSettings = {
   bedrijfsnaam: "Weststrate Meubilair",
   payoff: "De veelzijdige specialist",
   overOns:
-    "Weststrate richt werkplekken in. Van één ergonomische stoel tot een compleet kantoor: wij denken mee over de ruimte, leveren het meubilair en regelen de montage. Met eigen specialisten en een breed assortiment kiezen we wat past bij jouw mensen en jouw pand — niet andersom.",
+    "Weststrate richt werkplekken in. Van één ergonomische stoel tot een compleet kantoor: wij denken mee over de ruimte, leveren het meubilair en regelen de montage. Met eigen specialisten en een breed assortiment kiezen we wat past bij jouw mensen en jouw pand, niet andersom.",
   email: "verkoop@weststrate.nl",
   telefoon: "0118 - 000 000",
   adres: "Weststrate B.V., Zeeland",
@@ -19,7 +19,7 @@ export const MOCK_SETTINGS: SiteSettings = {
 // Echte, afgeronde projecten van weststrate.nl. Titels, intro's (uit de
 // meta-omschrijving), klant/locatie en alle foto's komen rechtstreeks van de
 // live site. De verhaalblokken (uitdaging/aanpak/resultaat) en cijfers zijn
-// bewust leeg gelaten: die vult Luuk met de échte projecttekst — niets
+// bewust leeg gelaten: die vult Luuk met de échte projecttekst, niets
 // verzonnen. Het hoofdbeeld is de eerste foto, de rest vormt de galerij.
 // Zodra Sanity gevuld is, neemt die het over (zie lib/data.ts).
 // Originele (niet-gecachte) mediapaden: deze bestaan altijd. De
@@ -37,13 +37,13 @@ export const MOCK_PROJECTS: Project[] = [
     jaar: "",
     locatie: "Gorinchem",
     intro:
-      "Weststrate heeft in samenwerking met Vepa de nieuwe kantoor- en werkplekinrichting verzorgd voor Damen in Gorinchem. Damen Shipyards Group, een wereldwijde speler in de scheepsbouw, streeft naar de hoogste standaard in duurzaamheid — en Weststrate draagt daaraan bij met projectinrichting en circulaire oplossingen.",
+      "Weststrate heeft in samenwerking met Vepa de nieuwe kantoor- en werkplekinrichting verzorgd voor Damen in Gorinchem. Damen Shipyards Group, een wereldwijde speler in de scheepsbouw, streeft naar de hoogste standaard in duurzaamheid, en Weststrate draagt daaraan bij met projectinrichting en circulaire oplossingen.",
     uitdaging:
       "Na een uitgebreid aanbestedingstraject kwam Weststrate, in nauwe samenwerking met Vepa, als beste leverancier uit de bus. De combinatie van duurzaamheid, prijs en de innovatieve eigenschappen van het meubilair gaf de doorslag. Met name de eenvoudige montage en flexibiliteit van de hoog-laagbureaus sloot perfect aan bij de behoefte van Damen, waar projectmatig werken centraal staat. Om dit te ondersteunen volgde het facilitaire team van Damen een training bij Vepa over het gebruik en onderhoud van het meubilair.",
     aanpak:
       "Weststrate fungeerde als verbindende factor in het project. Samen met Vepa zorgden we voor de gefaseerde levering en installatie van 1.120 hoog-laagbureaus. Deze werkplekken bieden ergonomisch comfort en zijn volledig afgestemd op de wensen van Damen. Circulaire productie speelde een grote rol: oude bureaus van Damen werden door Vepa verwerkt tot nieuw meubilair.\n\nDe zit/sta-bureaus stimuleren een gezondere werkhouding, met zorgvuldig weggewerkt kabelmanagement en dubbele monitorarmen zodat medewerkers zonder hinder kunnen werken. In totaal worden 600 bureaustoelen geleverd in twaalf gefaseerde leveringen, voor comfort en uniformiteit van de (flex)werkplekken.\n\nOm ongestoord te kunnen bellen zijn akoestische belunits geplaatst: geluidsabsorberende telefooncabines voor een rustige, privé-omgeving. Middelhoge kasten met plantenbakken dienen als groene buffers tussen de werkplekken in de grote kantoortuinen. De vergaderruimtes kregen in hoogte instelbare vergadertafels en stoelen van gerecycled PET-materiaal, gemaakt uit versnipperde PET-flessen.",
     resultaat:
-      "Een inspirerende werkomgeving die modern, circulair én ergonomisch is ingericht. Dit project laat zien hoe functionaliteit, duurzaamheid en comfort hand in hand kunnen gaan. Bij Weststrate zijn we trots op deze samenwerking met Vepa en Damen — een voorbeeld van hoe duurzaamheid en hoogwaardige projectinrichting elkaar versterken.",
+      "Een inspirerende werkomgeving die modern, circulair én ergonomisch is ingericht. Dit project laat zien hoe functionaliteit, duurzaamheid en comfort hand in hand kunnen gaan. Bij Weststrate zijn we trots op deze samenwerking met Vepa en Damen, een voorbeeld van hoe duurzaamheid en hoogwaardige projectinrichting elkaar versterken.",
     cijfers: [
       { waarde: "1.120", label: "hoog-laagbureaus" },
       { waarde: "600", label: "bureaustoelen" },
@@ -93,11 +93,11 @@ export const MOCK_PROJECTS: Project[] = [
     intro:
       "Bij Weststrate zijn we trots op onze samenwerking met de Gemeente Schouwen-Duiveland voor de herinrichting van de burgerzaal en diverse vergaderruimtes in Zierikzee. Dit project, eerder uitgesteld door de coronapandemie, markeert een belangrijke stap in het moderniseren van de faciliteiten van de gemeente.",
     uitdaging:
-      "Na de succesvolle uitvoering van fase 1 in 2017 — waaronder het opfrissen van de entree, het restylen van het bedrijfsrestaurant, het integreren van flexwerkplekken en het creëren van nieuwe vergaderruimtes — rondde Weststrate recent de tweede fase af. Deze omvatte de burgerzaal en omliggende vergaderruimtes, met een nieuwe en functionele indeling, verbeterde akoestiek voor een optimale geluidsbeleving, en een representatieve vergaderopstelling voor de Raad en het College van Burgemeester en Wethouders.",
+      "Na de succesvolle uitvoering van fase 1 in 2017, waaronder het opfrissen van de entree, het restylen van het bedrijfsrestaurant, het integreren van flexwerkplekken en het creëren van nieuwe vergaderruimtes, rondde Weststrate recent de tweede fase af. Deze omvatte de burgerzaal en omliggende vergaderruimtes, met een nieuwe en functionele indeling, verbeterde akoestiek voor een optimale geluidsbeleving, en een representatieve vergaderopstelling voor de Raad en het College van Burgemeester en Wethouders.",
     aanpak:
-      "Het project werd uitgevoerd onder leiding van Leander Oostdijk van architectenbureau Kort Geytenbeek, met een samengestelde projectgroep van medewerkers en onderaannemers. Ondanks de strakke planning — net voor, tijdens en na de zomervakantie — is het project succesvol afgerond. Begin oktober nam de gemeente de vernieuwde burgerzaal in gebruik.\n\nDe vernieuwde burgerzaal biedt een nieuw presidium en werkplekken voor facilitaire ondersteuning, een speciale werkplek voor de pers, een comfortabele en efficiënte vergaderopstelling voor alle raadsleden, en een up-to-date geluidsinstallatie met moderne audiovisuele technieken.\n\nDuurzaamheid stond centraal. Oude meubels uit de burgerzaal kregen een tweede leven: in plaats van afvoeren koos de gemeente ervoor ze weg te geven aan inwoners en organisaties. De oude tafelbladen zijn hergebruikt voor onder andere de afscheiding met plantenbakken en de zitbanken.",
+      "Het project werd uitgevoerd onder leiding van Leander Oostdijk van architectenbureau Kort Geytenbeek, met een samengestelde projectgroep van medewerkers en onderaannemers. Ondanks de strakke planning, net voor, tijdens en na de zomervakantie, is het project succesvol afgerond. Begin oktober nam de gemeente de vernieuwde burgerzaal in gebruik.\n\nDe vernieuwde burgerzaal biedt een nieuw presidium en werkplekken voor facilitaire ondersteuning, een speciale werkplek voor de pers, een comfortabele en efficiënte vergaderopstelling voor alle raadsleden, en een up-to-date geluidsinstallatie met moderne audiovisuele technieken.\n\nDuurzaamheid stond centraal. Oude meubels uit de burgerzaal kregen een tweede leven: in plaats van afvoeren koos de gemeente ervoor ze weg te geven aan inwoners en organisaties. De oude tafelbladen zijn hergebruikt voor onder andere de afscheiding met plantenbakken en de zitbanken.",
     resultaat:
-      "Weststrate is dankbaar voor het vertrouwen van de Gemeente Schouwen-Duiveland en trots op het eindresultaat. De PZC vatte het treffend samen: “Die zaal is van ons allemaal; Schouwen-Duiveland neemt vernieuwd hart van de democratie in gebruik.” In de burgerzaal hangt nu het wapen van Schouwen-Duiveland, vervaardigd door Meesters in Hout — een kunstwerk dat Weststrate samen met Meesters in Hout aan de gemeente schonk ter gelegenheid van de opening.",
+      "Weststrate is dankbaar voor het vertrouwen van de Gemeente Schouwen-Duiveland en trots op het eindresultaat. De PZC vatte het treffend samen: “Die zaal is van ons allemaal; Schouwen-Duiveland neemt vernieuwd hart van de democratie in gebruik.” In de burgerzaal hangt nu het wapen van Schouwen-Duiveland, vervaardigd door Meesters in Hout, een kunstwerk dat Weststrate samen met Meesters in Hout aan de gemeente schonk ter gelegenheid van de opening.",
     cijfers: [
       { waarde: "Fase 2", label: "burgerzaal & vergaderruimtes" },
       { waarde: "2017", label: "start fase 1" },
@@ -183,11 +183,11 @@ export const MOCK_PROJECTS: Project[] = [
     intro:
       "Voor de Zeeuwse Bibliotheek in Middelburg realiseerde Weststrate de inrichting van het vernieuwde ZB Café. Een ruimte die naadloos aansluit op de uitstraling van de bibliotheek en functioneert als de huiskamer van het gebouw: een plek waar bezoekers graag even gaan zitten om te lezen, werken of iets te eten en drinken.",
     uitdaging:
-      "ZB wilde de horecaruimte transformeren van een traditionele uitstraling naar een warme, huiselijke omgeving. De ruimte moest uitnodigen om plaats te nemen en aansluiten bij de kleurrijke sfeer van de bibliotheek. Daarnaast was er behoefte aan meer zitplaatsen en een sterkere verbinding met buiten — een plek waar je graag even blijft hangen voor een krant, boek of spelletje.",
+      "ZB wilde de horecaruimte transformeren van een traditionele uitstraling naar een warme, huiselijke omgeving. De ruimte moest uitnodigen om plaats te nemen en aansluiten bij de kleurrijke sfeer van de bibliotheek. Daarnaast was er behoefte aan meer zitplaatsen en een sterkere verbinding met buiten, een plek waar je graag even blijft hangen voor een krant, boek of spelletje.",
     aanpak:
       "Op basis van de ontwerptekeningen van de architect richtte Weststrate de horecaruimte verder in en optimaliseerde die. We creëerden een huiselijke en toegankelijke sfeer met 90 zitplekken, verdeeld over diverse opstellingen met tafels en stoelen, comfortabele fauteuils gericht op het zicht naar buiten, huiselijke zithoeken, een lange werktafel langs het raam en een centrale koffietafel die ook geschikt is voor grotere groepen en overlegmomenten.\n\nWe adviseerden in de meubilairkeuze, met uitstraling, comfort en praktisch gebruik centraal, en selecteerden de materialen op eenvoudig onderhoud. Samen met onze maatwerkpartner Meestersinhout ontwikkelden we maatwerkoplossingen, waaronder de centrale koffietafel en slimme presentatie- en opbergoplossingen voor tijdschriften en boeken. De volledige levering en montage zijn uitgevoerd door ons eigen team, wat zorgde voor een efficiënte en gecontroleerde realisatie.",
     resultaat:
-      "Het vernieuwde ZB Café is nu een uitnodigende en veelzijdige ruimte, waar bezoekers zich direct op hun gemak voelen en verschillende functies samenkomen. Het platform Wij zijn De Stad krijgt er een eigen werk- en ontmoetingsplek: op een groot scherm zijn historische foto’s van Middelburg te zien, afgewisseld met actuele informatie over de stad — een plek om verhalen te delen en beeldmateriaal mee te brengen.",
+      "Het vernieuwde ZB Café is nu een uitnodigende en veelzijdige ruimte, waar bezoekers zich direct op hun gemak voelen en verschillende functies samenkomen. Het platform Wij zijn De Stad krijgt er een eigen werk- en ontmoetingsplek: op een groot scherm zijn historische foto’s van Middelburg te zien, afgewisseld met actuele informatie over de stad, een plek om verhalen te delen en beeldmateriaal mee te brengen.",
     cijfers: [
       { waarde: "90", label: "verschillende zitplekken" },
     ],
@@ -217,7 +217,7 @@ export const MOCK_POSTS: BlogPost[] = [
     leestijd: 4,
     samenvatting:
       "Een zit-sta bureau is meer dan een trend. We zetten de feiten op een rij en geven je houvast bij de keuze.",
-    body: "Wie de hele dag zit, voelt dat aan het eind van de dag. Een zit-sta bureau laat je wisselen tussen zitten en staan, zodat je houding niet de hele dag hetzelfde blijft. Dat klinkt simpel, en dat is het ook — mits je het bureau echt gebruikt.\n\nDe winst zit niet in het apparaat, maar in het ritme. Onderzoek wijst steeds dezelfde kant op: afwisseling tussen zitten en staan vermindert klachten in de onderrug en nek. Een veelgebruikt advies is om elk half uur van houding te wisselen.\n\nLet bij de keuze op drie dingen: de bediening, het hoogtebereik en de stabiliteit. Een geheugenbediening met vaste standen zorgt dat je daadwerkelijk wisselt — je drukt één knop. Een hoogtebereik vanaf 65 cm past ook kortere collega's. En een frame dat bij stahoogte niet wiebelt, gebruik je met meer plezier.\n\nWil je weten welk bureau past bij jullie werkplekken? Onze specialisten denken mee.",
+    body: "Wie de hele dag zit, voelt dat aan het eind van de dag. Een zit-sta bureau laat je wisselen tussen zitten en staan, zodat je houding niet de hele dag hetzelfde blijft. Dat klinkt simpel, en dat is het ook, mits je het bureau echt gebruikt.\n\nDe winst zit niet in het apparaat, maar in het ritme. Onderzoek wijst steeds dezelfde kant op: afwisseling tussen zitten en staan vermindert klachten in de onderrug en nek. Een veelgebruikt advies is om elk half uur van houding te wisselen.\n\nLet bij de keuze op drie dingen: de bediening, het hoogtebereik en de stabiliteit. Een geheugenbediening met vaste standen zorgt dat je daadwerkelijk wisselt, je drukt één knop. Een hoogtebereik vanaf 65 cm past ook kortere collega's. En een frame dat bij stahoogte niet wiebelt, gebruik je met meer plezier.\n\nWil je weten welk bureau past bij jullie werkplekken? Onze specialisten denken mee.",
     image: "/beelden/sfeer-detail.png",
   },
   {
@@ -229,7 +229,7 @@ export const MOCK_POSTS: BlogPost[] = [
     leestijd: 5,
     samenvatting:
       "Een open kantoor werkt prettig samen, maar geluid is de keerzijde. Zo houd je het rustig zonder alles dicht te bouwen.",
-    body: "Open kantoren zijn populair omdat ze samenwerking makkelijker maken. De keerzijde is geluid: telefoongesprekken, overleg en het getik van toetsenborden lopen door elkaar. Volledig dichtbouwen met wanden is zelden de oplossing — dan verlies je juist de openheid die je wilde.\n\nDe sleutel zit in zachte materialen en slimme indeling. Akoestische panelen aan wand of plafond vangen geluid op voor het terugkaatst. Een vergaderruimte of belplek vangt de gesprekken op die anders de hele vloer over gaan.\n\nOok meubilair helpt. Hoge kasten en stoffering breken geluid. Door drukke en stille zones bewust te scheiden in de plattegrond, geef je iedere taak zijn eigen plek.\n\nWij kijken bij een inrichting standaard naar de akoestiek mee. Niet als losse post, maar als onderdeel van het geheel.",
+    body: "Open kantoren zijn populair omdat ze samenwerking makkelijker maken. De keerzijde is geluid: telefoongesprekken, overleg en het getik van toetsenborden lopen door elkaar. Volledig dichtbouwen met wanden is zelden de oplossing, dan verlies je juist de openheid die je wilde.\n\nDe sleutel zit in zachte materialen en slimme indeling. Akoestische panelen aan wand of plafond vangen geluid op voor het terugkaatst. Een vergaderruimte of belplek vangt de gesprekken op die anders de hele vloer over gaan.\n\nOok meubilair helpt. Hoge kasten en stoffering breken geluid. Door drukke en stille zones bewust te scheiden in de plattegrond, geef je iedere taak zijn eigen plek.\n\nWij kijken bij een inrichting standaard naar de akoestiek mee. Niet als losse post, maar als onderdeel van het geheel.",
     image: "/beelden/project-kantoortuin.png",
   },
   {
@@ -241,7 +241,7 @@ export const MOCK_POSTS: BlogPost[] = [
     leestijd: 3,
     samenvatting:
       "Half op kantoor, half online. Zo richt je een vergaderruimte in waar beide groepen volwaardig meedoen.",
-    body: "Sinds overleg deels online gebeurt, stelt een vergaderruimte andere eisen. De mensen op afstand moeten net zo goed meedoen als de mensen in de ruimte. Dat begint bij de tafel.\n\nKies een tafel met ingebouwde stroom- en datapunten, zodat laptops aangesloten blijven zonder kabels over de vloer. Zorg dat iedereen aan tafel in beeld komt voor de camera — een te lange, smalle tafel werkt daar tegen.\n\nDenk ook aan de stoelen. Bij hybride overleg zit je vaak langer dan vroeger, omdat schermdelen en online rondjes tijd kosten. Stoelen die een uur prettig blijven, maken het verschil.\n\nWil je je overlegruimtes klaarmaken voor hybride werken? Bekijk onze vergadertafels of vraag een advies aan.",
+    body: "Sinds overleg deels online gebeurt, stelt een vergaderruimte andere eisen. De mensen op afstand moeten net zo goed meedoen als de mensen in de ruimte. Dat begint bij de tafel.\n\nKies een tafel met ingebouwde stroom- en datapunten, zodat laptops aangesloten blijven zonder kabels over de vloer. Zorg dat iedereen aan tafel in beeld komt voor de camera, een te lange, smalle tafel werkt daar tegen.\n\nDenk ook aan de stoelen. Bij hybride overleg zit je vaak langer dan vroeger, omdat schermdelen en online rondjes tijd kosten. Stoelen die een uur prettig blijven, maken het verschil.\n\nWil je je overlegruimtes klaarmaken voor hybride werken? Bekijk onze vergadertafels of vraag een advies aan.",
     image: "/beelden/project-vergaderruimte.png",
   },
 ];

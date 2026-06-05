@@ -18,7 +18,7 @@ export default async function ContactPage() {
       <h1 className="text-4xl">Neem contact op</h1>
       <p className="mt-4 text-lg text-ink-2">
         Heb je een vraag over een product of wil je een offerte bespreken? John
-        denkt graag met je mee — bel of mail hem direct.
+        denkt graag met je mee: bel of mail hem direct.
       </p>
 
       <Accountmanager className="mt-10" />

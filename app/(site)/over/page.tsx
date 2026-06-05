@@ -22,7 +22,7 @@ const WAARDEN = [
   },
   {
     titel: "Breed",
-    tekst: "Van losse stoel tot complete inrichting — alles uit één hand.",
+    tekst: "Van losse stoel tot complete inrichting, alles uit één hand.",
   },
   {
     titel: "Betrouwbaar",

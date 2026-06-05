@@ -208,7 +208,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
                     const leverbaar = beschikbaar[groep.label]?.has(waarde) ?? true;
                     const tip = leverbaar
                       ? waarde
-                      : `${waarde} — niet leverbaar met je huidige keuze; klik om de combinatie aan te passen`;
+                      : `${waarde}: niet leverbaar met je huidige keuze. Klik om de combinatie aan te passen`;
 
                     // Kleurstaal als we de kleur kennen
                     if (hex) {
