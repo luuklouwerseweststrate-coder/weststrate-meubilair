@@ -163,6 +163,78 @@ export async function getProductenPerSubSlug(
   };
 }
 
+// ── Werkplek samenstellen ────────────────────────────────────
+// Eén "slot" in de werkplek-samensteller: een categorie meubilair (bureau,
+// stoel, opbergen) met een gecureerde shortlist producten waaruit de bezoeker
+// kiest. We sturen volledige Product-objecten mee (incl. varianten) zodat de
+// client kleurstalen kan tonen en met vindVariant() de juiste prijs/foto pakt;
+// de lijst is bewust kort (max ~6 per slot) zodat de payload klein blijft.
+export interface WerkplekSlot {
+  key: string; // "bureau" | "stoel" | "opbergen"
+  label: string; // bv. "Bureau"
+  tagline: string; // korte uitleg onder het label
+  optioneel: boolean; // mag de bezoeker dit slot overslaan?
+  producten: Product[];
+}
+
+// Heeft dit product een echte foto (lokaal of via de Swan-CDN)? Producten met
+// foto zetten we vooraan, zodat een demo er meteen verzorgd uitziet.
+function heeftFoto(product: Product): boolean {
+  return Boolean(eersteBeschikbareAfbeelding(product));
+}
+
+// Cureert een shortlist: eerst producten mét foto, dan de meeste uitvoeringen,
+// dan op naam. Beperkt tot `max` opties zodat een slot overzichtelijk blijft.
+function cureer(producten: Product[], max: number): Product[] {
+  return [...producten]
+    .sort(
+      (a, b) =>
+        Number(heeftFoto(b)) - Number(heeftFoto(a)) ||
+        b.variants.length - a.variants.length ||
+        a.name.localeCompare(b.name, "nl")
+    )
+    .slice(0, max);
+}
+
+export async function getWerkplekOpties(): Promise<WerkplekSlot[]> {
+  // Bureau-slot: alleen echte bureaus (geen kabelmanagement, componenten e.d.).
+  const bureaus = ALLE_PRODUCTEN.filter(
+    (p) =>
+      p.category === "Werken" &&
+      ["Bureaus", "Zit-sta bureaus"].includes(p.subcategory)
+  );
+  // Stoel-slot: bureaustoelen.
+  const stoelen = ALLE_PRODUCTEN.filter(
+    (p) => p.category === "Zitten" && p.subcategory === "Bureaustoelen"
+  );
+  // Opbergen-slot (optioneel): kasten en ladenblokken.
+  const opbergen = ALLE_PRODUCTEN.filter((p) => p.category === "Opbergen");
+
+  return [
+    {
+      key: "bureau",
+      label: "Bureau",
+      tagline: "Kies een (zit-sta) bureau als basis van de werkplek.",
+      optioneel: false,
+      producten: cureer(bureaus, 6),
+    },
+    {
+      key: "stoel",
+      label: "Bureaustoel",
+      tagline: "Een ergonomische stoel die bij de werkhouding past.",
+      optioneel: false,
+      producten: cureer(stoelen, 6),
+    },
+    {
+      key: "opbergen",
+      label: "Opbergen",
+      tagline: "Optioneel: een kast of ladenblok voor de werkplek.",
+      optioneel: true,
+      producten: cureer(opbergen, 6),
+    },
+  ];
+}
+
 // ── Globale zoekindex ────────────────────────────────────────
 // Bundelt alle doorzoekbare content (producten, categorieën, projecten,
 // inspiratie, specialisten en kernpagina's) tot één lichte lijst. Die gaat als
@@ -174,6 +246,11 @@ export async function getProductenPerSubSlug(
 const ZOEK_PAGINAS: { titel: string; sub: string; href: string }[] = [
   { titel: "Home", sub: "Startpagina", href: "/" },
   { titel: "Catalogus", sub: "Al het meubilair", href: "/catalogus" },
+  {
+    titel: "Werkplek samenstellen",
+    sub: "Bureau, stoel en opbergen in één",
+    href: "/werkplek",
+  },
   { titel: "Projecten", sub: "Uitgevoerd werk", href: "/projecten" },
   { titel: "Inspiratie", sub: "Kennis en artikelen", href: "/blog" },
   { titel: "Over ons", sub: "Wie is Weststrate", href: "/over" },

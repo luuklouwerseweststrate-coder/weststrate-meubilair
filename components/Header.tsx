@@ -12,6 +12,7 @@ import Zoek from "./Zoek";
 // Hulp-/contextnav (boven). De producten zelf zitten in de categoriebalk eronder.
 const NAV = [
   { href: "/", label: "Home" },
+  { href: "/werkplek", label: "Werkplek samenstellen" },
   { href: "/projecten", label: "Projecten" },
   { href: "/blog", label: "Inspiratie" },
   { href: "/over", label: "Over ons" },

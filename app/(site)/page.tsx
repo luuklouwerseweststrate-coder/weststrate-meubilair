@@ -203,6 +203,33 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Werkplek samenstellen (interactieve CTA) ───── */}
+      <section className="mx-auto max-w-content px-5 pb-20">
+        <Reveal>
+          <div className="overflow-hidden rounded-2xl bg-brand px-6 py-12 text-white md:px-12 md:py-16">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
+                Stel het zelf samen
+              </p>
+              <h2 className="mt-3 text-3xl text-white md:text-4xl">
+                Een complete werkplek in een paar klikken
+              </h2>
+              <p className="mt-4 text-lg text-white/85">
+                Kies een bureau, een stoel en eventueel opbergruimte, stel het
+                aantal werkplekken in en zie direct wat het kost. In één klik
+                staat alles in je offerte.
+              </p>
+              <Link
+                href="/werkplek"
+                className="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand transition-transform hover:scale-[1.03]"
+              >
+                Stel je werkplek samen
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* ── Klantquote (placeholder tot echte review) ──── */}
       <section className="mx-auto max-w-content px-5 pb-4">
         <Reveal className="rounded-3xl border border-rule bg-white px-8 py-14 text-center md:px-16">
