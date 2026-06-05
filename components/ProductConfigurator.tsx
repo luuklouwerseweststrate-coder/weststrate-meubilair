@@ -121,9 +121,9 @@ export default function ProductConfigurator({ product }: { product: Product }) {
   }, [lightbox]);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-2">
-      {/* Linkerkolom: beeld (wisselt mee) + omschrijving + specs */}
-      <div>
+    <div className="pb-24 lg:grid lg:grid-cols-2 lg:items-start lg:gap-10 lg:pb-0">
+      {/* ── Beeld (wisselt mee) ─ desktop linksboven, mobiel bovenaan ── */}
+      <div className="lg:col-start-1 lg:row-start-1">
         <button
           type="button"
           onClick={() => beeld && setLightbox(true)}
@@ -142,7 +142,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
             >
               <ProductMedia
                 src={beeld}
-                alt={`${product.name} — ${variant.articleNumber}`}
+                alt={`${product.name}, ${variant.articleNumber}`}
                 naam={product.name}
                 categorie={product.category}
                 priority
@@ -155,33 +155,10 @@ export default function ProductConfigurator({ product }: { product: Product }) {
             </span>
           )}
         </button>
-
-        {product.description && (
-          <div className="mt-8">
-            <h2 className="text-lg">Omschrijving</h2>
-            <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-2">
-              {product.description}
-            </p>
-          </div>
-        )}
-
-        {product.specs.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-lg">Specificaties</h2>
-            <dl className="mt-3 divide-y divide-rule border-t border-rule">
-              {product.specs.map((s, i) => (
-                <div key={i} className="flex justify-between py-2.5 text-sm">
-                  <dt className="text-ink-2">{s.label}</dt>
-                  <dd className="text-right font-medium text-ink">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        )}
       </div>
 
-      {/* Rechterkolom: titel + configurator (sticky) */}
-      <div className="lg:sticky lg:top-24 lg:self-start">
+      {/* ── Configurator ─ desktop rechts (sticky), mobiel direct onder beeld ── */}
+      <div className="mt-8 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-start lg:sticky lg:top-24">
         <p className="text-sm text-ink-2">{subLabel(product.subcategory)}</p>
         <h1 className="mt-1 text-3xl">{product.name}</h1>
         <p className="mt-3 text-ink-2">{product.shortDescription}</p>
@@ -190,6 +167,38 @@ export default function ProductConfigurator({ product }: { product: Product }) {
         </p>
 
         <div className="mt-6 rounded-xl border border-rule bg-white p-6">
+          {/* Mobiel: live mini-voorbeeld náást de keuzes. Het grote beeld staat
+              dan boven het scherm; zo zie je tóch direct dat je keuze (kleur,
+              uitvoering) het product en de artikelcode verandert. */}
+          <div className="mb-5 flex items-center gap-3 rounded-lg border border-rule bg-paper-2 p-3 lg:hidden">
+            <span className="relative block h-16 w-16 shrink-0 overflow-hidden rounded-md border border-rule bg-white">
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={beeld || variant.articleNumber}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ProductMedia
+                    src={beeld}
+                    alt=""
+                    naam={product.name}
+                    categorie={product.category}
+                  />
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            <span className="min-w-0">
+              <span className="block truncate text-sm font-semibold text-ink">
+                Je keuze
+              </span>
+              <span className="block font-mono text-xs text-ink-2">
+                {variant.articleNumber}
+              </span>
+            </span>
+          </div>
           {product.optionGroups.map((groep) => {
             const alsKleur = isKleurGroep(groep.label, groep.waarden);
             return (
@@ -332,6 +341,64 @@ export default function ProductConfigurator({ product }: { product: Product }) {
                 Naar offerte
               </button>
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Omschrijving + specificaties ─ desktop linksonder, mobiel onderaan ── */}
+      {(product.description || product.specs.length > 0) && (
+        <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:mt-10">
+          {product.description && (
+            <div>
+              <h2 className="text-lg">Omschrijving</h2>
+              <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-2">
+                {product.description}
+              </p>
+            </div>
+          )}
+
+          {product.specs.length > 0 && (
+            <div className="mt-8">
+              <h2 className="text-lg">Specificaties</h2>
+              <dl className="mt-3 divide-y divide-rule border-t border-rule">
+                {product.specs.map((s, i) => (
+                  <div key={i} className="flex justify-between py-2.5 text-sm">
+                    <dt className="text-ink-2">{s.label}</dt>
+                    <dd className="text-right font-medium text-ink">{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Sticky koopbalk (alleen mobiel): prijs + actie altijd in beeld ── */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-rule bg-paper/95 px-5 py-3 backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-content items-center gap-4">
+          <div className="min-w-0 flex-1">
+            <p className="text-[0.7rem] text-ink-2">Totaal (excl. btw)</p>
+            <p className="font-display text-lg font-extrabold leading-tight text-ink">
+              {euro(totaal)}
+            </p>
+          </div>
+          {toegevoegd ? (
+            <button
+              type="button"
+              onClick={() => router.push("/offerte")}
+              className="shrink-0 rounded-full bg-groen px-6 py-3 text-sm font-semibold text-white"
+            >
+              Naar offerte
+            </button>
+          ) : (
+            <motion.button
+              type="button"
+              onClick={handleToevoegen}
+              whileTap={{ scale: 0.97 }}
+              className="shrink-0 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white"
+            >
+              Toevoegen
+            </motion.button>
           )}
         </div>
       </div>

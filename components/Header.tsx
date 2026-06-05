@@ -88,10 +88,10 @@ export default function Header({
             </Link>
           ))}
         </nav>
-        <nav className="flex items-center gap-2 overflow-x-auto bg-ink px-5 py-2.5 text-white">
+        <nav className="flex flex-wrap items-center gap-2 bg-ink px-5 py-3 text-white">
           <Link
             href="/catalogus"
-            className="whitespace-nowrap text-sm font-semibold"
+            className="whitespace-nowrap rounded-full bg-white/15 px-3 py-1.5 text-sm font-semibold"
           >
             Alle meubilair
           </Link>
@@ -103,7 +103,7 @@ export default function Header({
                 .normalize("NFD")
                 .replace(/[̀-ͯ]/g, "")
                 .replace(/[^a-z0-9]+/g, "-")}`}
-              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1 text-sm"
+              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-sm"
             >
               <span
                 className="h-1.5 w-1.5 shrink-0 rounded-full"
