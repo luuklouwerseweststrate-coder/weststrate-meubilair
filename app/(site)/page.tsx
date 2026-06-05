@@ -53,6 +53,11 @@ export default async function HomePage() {
       getBrancheKaarten(),
     ]);
   const uitgelichteProjecten = projecten.slice(0, 3);
+  // Echte opdrachtgevers uit de projecten, ontdubbeld en zonder onze eigen
+  // showroom. Dit is concreet bewijs voor de pitch: serieuze namen.
+  const opdrachtgevers = [...new Set(projecten.map((p) => p.klant))].filter(
+    (k) => k && k !== "Weststrate"
+  );
   const uitgelichtePosts = posts.slice(0, 3);
   // Eén kaart per groep-accent op de homepage: een doorsnede van branche, ruimte
   // en projecttype, met de hele set achter "Alle branches".
@@ -278,24 +283,31 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── Klantquote (echte projectquote, PZC over Schouwen-Duiveland) ── */}
+      {/* ── Vertrouwd door (echte opdrachtgevers uit de projecten) ── */}
       <section className="mx-auto max-w-content px-5 pb-4">
-        <Reveal className="rounded-3xl border border-rule bg-white px-8 py-14 text-center md:px-16">
+        <Reveal className="rounded-3xl border border-rule bg-white px-8 py-12 md:px-16">
           <div className="merkbalk mx-auto mb-8 max-w-24 rounded-full" />
-          <blockquote className="mx-auto max-w-3xl font-display text-2xl font-extrabold leading-snug text-ink md:text-3xl">
-            “Die zaal is van ons allemaal: Schouwen-Duiveland neemt het
-            vernieuwde hart van de democratie in gebruik.”
-          </blockquote>
-          <p className="mt-6 text-sm text-ink-2">
-            PZC, over de complete herinrichting van de burgerzaal en
-            vergaderruimtes voor Gemeente Schouwen-Duiveland
+          <p className="text-center text-sm font-semibold uppercase tracking-[0.18em] text-ink-2">
+            Onder andere uitgevoerd voor
           </p>
-          <Link
-            href="/projecten/gemeente-schouwen-duiveland"
-            className="mt-5 inline-block text-sm font-semibold text-brand hover:underline"
-          >
-            Bekijk dit project
-          </Link>
+          <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:gap-x-12">
+            {opdrachtgevers.map((naam) => (
+              <li
+                key={naam}
+                className="font-display text-base font-extrabold text-ink/70 md:text-xl"
+              >
+                {naam}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-10 text-center">
+            <Link
+              href="/projecten"
+              className="text-sm font-semibold text-brand hover:underline"
+            >
+              Bekijk alle projecten →
+            </Link>
+          </div>
         </Reveal>
       </section>
 
