@@ -13,6 +13,7 @@ import PostCard from "@/components/PostCard";
 import ProductMedia from "@/components/ProductMedia";
 import BrancheCard from "@/components/BrancheCard";
 import StatsBand from "@/components/StatsBand";
+import ShowroomShowcase from "@/components/ShowroomShowcase";
 import Reveal from "@/components/motion/Reveal";
 import SpecialistCTA from "@/components/SpecialistCTA";
 
@@ -125,6 +126,9 @@ export default async function HomePage() {
 
       {/* ── Stats / vertrouwen (cijfers uit de catalogus) ── */}
       <StatsBand stats={stats} />
+
+      {/* ── Showroom in Middelburg (selling point, hoog op de pagina) ── */}
+      <ShowroomShowcase />
 
       {/* ── Wat Weststrate doet ────────────────────────── */}
       <section className="mx-auto max-w-content px-5 py-20">

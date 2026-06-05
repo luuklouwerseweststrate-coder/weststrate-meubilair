@@ -10,7 +10,7 @@ export const MOCK_SETTINGS: SiteSettings = {
     "Weststrate richt werkplekken in. Van één ergonomische stoel tot een compleet kantoor: wij denken mee over de ruimte, leveren het meubilair en regelen de montage. Met eigen specialisten en een breed assortiment kiezen we wat past bij jouw mensen en jouw pand, niet andersom.",
   email: "verkoop@weststrate.nl",
   telefoon: "0118 - 000 000",
-  adres: "Weststrate B.V., Zeeland",
+  adres: "Herculesweg 37, Middelburg",
   footerTekst:
     "Prijzen zijn indicatief en exclusief btw. Aan een samengestelde offerte kunnen geen rechten worden ontleend.",
 };
@@ -26,6 +26,12 @@ export const MOCK_SETTINGS: SiteSettings = {
 // media_cached/1xheight-varianten waren maar voor een handvol foto's
 // aangemaakt; next/image optimaliseert het origineel zelf.
 const WST = "https://weststrate.nl/media/Projecten";
+
+// Uitzondering: de foto's van onze eigen showroom staan onder media/Nieuws/showroom,
+// niet onder media/Projecten. Let op de tikfout "Westrate" in de bestandsnamen op
+// de live site: die nemen we exact over, anders bestaan de bestanden niet.
+const SHOW =
+  "https://weststrate.nl/media/Nieuws/showroom/Westrate%20showroom%205%20dec-";
 
 export const MOCK_PROJECTS: Project[] = [
   {
@@ -490,6 +496,45 @@ export const MOCK_PROJECTS: Project[] = [
       `${WST}/Gemeente%20Veere/kantoorinrichting-weststrate-74_0kantoormeubelen-gemeente-veere.jpg`,
     ],
     categorieen: ["Werkplekken", "Belettering", "Maatwerk"],
+  },
+  {
+    _id: "project-showroom",
+    title: "Onze meubilairshowroom in Middelburg",
+    slug: "weststrate-showroom",
+    klant: "Weststrate",
+    sector: "Showroom",
+    jaar: "",
+    locatie: "Middelburg",
+    intro:
+      "Sinds september 2024 heeft Weststrate een eigen meubilairshowroom aan de Herculesweg 37 in Middelburg. Elk thema heeft er een eigen plek: van kantoorinrichting en soft seating tot akoestiek, ergonomie en sanitair. En alles wat je ziet is te koop, tot de stoelen van de directie aan toe.",
+    uitdaging: "",
+    aanpak:
+      "De showroom laat de mogelijkheden zien op het gebied van kantoorinrichting, soft seating, akoestiek, ergonomische zitoplossingen, kabelmanagement en sanitair. Er is een carpet waar je verschillende zit-sta krukken uitprobeert, een grote stoelenwand met bureau- en conferentiestoelen om in te zitten, en een akoestische vergaderunit van Vox in opvallende kleuren. Op een ruime stalenwand vind je een uitgebreide collectie kleur-, stof- en materiaalstalen.\n\nEen groot deel van de inrichting bestaat uit maatwerk banken en kasten, gemaakt met onze partners Meesters in Hout en Davant. De akoestische panelen op de buitenwand van de bioscoop zijn ontworpen door designer Marit Priemis, met een patroon dat geen snijafval geeft. Samen met Vepa en Kloeber staat er een eiland met stoelen van gerecycled PET-vilt.",
+    resultaat:
+      "Midden in de showroom staat een bistro met een bijna levensechte boom, voor een lunch of koffie met collega's en klanten, en meteen het bewijs dat we ook buitenmeubilair leveren. Boven de kantoren ligt een vide met een echte bioscoopzaal, een garderobe met lockers en een complete sanitaire ruimte met WEPA en Tork. Memorabilia uit 90 jaar Weststrate, van oude typemachines tot een beschilderde deur als tijdschriftenrek, geven de ruimte karakter. De kantoren, flexplekken, vergaderruimtes en bistro worden dagelijks gebruikt, zo zie je alles in het echt werken. Je bent van harte welkom om langs te komen.",
+    cijfers: [],
+    image: `${SHOW}103.jpg`,
+    images: [
+      `${SHOW}247.jpg`,
+      `${SHOW}392.jpg`,
+      `${SHOW}308.jpg`,
+      `${SHOW}344.jpg`,
+      `${SHOW}273.jpg`,
+      `${SHOW}405.jpg`,
+      `${SHOW}163.jpg`,
+      `${SHOW}386.jpg`,
+      `${SHOW}409.jpg`,
+      `${SHOW}120.jpg`,
+      `${SHOW}328.jpg`,
+      `${SHOW}418.jpg`,
+    ],
+    categorieen: [
+      "Kantoorinrichting",
+      "Soft seating",
+      "Akoestiek",
+      "Sanitair",
+      "Maatwerk",
+    ],
   },
 ];
 
