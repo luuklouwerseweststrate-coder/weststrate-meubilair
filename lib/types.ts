@@ -131,6 +131,7 @@ export interface ZoekItem {
   sub?: string; // korte context onder de titel (categorie, sector, thema…)
   href: string;
   beeld?: string; // optionele thumbnail
+  prijs?: number; // "vanaf"-prijs (alleen producten), excl. btw
   trefwoorden?: string; // extra zoekwoorden die niet zichtbaar hoeven
 }
 

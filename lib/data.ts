@@ -34,6 +34,12 @@ function eersteBeschikbareAfbeelding(product: Product): string {
   return product.image || product.variants.find((v) => v.image)?.image || "";
 }
 
+// Laagste variantprijs ("vanaf"), met de basisprijs als terugval.
+function vanafPrijs(product: Product): number {
+  const prijzen = product.variants.map((v) => v.price).filter((p) => p > 0);
+  return prijzen.length > 0 ? Math.min(...prijzen) : product.basePrice;
+}
+
 // ── Producten (uit de Swan-catalogus) ────────────────────────
 export async function getProducten(): Promise<Product[]> {
   return ALLE_PRODUCTEN;
@@ -168,6 +174,7 @@ export async function getZoekIndex(): Promise<ZoekItem[]> {
       sub: `${p.category} · ${p.subcategory}`,
       href: `/product/${p.slug}`,
       beeld: eersteBeschikbareAfbeelding(p),
+      prijs: vanafPrijs(p),
       trefwoorden: p.shortDescription,
     });
   }
