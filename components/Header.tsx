@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useOfferte } from "@/lib/offerte";
@@ -19,6 +20,15 @@ const NAV = [
   { href: "/contact", label: "Contact" },
 ];
 
+// Categorie → ankerslug op /catalogus (diacrieten en spaties eruit).
+function catSlug(hoofd: string): string {
+  return hoofd
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-");
+}
+
 export default function Header({
   categorieen,
   zoekIndex,
@@ -28,6 +38,12 @@ export default function Header({
 }) {
   const pathname = usePathname();
   const { aantalItems } = useOfferte();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Sluit het mobiele menu zodra je naar een andere pagina gaat.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur">
@@ -70,51 +86,104 @@ export default function Header({
               </span>
             )}
           </Link>
+
+          {/* Hamburger: alleen op mobiel, opent het uitklapmenu */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? "Menu sluiten" : "Menu openen"}
+            aria-expanded={menuOpen}
+            className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors md:hidden ${
+              menuOpen ? "border-brand text-brand" : "border-rule text-ink-2"
+            }`}
+          >
+            {menuOpen ? (
+              <KruisIcoon className="h-5 w-5" />
+            ) : (
+              <HamburgerIcoon className="h-5 w-5" />
+            )}
+          </button>
         </div>
       </div>
 
       {/* Categoriebalk met megamenu (desktop) */}
       <CategoryNav categorieen={categorieen} />
 
-      {/* Mobiele navigatie: contextnav + categorieën */}
-      <div className="md:hidden">
-        <nav className="flex items-center gap-5 overflow-x-auto border-t border-rule px-5 py-2.5">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="whitespace-nowrap text-sm text-ink-2"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <nav className="flex flex-wrap items-center gap-2 bg-ink px-5 py-3 text-white">
-          <Link
-            href="/catalogus"
-            className="whitespace-nowrap rounded-full bg-white/15 px-3 py-1.5 text-sm font-semibold"
-          >
-            Alle meubilair
-          </Link>
-          {categorieen.map((cat) => (
-            <Link
-              key={cat.hoofd}
-              href={`/catalogus#${cat.hoofd
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/[̀-ͯ]/g, "")
-                .replace(/[^a-z0-9]+/g, "-")}`}
-              className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/10 px-3 py-1.5 text-sm"
-            >
-              <span
-                className="h-1.5 w-1.5 shrink-0 rounded-full"
-                style={{ background: cat.kleur }}
-              />
-              {cat.hoofd}
-            </Link>
-          ))}
-        </nav>
-      </div>
+      {/* Mobiel uitklapmenu (vervangt de oude swipe-balk) */}
+      {menuOpen && (
+        <div className="border-t border-rule bg-paper md:hidden">
+          <nav className="flex flex-col px-5">
+            {NAV.map((item) => {
+              const actief =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`border-b border-rule/60 py-3.5 text-base ${
+                    actief ? "font-semibold text-brand" : "text-ink"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="px-5 pb-5 pt-4">
+            <p className="kicker mb-3">Meubilair</p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/catalogus"
+                className="rounded-full bg-brand px-3 py-1.5 text-sm font-semibold text-white"
+              >
+                Alle meubilair
+              </Link>
+              {categorieen.map((cat) => (
+                <Link
+                  key={cat.hoofd}
+                  href={`/catalogus#${catSlug(cat.hoofd)}`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-rule px-3 py-1.5 text-sm text-ink-2"
+                >
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ background: cat.kleur }}
+                  />
+                  {cat.hoofd}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
+  );
+}
+
+function HamburgerIcoon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M4 7h16M4 12h16M4 17h16"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function KruisIcoon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M6 6l12 12M18 6L6 18"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }

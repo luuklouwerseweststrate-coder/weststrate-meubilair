@@ -182,13 +182,29 @@ export default function Zoek({ items }: { items: ZoekItem[] }) {
       {/* Uitklappend resultatenpaneel */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.16 }}
-            className="absolute right-0 top-full z-50 mt-2 w-[min(92vw,440px)] overflow-hidden rounded-2xl border border-rule bg-white shadow-2xl"
-          >
+          <>
+            {/* Backdrop op mobiel: tik ernaast om te sluiten. Op desktop
+                onzichtbaar (de klik-buiten-handler regelt het daar). */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.16 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-40 bg-ink/20 md:hidden"
+            />
+            <motion.div
+              key="panel"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.16 }}
+              // Mobiel: vast aan het scherm (inset-x-3, onder de header) zodat
+              // het paneel niet half buiten beeld valt. Desktop (md): het oude
+              // dropdown-gedrag, rechts uitgelijnd onder het zoekveld.
+              className="fixed inset-x-3 top-[76px] z-50 overflow-hidden rounded-2xl border border-rule bg-white shadow-2xl md:absolute md:inset-x-auto md:right-0 md:top-full md:mt-2 md:w-[min(92vw,440px)]"
+            >
             {/* Zoekinput in het paneel zelf (alleen mobiel: daar is de trigger
                 een icoon). */}
             <div className="border-b border-rule p-3 md:hidden">
@@ -206,7 +222,7 @@ export default function Zoek({ items }: { items: ZoekItem[] }) {
               </div>
             </div>
 
-            <div className="max-h-[70vh] overflow-y-auto">
+            <div className="max-h-[calc(100dvh-210px)] overflow-y-auto md:max-h-[70vh]">
               {/* Lege zoekterm → suggesties; geen resultaten → nette melding */}
               {woorden.length > 0 && leeg ? (
                 <p className="px-4 py-8 text-center text-sm text-ink-2">
@@ -323,7 +339,8 @@ export default function Zoek({ items }: { items: ZoekItem[] }) {
                 <span className="text-sm font-semibold text-brand">Contact</span>
               </button>
             )}
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
