@@ -23,11 +23,21 @@ export default function ProductConfigurator({ product }: { product: Product }) {
   const { voegToe } = useOfferte();
   const router = useRouter();
 
-  // Standaard: eerste waarde van elke optiegroep.
+  // Representatief beeld voor dit product: gebruikt zodra een gekozen variant
+  // zelf geen foto heeft (Swan levert niet voor elke kleurcombinatie een render).
+  const fallbackImage = useMemo(() => {
+    if (product.image) return product.image;
+    return product.variants.find((v) => v.image)?.image ?? "";
+  }, [product]);
+
+  // Standaard: open bij voorkeur op een variant mét foto (anders ziet de bezoeker
+  // meteen een lege placeholder). Pas als geen enkele variant beeld heeft, vallen
+  // we terug op de eerste waarde van elke optiegroep.
   const [keuzes, setKeuzes] = useState<Record<string, string>>(() => {
+    const eersteMetBeeld = product.variants.find((v) => v.image);
     const start: Record<string, string> = {};
     product.optionGroups.forEach((g) => {
-      start[g.label] = g.waarden[0];
+      start[g.label] = eersteMetBeeld?.opties[g.label] ?? g.waarden[0];
     });
     return start;
   });
@@ -39,6 +49,10 @@ export default function ProductConfigurator({ product }: { product: Product }) {
   const variant = useMemo(() => vindVariant(product, keuzes), [product, keuzes]);
 
   const totaal = variant.price * aantal;
+
+  // Het beeld dat we tonen: dat van de variant, anders het representatieve
+  // terugval-beeld. Zo blijft het kader nooit leeg zolang er ergens een foto is.
+  const beeld = variant.image || fallbackImage;
 
   function kies(groep: string, waarde: string) {
     setKeuzes((v) => ({ ...v, [groep]: waarde }));
@@ -76,14 +90,14 @@ export default function ProductConfigurator({ product }: { product: Product }) {
       <div>
         <button
           type="button"
-          onClick={() => variant.image && setLightbox(true)}
+          onClick={() => beeld && setLightbox(true)}
           className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-paper-2"
           aria-label="Vergroot afbeelding"
         >
           {/* Crossfade tussen variant-beelden */}
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.div
-              key={variant.image || variant.articleNumber}
+              key={beeld || variant.articleNumber}
               className="absolute inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -91,7 +105,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
               transition={{ duration: 0.3 }}
             >
               <ProductMedia
-                src={variant.image}
+                src={beeld}
                 alt={`${product.name} — ${variant.articleNumber}`}
                 naam={product.name}
                 categorie={product.category}
@@ -99,7 +113,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
               />
             </motion.div>
           </AnimatePresence>
-          {variant.image && (
+          {beeld && (
             <span className="absolute bottom-3 right-3 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-ink-2 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
               Klik om te vergroten
             </span>
@@ -280,7 +294,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
 
       {/* Lightbox: vergrote weergave van het variant-beeld */}
       <AnimatePresence>
-        {lightbox && variant.image && (
+        {lightbox && beeld && (
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center bg-ink/80 p-6 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -298,7 +312,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
               onClick={(e) => e.stopPropagation()}
             >
               <Image
-                src={variant.image}
+                src={beeld}
                 alt={`${product.name} — ${variant.articleNumber}`}
                 fill
                 sizes="100vw"
