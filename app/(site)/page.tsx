@@ -168,7 +168,7 @@ export default async function HomePage() {
               <Reveal key={groep.hoofd} delay={i * 0.06}>
                 <Link
                   href={`/catalogus#${slugify(groep.hoofd)}`}
-                  className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-paper-2"
+                  className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-white"
                 >
                   <ProductMedia
                     src={beeld}

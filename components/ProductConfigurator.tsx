@@ -91,7 +91,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
         <button
           type="button"
           onClick={() => beeld && setLightbox(true)}
-          className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-paper-2"
+          className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-rule bg-white"
           aria-label="Vergroot afbeelding"
         >
           {/* Crossfade tussen variant-beelden */}

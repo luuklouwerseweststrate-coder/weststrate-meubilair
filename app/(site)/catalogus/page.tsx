@@ -85,7 +85,7 @@ export default async function CatalogusPage() {
                 <Link
                   key={sub.slug}
                   href={`/catalogus/${sub.slug}`}
-                  className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-rule bg-paper-2"
+                  className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-rule bg-white"
                 >
                   <ProductMedia
                     src={sub.beeld}
