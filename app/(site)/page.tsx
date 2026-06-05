@@ -5,11 +5,13 @@ import {
   getProjecten,
   getPosts,
   getCatalogusStats,
+  getBrancheKaarten,
 } from "@/lib/data";
 import { slugify } from "@/lib/types";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
 import ProductMedia from "@/components/ProductMedia";
+import BrancheCard from "@/components/BrancheCard";
 import StatsBand from "@/components/StatsBand";
 import Reveal from "@/components/motion/Reveal";
 
@@ -44,14 +46,23 @@ const DISCIPLINES = [
 ];
 
 export default async function HomePage() {
-  const [structuur, projecten, posts, stats] = await Promise.all([
-    getCategorieStructuur(),
-    getProjecten(),
-    getPosts(),
-    getCatalogusStats(),
-  ]);
+  const [structuur, projecten, posts, stats, brancheKaarten] =
+    await Promise.all([
+      getCategorieStructuur(),
+      getProjecten(),
+      getPosts(),
+      getCatalogusStats(),
+      getBrancheKaarten(),
+    ]);
   const uitgelichteProjecten = projecten.slice(0, 3);
   const uitgelichtePosts = posts.slice(0, 3);
+  // Eén kaart per groep-accent op de homepage: een doorsnede van branche, ruimte
+  // en projecttype, met de hele set achter "Alle branches".
+  const uitgelichteBranches = brancheKaarten.filter((k) =>
+    ["kantoor", "zorg", "onderwijs", "horeca", "kantine", "vergaderruimte"].includes(
+      k.slug
+    )
+  );
 
   return (
     <div>
@@ -138,8 +149,37 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── Voor welke ruimte richten we in? (branches) ── */}
+      <section className="mx-auto max-w-content px-5 pb-4">
+        <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <p className="kicker mb-3">Voor wie we werken</p>
+            <h2 className="text-3xl md:text-4xl">
+              Voor welke ruimte richten we in?
+            </h2>
+            <p className="mt-4 text-lg text-ink-2">
+              We verkopen geen losse meubels, we richten ruimtes in. Kies je
+              branche of het type ruimte en zie wat we voor jouw situatie doen.
+            </p>
+          </div>
+          <Link
+            href="/branches"
+            className="text-sm font-semibold text-brand hover:underline"
+          >
+            Alle branches →
+          </Link>
+        </Reveal>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {uitgelichteBranches.map((kaart, i) => (
+            <Reveal key={kaart.slug} delay={i * 0.06}>
+              <BrancheCard kaart={kaart} />
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
       {/* ── Projecten (visueel bewijs) ─────────────────── */}
-      <section className="bg-paper-2 py-20">
+      <section className="bg-paper-2 py-20 mt-16">
         <div className="mx-auto max-w-content px-5">
           <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>

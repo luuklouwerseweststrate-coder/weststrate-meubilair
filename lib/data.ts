@@ -16,6 +16,7 @@ import type {
   ZoekItem,
 } from "./types";
 import { subLabel } from "./categorieen";
+import { BRANCHES, type Branche, type BrancheFilter } from "./branches";
 import { JOHN } from "@/components/Accountmanager";
 import catalogus from "@/data/swan-catalogus.json";
 import bureaustoelen from "@/data/bureaustoelen-weststrate.json";
@@ -235,6 +236,83 @@ export async function getWerkplekOpties(): Promise<WerkplekSlot[]> {
   ];
 }
 
+// ── Branches (inrichting per branche / ruimte / projecttype) ──
+// De branchelaag (lib/branches.ts) koppelt waarheidsgetrouwe copy aan ECHTE
+// producten en projecten. Hier resolven we die koppeling: producten filteren we
+// uit de catalogus, projecten halen we via getProjecten() op (mock of Sanity),
+// en het kaartbeeld leiden we af van een expliciet beeld óf de eerste projectfoto.
+
+// Past een product binnen een van de branchefilters?
+function productPastBranche(p: Product, filters: BrancheFilter[]): boolean {
+  return filters.some(
+    (f) =>
+      f.category === p.category &&
+      (!f.subcategory || f.subcategory === p.subcategory)
+  );
+}
+
+// Alle branche-slugs (voor generateStaticParams van /branches/[branche]).
+export function getBrancheSlugs(): string[] {
+  return BRANCHES.map((b) => b.slug);
+}
+
+// Lichte kaartdata voor de hub, homepage en navigatie: geen volledige intro of
+// productlijst, alleen wat een kaart nodig heeft. Het beeld is het expliciete
+// branchebeeld of anders de foto van het eerste gekoppelde project.
+export interface BrancheKaart {
+  slug: string;
+  naam: string;
+  menukort: string;
+  groep: Branche["groep"];
+  pitch: string;
+  accent: string;
+  beeld: string;
+}
+
+export async function getBrancheKaarten(): Promise<BrancheKaart[]> {
+  const projecten = await getProjecten();
+  return BRANCHES.map((b) => {
+    const eersteProject = b.projectSlugs
+      .map((s) => projecten.find((p) => p.slug === s))
+      .find(Boolean);
+    return {
+      slug: b.slug,
+      naam: b.naam,
+      menukort: b.menukort,
+      groep: b.groep,
+      pitch: b.pitch,
+      accent: b.accent,
+      beeld: b.beeld || eersteProject?.image || "",
+    };
+  });
+}
+
+// Volledige data voor één branche-detailpagina: de config, de gecureerde
+// producten uit de catalogus, de gekoppelde echte projecten en het herobeeld.
+export async function getBrancheData(slug: string): Promise<{
+  branche: Branche;
+  producten: Product[];
+  projecten: Project[];
+  beeld: string;
+} | null> {
+  const branche = BRANCHES.find((b) => b.slug === slug);
+  if (!branche) return null;
+
+  const producten = cureer(
+    ALLE_PRODUCTEN.filter((p) => productPastBranche(p, branche.productFilters)),
+    8
+  );
+
+  const alle = await getProjecten();
+  const projecten = branche.projectSlugs
+    .map((s) => alle.find((p) => p.slug === s))
+    .filter((p): p is Project => Boolean(p));
+
+  const beeld = branche.beeld || projecten[0]?.image || "";
+
+  return { branche, producten, projecten, beeld };
+}
+
 // ── Globale zoekindex ────────────────────────────────────────
 // Bundelt alle doorzoekbare content (producten, categorieën, projecten,
 // inspiratie, specialisten en kernpagina's) tot één lichte lijst. Die gaat als
@@ -246,6 +324,11 @@ export async function getWerkplekOpties(): Promise<WerkplekSlot[]> {
 const ZOEK_PAGINAS: { titel: string; sub: string; href: string }[] = [
   { titel: "Home", sub: "Startpagina", href: "/" },
   { titel: "Catalogus", sub: "Al het meubilair", href: "/catalogus" },
+  {
+    titel: "Branches",
+    sub: "Inrichting per branche en ruimte",
+    href: "/branches",
+  },
   {
     titel: "Werkplek samenstellen",
     sub: "Bureau, stoel en opbergen in één",
@@ -302,6 +385,17 @@ export async function getZoekIndex(): Promise<ZoekItem[]> {
       href: `/projecten/${pr.slug}`,
       beeld: pr.image,
       trefwoorden: `${pr.locatie} ${pr.categorieen.join(" ")} ${pr.intro}`,
+    });
+  }
+
+  // Branches (inrichting per branche / ruimte / projecttype)
+  for (const b of BRANCHES) {
+    items.push({
+      type: "Categorie",
+      titel: b.naam,
+      sub: `Inrichting · ${b.menukort}`,
+      href: `/branches/${b.slug}`,
+      trefwoorden: b.pitch,
     });
   }
 
