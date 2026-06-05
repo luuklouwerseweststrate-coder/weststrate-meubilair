@@ -32,9 +32,12 @@ export default function VideoEmbed({
           className="group absolute inset-0 h-full w-full"
           aria-label={`Speel video af: ${title}`}
         >
+          {/* hqdefault bestaat altijd (anders dan maxresdefault, die voor deze
+              video ontbreekt en een grijze placeholder teruggeeft). hqdefault is
+              4:3 met zwarte balken; object-cover in het 16:9-kader snijdt die weg. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+            src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
             alt={title}
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"

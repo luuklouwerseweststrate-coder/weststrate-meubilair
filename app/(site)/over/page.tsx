@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getSettings } from "@/lib/data";
+import VideoEmbed from "@/components/VideoEmbed";
 
 export const revalidate = 3600;
 
@@ -103,6 +104,19 @@ export default async function OverPage() {
               <li>{s.telefoon}</li>
             </ul>
           </aside>
+        </div>
+
+        {/* Bedrijfsfilm: zelfde lichte embed als op de homepage */}
+        <div className="mt-16">
+          <p className="kicker mb-3">Maak kennis met Weststrate</p>
+          <h2 className="text-2xl md:text-3xl">Bekijk onze bedrijfsfilm</h2>
+          <p className="mt-3 max-w-2xl text-ink-2">
+            In een paar minuten zie je wie we zijn en hoe we werken, van advies
+            tot montage.
+          </p>
+          <div className="mt-8 max-w-4xl">
+            <VideoEmbed id="GwKBqx_iqGE" title="Weststrate bedrijfsfilm" />
+          </div>
         </div>
       </div>
     </div>
