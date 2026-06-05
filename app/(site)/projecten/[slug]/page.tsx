@@ -21,7 +21,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const project = await getProject(params.slug);
   if (!project) return { title: "Project niet gevonden" };
-  return { title: project.title, description: project.intro };
+  // Meta-omschrijving netjes inkorten op een woordgrens (~155 tekens).
+  const omschrijving =
+    project.intro.length > 158
+      ? project.intro.slice(0, 155).replace(/\s+\S*$/, "") + "…"
+      : project.intro;
+  return {
+    title: project.title,
+    description: omschrijving,
+    alternates: { canonical: `/projecten/${params.slug}` },
+    openGraph: {
+      title: project.title,
+      description: omschrijving,
+      images: project.image ? [{ url: project.image }] : undefined,
+    },
+  };
 }
 
 export default async function ProjectPage({

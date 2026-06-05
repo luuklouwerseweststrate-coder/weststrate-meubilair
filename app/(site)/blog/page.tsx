@@ -7,7 +7,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Inspiratie",
   description:
-    "Artikelen over werkplekinrichting: ergonomie, akoestiek en slim inrichten.",
+    "Artikelen over het inrichten van ruimtes: ergonomie, akoestiek en slim inrichten.",
 };
 
 export default async function BlogPage() {
@@ -17,7 +17,7 @@ export default async function BlogPage() {
     <div className="mx-auto max-w-content px-5 py-16">
       <header className="max-w-2xl">
         <p className="kicker mb-3">Inspiratie</p>
-        <h1 className="text-4xl md:text-5xl">Kennis over werkplekken</h1>
+        <h1 className="text-4xl md:text-5xl">Kennis over inrichten</h1>
         <p className="mt-4 text-lg text-ink-2">
           Praktische artikelen over ergonomie, akoestiek en het inrichten van
           ruimtes. Geschreven vanuit wat we dagelijks tegenkomen.

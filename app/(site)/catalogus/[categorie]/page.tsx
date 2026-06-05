@@ -18,8 +18,15 @@ export async function generateMetadata({
 }: {
   params: { categorie: string };
 }): Promise<Metadata> {
-  const { sub } = await getProductenPerSubSlug(params.categorie);
-  return { title: subLabel(sub) || "Catalogus" };
+  const { sub, hoofd, producten } = await getProductenPerSubSlug(
+    params.categorie
+  );
+  const label = subLabel(sub) || "Catalogus";
+  return {
+    title: `${label} | ${hoofd}`,
+    description: `Bekijk ${producten.length} uitvoeringen ${label.toLowerCase()} bij Weststrate. Advies, levering en montage uit één hand.`,
+    alternates: { canonical: `/catalogus/${params.categorie}` },
+  };
 }
 
 export default async function CategoriePage({

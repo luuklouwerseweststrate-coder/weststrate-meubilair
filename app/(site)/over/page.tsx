@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Over ons",
   description:
-    "Weststrate richt werkplekken in: advies, levering en montage uit één hand.",
+    "Weststrate richt complete ruimtes in: advies, levering en montage uit één hand.",
 };
 
 const WAARDEN = [

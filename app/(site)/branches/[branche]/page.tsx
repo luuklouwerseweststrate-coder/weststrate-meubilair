@@ -24,6 +24,12 @@ export async function generateMetadata({
   return {
     title: `${data.branche.naam} | Inrichting door Weststrate`,
     description: data.branche.pitch,
+    alternates: { canonical: `/branches/${params.branche}` },
+    openGraph: {
+      title: `${data.branche.naam} | Inrichting door Weststrate`,
+      description: data.branche.pitch,
+      images: data.beeld ? [{ url: data.beeld }] : undefined,
+    },
   };
 }
 

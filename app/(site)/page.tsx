@@ -39,7 +39,7 @@ const DISCIPLINES = [
   {
     titel: "Montage en oplevering",
     tekst:
-      "Onze monteurs plaatsen alles op locatie. Jij stapt een werkplek binnen die klaar is.",
+      "Onze monteurs plaatsen alles op locatie. Jij stapt een ruimte binnen die klaar is.",
   },
 ];
 
@@ -278,17 +278,24 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── Klantquote (placeholder tot echte review) ──── */}
+      {/* ── Klantquote (echte projectquote, PZC over Schouwen-Duiveland) ── */}
       <section className="mx-auto max-w-content px-5 pb-4">
         <Reveal className="rounded-3xl border border-rule bg-white px-8 py-14 text-center md:px-16">
           <div className="merkbalk mx-auto mb-8 max-w-24 rounded-full" />
           <blockquote className="mx-auto max-w-3xl font-display text-2xl font-extrabold leading-snug text-ink md:text-3xl">
-            “Van advies tot montage liep alles via één aanspreekpunt. De
-            werkplekken stonden klaar op de dag dat we verhuisden.”
+            “Die zaal is van ons allemaal: Schouwen-Duiveland neemt het
+            vernieuwde hart van de democratie in gebruik.”
           </blockquote>
           <p className="mt-6 text-sm text-ink-2">
-            Facilitair manager (voorbeeldquote, vervangen door een echte review)
+            PZC, over de complete herinrichting van de burgerzaal en
+            vergaderruimtes voor Gemeente Schouwen-Duiveland
           </p>
+          <Link
+            href="/projecten/gemeente-schouwen-duiveland"
+            className="mt-5 inline-block text-sm font-semibold text-brand hover:underline"
+          >
+            Bekijk dit project
+          </Link>
         </Reveal>
       </section>
 
@@ -298,7 +305,7 @@ export default async function HomePage() {
           <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="kicker mb-3">Inspiratie</p>
-              <h2 className="text-3xl md:text-4xl">Kennis over werkplekken</h2>
+              <h2 className="text-3xl md:text-4xl">Kennis over inrichten</h2>
             </div>
             <Link
               href="/blog"

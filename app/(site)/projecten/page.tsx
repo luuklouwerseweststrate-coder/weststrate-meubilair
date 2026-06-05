@@ -8,7 +8,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Projecten",
   description:
-    "Uitgevoerde werkplekinrichtingen van Weststrate: van gemeentehuis tot bibliotheek.",
+    "Uitgevoerde projectinrichtingen van Weststrate: van gemeentehuis en bibliotheek tot kantoor en horeca.",
 };
 
 export default async function ProjectenPage() {
@@ -21,7 +21,7 @@ export default async function ProjectenPage() {
         <h1 className="text-4xl md:text-5xl">Wat we hebben ingericht</h1>
         <p className="mt-4 text-lg text-ink-2">
           Elk pand en elk team is anders. Deze projecten laten zien hoe we
-          advies, meubilair en montage samenbrengen tot een werkplek die klopt.
+          advies, meubilair en montage samenbrengen tot een ruimte die klopt.
         </p>
       </Reveal>
 

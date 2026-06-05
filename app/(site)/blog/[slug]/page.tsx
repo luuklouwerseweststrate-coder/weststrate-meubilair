@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getPost, getPosts } from "@/lib/data";
+import { siteUrl, jsonLdScript } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -28,7 +29,36 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const post = await getPost(params.slug);
   if (!post) return { title: "Artikel niet gevonden" };
-  return { title: post.title, description: post.samenvatting };
+  return {
+    title: post.title,
+    description: post.samenvatting,
+    alternates: { canonical: `/blog/${params.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.samenvatting,
+      publishedTime: post.datum,
+      images: post.image ? [{ url: post.image }] : undefined,
+    },
+  };
+}
+
+// Artikel-structured-data (schema.org/BlogPosting).
+function artikelJsonLd(post: Awaited<ReturnType<typeof getPost>>) {
+  if (!post) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.samenvatting,
+    datePublished: post.datum,
+    image: post.image || undefined,
+    articleSection: post.thema,
+    inLanguage: "nl-NL",
+    mainEntityOfPage: `${siteUrl}/blog/${post.slug}`,
+    author: { "@type": "Organization", name: "Weststrate" },
+    publisher: { "@type": "Organization", name: "Weststrate" },
+  };
 }
 
 export default async function BlogPostPage({
@@ -43,6 +73,10 @@ export default async function BlogPostPage({
 
   return (
     <article className="mx-auto max-w-3xl px-5 py-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(artikelJsonLd(post))}
+      />
       <nav className="mb-8 text-sm text-ink-2">
         <Link href="/blog" className="hover:text-brand">
           Inspiratie
@@ -81,7 +115,7 @@ export default async function BlogPostPage({
       <div className="mt-12 rounded-2xl border border-rule bg-paper-2 p-8">
         <h2 className="text-xl">Hulp nodig bij je inrichting?</h2>
         <p className="mt-2 text-sm text-ink-2">
-          Onze specialisten denken mee over de werkplekken in jouw pand.
+          Onze specialisten denken mee over de inrichting van jouw pand.
         </p>
         <Link
           href="/contact"

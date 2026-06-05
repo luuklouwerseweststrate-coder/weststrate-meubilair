@@ -10,8 +10,8 @@ import { JOHN } from "@/components/Accountmanager";
 // gesprek met een specialist willen aanbieden, zodat het consistent blijft.
 
 export default function SpecialistCTA({
-  titel = "Benieuwd wat we voor jouw werkplek kunnen betekenen?",
-  tekst = "Leg je vraag voor aan John Provoost, onze accountmanager meubilair. Hij denkt graag met je mee, van één werkplek tot een compleet pand.",
+  titel = "Benieuwd wat we voor jouw ruimte kunnen betekenen?",
+  tekst = "Leg je vraag voor aan John Provoost, onze accountmanager meubilair. Hij denkt graag met je mee, van één stoel tot de inrichting van een compleet pand.",
   className = "",
 }: {
   titel?: string;

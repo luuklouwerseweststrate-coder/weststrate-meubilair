@@ -7,7 +7,7 @@ export const MOCK_SETTINGS: SiteSettings = {
   bedrijfsnaam: "Weststrate Meubilair",
   payoff: "De veelzijdige specialist",
   overOns:
-    "Weststrate richt werkplekken in. Van één ergonomische stoel tot een compleet kantoor: wij denken mee over de ruimte, leveren het meubilair en regelen de montage. Met eigen specialisten en een breed assortiment kiezen we wat past bij jouw mensen en jouw pand, niet andersom.",
+    "Weststrate richt complete ruimtes in. Van één ergonomische stoel tot de inrichting van een heel pand: wij denken mee over de ruimte, leveren het meubilair en regelen de montage. Met eigen specialisten en een breed assortiment kiezen we wat past bij jouw mensen en jouw pand, niet andersom.",
   email: "verkoop@weststrate.nl",
   telefoon: "0118 - 000 000",
   adres: "Herculesweg 37, Middelburg",
