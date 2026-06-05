@@ -9,9 +9,13 @@ import Reveal from "./motion/Reveal";
 // alle producten van de subcategorie mee; het filteren gebeurt client-side over
 // die (kleine) lijst — snel en zonder extra requests.
 
-type Sortering = "naam" | "prijs-op" | "prijs-af";
+type Sortering = "aanbevolen" | "naam" | "prijs-op" | "prijs-af";
 
 const SORT_OPTIES: { waarde: Sortering; label: string }[] = [
+  // "Aanbevolen" = de volgorde die de server meegeeft: product met de meeste
+  // uitvoeringen eerst. Dit is bewust de standaard, zodat het rijkste product
+  // bovenaan staat.
+  { waarde: "aanbevolen", label: "Aanbevolen" },
   { waarde: "naam", label: "Naam (A–Z)" },
   { waarde: "prijs-op", label: "Prijs (laag → hoog)" },
   { waarde: "prijs-af", label: "Prijs (hoog → laag)" },
@@ -23,7 +27,7 @@ export default function SubcatalogusClient({
   producten: Product[];
 }) {
   const [zoek, setZoek] = useState("");
-  const [sortering, setSortering] = useState<Sortering>("naam");
+  const [sortering, setSortering] = useState<Sortering>("aanbevolen");
 
   const zichtbaar = useMemo(() => {
     const term = zoek.trim().toLowerCase();
@@ -34,6 +38,10 @@ export default function SubcatalogusClient({
             p.shortDescription.toLowerCase().includes(term)
         )
       : producten;
+
+    // "Aanbevolen" laat de serververvolgorde (meeste uitvoeringen eerst) intact;
+    // de andere opties sorteren expliciet.
+    if (sortering === "aanbevolen") return gefilterd;
 
     const gesorteerd = [...gefilterd];
     gesorteerd.sort((a, b) => {

@@ -147,7 +147,15 @@ export async function getSubcategorieSlugs(): Promise<string[]> {
 export async function getProductenPerSubSlug(
   slug: string
 ): Promise<{ sub: string; hoofd: string; producten: Product[] }> {
-  const producten = ALLE_PRODUCTEN.filter((p) => slugify(p.subcategory) === slug);
+  const producten = ALLE_PRODUCTEN.filter((p) => slugify(p.subcategory) === slug)
+    // Meeste uitvoeringen eerst (de "rijkste" producten bovenaan), bij gelijk
+    // aantal op naam. Dit is de basisvolgorde; de client toont hem als
+    // "Aanbevolen" en laat de bezoeker desgewenst anders sorteren.
+    .sort(
+      (a, b) =>
+        b.variants.length - a.variants.length ||
+        a.name.localeCompare(b.name, "nl")
+    );
   return {
     sub: producten[0]?.subcategory ?? "",
     hoofd: producten[0]?.category ?? "",
