@@ -149,9 +149,21 @@ export default function Zoek({ items }: { items: ZoekItem[] }) {
 
   return (
     <div ref={wrap} className="relative">
-      {/* Zoekveld */}
+      {/* Trigger. Op mobiel een ronde icoon-knop (spaart breedte uit), op
+          desktop een uitklappend zoekveld. */}
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Zoeken"
+        className={`flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors md:hidden ${
+          open ? "border-brand text-brand" : "border-rule text-ink-2"
+        }`}
+      >
+        <ZoekIcoon className="h-4 w-4" />
+      </button>
+
       <div
-        className={`flex items-center gap-2 rounded-full border bg-white px-3.5 transition-colors ${
+        className={`hidden items-center gap-2 rounded-full border bg-white px-3.5 transition-colors md:flex ${
           open ? "border-brand" : "border-rule hover:border-ink-2"
         }`}
       >
@@ -163,7 +175,7 @@ export default function Zoek({ items }: { items: ZoekItem[] }) {
           onKeyDown={toetsen}
           placeholder="Zoek bureaus, stoelen, kasten…"
           aria-label="Zoeken"
-          className="w-36 bg-transparent py-2 text-sm outline-none placeholder:text-ink-2 focus:w-44 sm:w-48 sm:focus:w-64 lg:w-56 lg:focus:w-72 transition-[width] duration-200"
+          className="w-48 bg-transparent py-2 text-sm outline-none placeholder:text-ink-2 focus:w-64 lg:w-56 lg:focus:w-72 transition-[width] duration-200"
         />
       </div>
 
@@ -177,6 +189,23 @@ export default function Zoek({ items }: { items: ZoekItem[] }) {
             transition={{ duration: 0.16 }}
             className="absolute right-0 top-full z-50 mt-2 w-[min(92vw,440px)] overflow-hidden rounded-2xl border border-rule bg-white shadow-2xl"
           >
+            {/* Zoekinput in het paneel zelf (alleen mobiel: daar is de trigger
+                een icoon). */}
+            <div className="border-b border-rule p-3 md:hidden">
+              <div className="flex items-center gap-2 rounded-full border border-brand bg-white px-3.5">
+                <ZoekIcoon className="h-4 w-4 shrink-0 text-ink-2" />
+                <input
+                  autoFocus
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={toetsen}
+                  placeholder="Zoek bureaus, stoelen, kasten…"
+                  aria-label="Zoeken"
+                  className="w-full bg-transparent py-2 text-sm outline-none placeholder:text-ink-2"
+                />
+              </div>
+            </div>
+
             <div className="max-h-[70vh] overflow-y-auto">
               {/* Lege zoekterm → suggesties; geen resultaten → nette melding */}
               {woorden.length > 0 && leeg ? (

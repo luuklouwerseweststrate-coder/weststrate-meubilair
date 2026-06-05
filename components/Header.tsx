@@ -31,7 +31,7 @@ export default function Header({
   return (
     <header className="sticky top-0 z-40 border-b border-rule bg-paper/90 backdrop-blur">
       <div className="merkbalk" />
-      <div className="mx-auto flex max-w-content items-center justify-between gap-6 px-5 py-4">
+      <div className="mx-auto flex max-w-content items-center justify-between gap-3 px-5 py-4 md:gap-6">
         <Link href="/" aria-label="Naar home">
           <Logo />
         </Link>

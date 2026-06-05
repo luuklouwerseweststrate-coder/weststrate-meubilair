@@ -41,7 +41,7 @@ export default function Logo({
         </span>
         {payoff && (
           <span
-            className={`mt-0.5 text-[0.55rem] uppercase tracking-[0.18em] ${payoffKleur}`}
+            className={`mt-0.5 hidden text-[0.55rem] uppercase tracking-[0.18em] sm:block ${payoffKleur}`}
           >
             de veelzijdige specialist
           </span>

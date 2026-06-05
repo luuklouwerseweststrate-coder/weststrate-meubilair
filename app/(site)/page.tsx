@@ -71,19 +71,26 @@ export default async function HomePage() {
           <div className="absolute inset-0 flex items-center">
             <div className="mx-auto w-full max-w-content px-5">
               <Reveal className="max-w-xl text-white" y={24}>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
+                <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/80 md:text-xs">
                   Meubilair &amp; projectinrichting, onderdeel van Weststrate
                 </p>
-                <h1 className="mt-4 text-4xl leading-[1.05] text-white md:text-6xl">
+                <h1 className="mt-3 text-[1.9rem] leading-tight text-white md:mt-4 md:text-6xl md:leading-[1.05]">
                   Wij richten je ruimte in. Van kantoor tot zorg en horeca.
                 </h1>
-                <p className="mt-6 max-w-lg text-lg text-white/85">
-                  Van één ergonomische stoel tot de complete inrichting van een
-                  pand. Als veelzijdige B2B-specialist regelt Weststrate alles uit
-                  één hand: advies, levering en montage, met maatwerk afgestemd op
-                  jouw wensen.
+                {/* Op mobiel een kortere tekst, op desktop het volledige verhaal */}
+                <p className="mt-4 max-w-lg text-base text-white/85 md:mt-6 md:text-lg">
+                  <span className="md:hidden">
+                    Van één stoel tot de complete inrichting. Advies, levering en
+                    montage uit één hand.
+                  </span>
+                  <span className="hidden md:inline">
+                    Van één ergonomische stoel tot de complete inrichting van een
+                    pand. Als veelzijdige B2B-specialist regelt Weststrate alles
+                    uit één hand: advies, levering en montage, met maatwerk
+                    afgestemd op jouw wensen.
+                  </span>
                 </p>
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
                   <Link
                     href="/projecten"
                     className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
