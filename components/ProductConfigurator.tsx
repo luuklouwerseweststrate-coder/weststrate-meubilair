@@ -30,16 +30,12 @@ export default function ProductConfigurator({ product }: { product: Product }) {
     return product.variants.find((v) => v.image)?.image ?? "";
   }, [product]);
 
-  // Standaard: open bij voorkeur op een variant mét foto (anders ziet de bezoeker
-  // meteen een lege placeholder). Pas als geen enkele variant beeld heeft, vallen
-  // we terug op de eerste waarde van elke optiegroep.
+  // Standaard: open op een echte, bestaande variant (bij voorkeur één mét foto).
+  // Cruciaal: we starten nooit op een verzonnen combinatie, zodat de getoonde
+  // artikelcode/prijs altijd bij een bestelbare variant horen.
   const [keuzes, setKeuzes] = useState<Record<string, string>>(() => {
-    const eersteMetBeeld = product.variants.find((v) => v.image);
-    const start: Record<string, string> = {};
-    product.optionGroups.forEach((g) => {
-      start[g.label] = eersteMetBeeld?.opties[g.label] ?? g.waarden[0];
-    });
-    return start;
+    const start = product.variants.find((v) => v.image) ?? product.variants[0];
+    return { ...(start?.opties ?? {}) };
   });
   const [aantal, setAantal] = useState(1);
   const [toegevoegd, setToegevoegd] = useState(false);
@@ -50,12 +46,52 @@ export default function ProductConfigurator({ product }: { product: Product }) {
 
   const totaal = variant.price * aantal;
 
+  // Per optiegroep: welke waarden gaan samen met je HUIDIGE keuze op de andere
+  // assen? (= bestaat er een variant met die waarde plus al je andere keuzes).
+  // Niet-leverbare waarden grijzen we uit. Het Swan-programma bevat lang niet
+  // alle combinaties (bv. 576 echte varianten op 9.072 theoretische).
+  const beschikbaar = useMemo(() => {
+    const map: Record<string, Set<string>> = {};
+    for (const g of product.optionGroups) {
+      const set = new Set<string>();
+      for (const v of product.variants) {
+        const restPast = product.optionGroups.every(
+          (gg) => gg.label === g.label || v.opties[gg.label] === keuzes[gg.label]
+        );
+        if (restPast) set.add(v.opties[g.label]);
+      }
+      map[g.label] = set;
+    }
+    return map;
+  }, [product, keuzes]);
+
   // Het beeld dat we tonen: dat van de variant, anders het representatieve
   // terugval-beeld. Zo blijft het kader nooit leeg zolang er ergens een foto is.
   const beeld = variant.image || fallbackImage;
 
+  // Kiest een waarde en "snapt" naar een echte variant: van alle varianten met
+  // deze waarde pakken we degene die zoveel mogelijk van je huidige andere keuzes
+  // behoudt (en bij gelijke stand: liefst één mét foto). Bij een leverbare keuze
+  // blijft alles staan; bij een niet-leverbare passen we de minimaal nodige andere
+  // assen aan. Zo hoort de selectie altijd bij een bestaande artikelcode.
   function kies(groep: string, waarde: string) {
-    setKeuzes((v) => ({ ...v, [groep]: waarde }));
+    const kandidaten = product.variants.filter((v) => v.opties[groep] === waarde);
+    if (kandidaten.length === 0) return;
+    let beste = kandidaten[0];
+    let besteScore = -1;
+    for (const v of kandidaten) {
+      let gelijk = 0;
+      for (const g of product.optionGroups) {
+        if (g.label === groep) continue;
+        if (v.opties[g.label] === keuzes[g.label]) gelijk++;
+      }
+      const score = gelijk * 2 + (v.image ? 1 : 0); // tie-break: liever met foto
+      if (score > besteScore) {
+        besteScore = score;
+        beste = v;
+      }
+    }
+    setKeuzes({ ...beste.opties });
     setToegevoegd(false);
   }
 
@@ -168,6 +204,11 @@ export default function ProductConfigurator({ product }: { product: Product }) {
                   {groep.waarden.map((waarde) => {
                     const actief = keuzes[groep.label] === waarde;
                     const hex = alsKleur ? kleurVoor(waarde) : null;
+                    // Gaat deze waarde samen met je huidige overige keuzes?
+                    const leverbaar = beschikbaar[groep.label]?.has(waarde) ?? true;
+                    const tip = leverbaar
+                      ? waarde
+                      : `${waarde} — niet leverbaar met je huidige keuze; klik om de combinatie aan te passen`;
 
                     // Kleurstaal als we de kleur kennen
                     if (hex) {
@@ -176,8 +217,8 @@ export default function ProductConfigurator({ product }: { product: Product }) {
                           key={waarde}
                           type="button"
                           onClick={() => kies(groep.label, waarde)}
-                          title={waarde}
-                          aria-label={waarde}
+                          title={tip}
+                          aria-label={tip}
                           aria-pressed={actief}
                           className={`relative h-9 w-9 rounded-full transition-transform hover:scale-110 ${
                             actief
@@ -185,7 +226,7 @@ export default function ProductConfigurator({ product }: { product: Product }) {
                               : isLicht(hex)
                                 ? "ring-1 ring-rule"
                                 : ""
-                          }`}
+                          } ${!actief && !leverbaar ? "opacity-35 hover:scale-100" : ""}`}
                           style={{ background: hex }}
                         />
                       );
@@ -197,10 +238,13 @@ export default function ProductConfigurator({ product }: { product: Product }) {
                         key={waarde}
                         type="button"
                         onClick={() => kies(groep.label, waarde)}
+                        title={tip}
                         className={`rounded-lg border px-3 py-2 text-sm transition-colors ${
                           actief
                             ? "border-brand bg-brand/5 font-semibold text-brand"
-                            : "border-rule text-ink-2 hover:border-ink-2"
+                            : leverbaar
+                              ? "border-rule text-ink-2 hover:border-ink-2"
+                              : "border-rule/50 text-ink-2/40 hover:border-ink-2/40"
                         }`}
                       >
                         {waarde}
