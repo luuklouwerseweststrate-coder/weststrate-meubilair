@@ -34,9 +34,11 @@ import bureaustoelen from "@/data/bureaustoelen-weststrate.json";
 // bevat de echte catalogusprijzen excl. btw (omgerekend van de incl.-btw-prijzen
 // op weststrate.nl). Wijzigt een prijs op de live site? Pas dan het bijbehorende
 // "price"-veld in dat bestand aan.
+// De handmatige bureaustoelen staan bewust vóór de Swan-catalogus, zodat de
+// 325-serie bovenaan de Bureaustoelen-subcategorie verschijnt.
 const ALLE_PRODUCTEN = [
-  ...(catalogus as unknown as Product[]),
   ...(bureaustoelen as unknown as Product[]),
+  ...(catalogus as unknown as Product[]),
 ];
 
 function eersteBeschikbareAfbeelding(product: Product): string {

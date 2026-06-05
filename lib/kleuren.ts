@@ -32,6 +32,7 @@ const KLEUR_REGELS: KleurRegel[] = [
   { trefwoorden: ["taupe"], hex: "#8B7E6A" },
   { trefwoorden: ["beige"], hex: "#D8C9A8" },
   // Neutralen
+  { trefwoorden: ["grafiet", "graphite"], hex: "#43474B" },
   { trefwoorden: ["antraciet", "anthracite"], hex: "#36393B" },
   { trefwoorden: ["schaduw zwart", "shadow grey", "shadow grijs"], hex: "#3A3D3F" },
   { trefwoorden: ["zwart", "black"], hex: "#1A1A1A" },
