@@ -41,15 +41,26 @@ import zitStaBureaus from "@/data/zit-sta-bureaus-weststrate.json";
 // bureaus (PRESTO RT + Leitz, data/zit-sta-bureaus-weststrate.json) vormen de
 // nieuwe subcategorie "Zit-sta bureaus" onder Werken, met echte artikelnummers
 // en prijzen excl. btw (omgerekend van de incl.-btw-prijzen op weststrate.nl).
+function eersteBeschikbareAfbeelding(product: Product): string {
+  return product.image || product.variants.find((v) => v.image)?.image || "";
+}
+
+// Toonbaar = het product heeft minstens één echte foto. Producten die volledig
+// zonder beeld uit de bron-Excel komen (zoals de Ecotec roldeurkasten: in het
+// snelleverprogramma-bestand ontbreken voor die rijen zowel snel_afbeelding als
+// snel_artikelcode) verbergen we, zodat de catalogus geen lege placeholder-
+// pagina's toont. Zodra de ontbrekende kolommen in data/snelleverprogramma.xlsx
+// zijn aangevuld en `npm run catalogus` opnieuw draait, verschijnt het product
+// vanzelf weer — dit filter hoeft dan niet aangepast te worden.
+function isToonbaar(product: Product): boolean {
+  return Boolean(eersteBeschikbareAfbeelding(product));
+}
+
 const ALLE_PRODUCTEN = [
   ...(bureaustoelen as unknown as Product[]),
   ...(zitStaBureaus as unknown as Product[]),
   ...(catalogus as unknown as Product[]),
-];
-
-function eersteBeschikbareAfbeelding(product: Product): string {
-  return product.image || product.variants.find((v) => v.image)?.image || "";
-}
+].filter(isToonbaar);
 
 // Laagste variantprijs ("vanaf"), met de basisprijs als terugval.
 function vanafPrijs(product: Product): number {
