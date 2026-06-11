@@ -5,6 +5,11 @@
 //   P(x,y,z) = [ (x - y)*cos30*S , (x + y)*sin30*S - z*S ]
 // Elk meubel is opgebouwd uit "dozen" (box): top + rechter- + linkervlak, met drie
 // tinten van dezelfde kleur (lichtste bovenop) voor een vlakke iso-look.
+//
+// De scène is een ingerichte kantoorhoek: de bureaustoel staat áán het bureau
+// (één werkplek), de vergadertafel staat in een eigen hoek, de kast tegen de
+// achterwand en de scheidingswand verdeelt de ruimte. Plant + vloerkleed geven
+// sfeer; het Weststrate-beeldmerk (de gekleurde W) staat als merkstempel in beeld.
 
 import sharp from "sharp";
 import { writeFileSync } from "node:fs";
@@ -51,6 +56,9 @@ const WOOD = ["#E8D5BC", "#D3BA96", "#BC9E78"];
 const WHITE = ["#FFFFFF", "#EBEEF2", "#D7DCE3"];
 const DARK = ["#434954", "#31363F", "#23272E"];
 const GREY = ["#CCD1D9", "#B4BAC5", "#9BA2AE"];
+const GREEN = ["#3DBE74", "#2FA862", "#268A50"]; // plant
+const SCREEN = ["#3A4A66", "#2E3A52", "#222B3D"]; // monitor
+const MUG = ["#FFFFFF", "#F0F0F0", "#E0E0E0"];
 
 // Zachte grondschaduw onder een meubel (in lokale iso-coördinaten).
 function schaduw(cx, cy, rx) {
@@ -74,6 +82,12 @@ function bureau() {
   ])
     s += box(x, y, 0, 0.18, 0.18, lh, DARK);
   s += box(-0.1, -0.1, lh, w + 0.2, d + 0.2, 0.16, WOOD); // blad
+  // Bureau-accessoires op het blad (horen bij het bureau, liften dus mee).
+  const t = lh + 0.16; // bovenkant blad
+  s += box(1.5, 0.35, t, 0.8, 0.3, 0.16, DARK); // monitorvoet
+  s += box(1.83, 0.45, t + 0.16, 0.12, 0.12, 0.42, DARK); // nek
+  s += box(1.1, 0.3, t + 0.5, 1.55, 0.14, 0.92, SCREEN); // scherm
+  s += box(2.85, 1.5, t, 0.26, 0.26, 0.3, MUG); // mok
   return s;
 }
 
@@ -144,14 +158,67 @@ function accessoire() {
   return s;
 }
 
+// ── Sfeer (niet-klikbare decoratie) ─────────────────────────
+function plant() {
+  // Pot + bladeren. Decoratief, geen link.
+  let s = schaduw(0.5, 0.5, 26);
+  s += box(0.18, 0.18, 0, 0.64, 0.64, 0.7, ["#C9714E", "#B5603F", "#9C4E31"]); // terracotta pot
+  const [bx, by] = P(0.5, 0.5, 0.7);
+  // Bladeren: een paar ovale "sprieten" die uit de pot komen.
+  const blad = (dx, dy, rot, sc) =>
+    `<ellipse cx="${(+bx + dx).toFixed(1)}" cy="${(+by + dy).toFixed(1)}" rx="${(
+      7 * sc
+    ).toFixed(1)}" ry="${(20 * sc).toFixed(1)}" fill="${
+      GREEN[Math.abs(Math.round(dx)) % 2]
+    }" transform="rotate(${rot} ${(+bx + dx).toFixed(1)} ${(+by + dy).toFixed(
+      1
+    )})"/>`;
+  s += blad(-8, -16, -24, 1);
+  s += blad(8, -18, 22, 1.05);
+  s += blad(0, -26, 0, 1.15);
+  s += blad(-14, -10, -48, 0.8);
+  s += blad(14, -12, 46, 0.82);
+  return s;
+}
+
+// Vloerkleed: zacht parallellogram op de grond (iso-rechthoek).
+function kleed(ox, oy, w, d, kleur) {
+  return `<polygon points="${pts(
+    [ox, oy, 0],
+    [ox + w, oy, 0],
+    [ox + w, oy + d, 0],
+    [ox, oy + d, 0]
+  )}" fill="${kleur}" opacity="0.55"/>`;
+}
+
+// Weststrate-beeldmerk: de gekleurde W als vier diagonale streken.
+// Platte 2D-merkstempel (volgt niet de iso-projectie); links→rechts in de
+// huisstijlkleuren, net als het echte logo.
+function logoW(x, y, w, h, sw) {
+  const X = (t) => (x + t * w).toFixed(1);
+  const Y = (t) => (y + t * h).toFixed(1);
+  const seg = (x1, y1, x2, y2, kl) =>
+    `<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(
+      y2
+    )}" stroke="${kl}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return (
+    seg(0, 0, 0.2, 1, "#A1367E") + // magenta
+    seg(0.2, 1, 0.5, 0.28, "#01B6E3") + // cyaan
+    seg(0.5, 0.28, 0.8, 1, "#009D46") + // groen
+    seg(0.8, 1, 1, 0, "#F29828") // oranje
+  );
+}
+
 // ── Scène samenstellen ──────────────────────────────────────
 // Per meubel: bouwer, plek (translate) en label (voor de preview).
+// Layout = ingerichte hoek: kast links-achter, werkplek (bureau + stoel) in het
+// midden, scheidingswand als verdeler, vergadertafel rechts.
 const MEUBELS = [
-  { bouw: kast, tx: 175, ty: 205, label: "Kasten", kleur: "#F29828" },
-  { bouw: tafel, tx: 470, ty: 175, label: "Tafels", kleur: "#009D46" },
-  { bouw: bureau, tx: 345, ty: 290, label: "Bureaus", kleur: "#A1367E" },
-  { bouw: stoel, tx: 660, ty: 330, label: "Stoelen", kleur: "#01B6E3" },
-  { bouw: accessoire, tx: 845, ty: 245, label: "Accessoires", kleur: "#6E4B9E" },
+  { bouw: kast, tx: 215, ty: 150, label: "Kasten", kleur: "#F29828" },
+  { bouw: bureau, tx: 360, ty: 235, label: "Bureaus", kleur: "#A1367E" },
+  { bouw: stoel, tx: 442, ty: 298, label: "Stoelen", kleur: "#01B6E3" },
+  { bouw: accessoire, tx: 690, ty: 175, label: "Accessoires", kleur: "#6E4B9E" },
+  { bouw: tafel, tx: 760, ty: 270, label: "Tafels", kleur: "#009D46" },
 ];
 
 // Achter-naar-voor tekenen (op ty gesorteerd) voor correcte overlap.
@@ -160,7 +227,7 @@ const gesorteerd = [...MEUBELS].sort((a, b) => a.ty - b.ty);
 let scene = "";
 for (const m of gesorteerd) {
   scene += `<g transform="translate(${m.tx},${m.ty})">${m.bouw()}`;
-  // Preview-label (in het component wordt dit een hover-pill).
+  // Preview-label (in het component wordt dit een hover-label).
   scene += `<text x="0" y="60" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="${m.kleur}">${m.label}</text></g>`;
 }
 
@@ -170,7 +237,12 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}">
 <rect width="${W}" height="${H}" fill="#F7F7F4"/>
 <ellipse cx="540" cy="285" rx="470" ry="150" fill="#FFFFFF" opacity="0.7"/>
 <ellipse cx="540" cy="295" rx="430" ry="125" fill="#EFEFEA" opacity="0.9"/>
+<g transform="translate(360,235)">${kleed(-0.9, -0.9, 5.6, 4.4, "#D9C7E0")}</g>
+<g transform="translate(760,270)">${kleed(-0.7, -0.7, 6, 4, "#CFE6D6")}</g>
+<g transform="translate(250,330)">${plant()}</g>
 ${scene}
+<g opacity="0.92">${logoW(956, 392, 92, 56, 13)}</g>
+<text x="1002" y="466" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="800" fill="#5A5560" letter-spacing="0.5">weststrate</text>
 </svg>`;
 
 writeFileSync(new URL("./iso-scene-preview.svg", import.meta.url), svg);

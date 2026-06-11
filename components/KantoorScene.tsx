@@ -1,10 +1,16 @@
 import { slugify } from "@/lib/types";
 
-// Interactieve isometrische kantoor-scène voor de homepage. Elk meubelstuk is een
-// eigen klikbare link naar zijn hoofdcategorie. Bij hover/focus licht het meubel
-// op (omhoog + gekleurde gloed onder zich) en kleurt het label mee met de
-// categoriekleur. Volledig server-side gerenderd; de hover-effecten zijn pure CSS
-// (Tailwind group-hover), dus er is geen client-side JavaScript nodig.
+// Interactieve isometrische kantoor-scène voor de homepage. De scène is een
+// ingerichte kantoorhoek: de bureaustoel staat áán het bureau (één werkplek),
+// de vergadertafel in een eigen hoek, de kast tegen de achterwand en de
+// scheidingswand verdeelt de ruimte. Plant + vloerkleden geven sfeer en het
+// Weststrate-beeldmerk (de gekleurde W) staat als merkstempel in beeld.
+//
+// Elk MEUBELSTUK is een eigen klikbare link naar zijn hoofdcategorie. Bij
+// hover/focus licht het meubel op (omhoog + gekleurde gloed onder zich) en
+// kleurt het label mee. Sfeer-elementen (plant, kleed, logo) zijn decoratie en
+// niet klikbaar. Volledig server-side gerenderd; de hover-effecten zijn pure
+// CSS (Tailwind group-hover), dus er is geen client-side JavaScript nodig.
 //
 // De meubels zijn opgebouwd uit isometrische "dozen" (top + 2 zijvlakken in drie
 // tinten). Zie scripts/iso-scene.mjs voor de preview-tooling waarmee dit is
@@ -69,6 +75,9 @@ const WOOD: Pal = ["#E8D5BC", "#D3BA96", "#BC9E78"];
 const WHITE: Pal = ["#FFFFFF", "#EBEEF2", "#D7DCE3"];
 const DARK: Pal = ["#434954", "#31363F", "#23272E"];
 const GREY: Pal = ["#CCD1D9", "#B4BAC5", "#9BA2AE"];
+const GREEN: Pal = ["#3DBE74", "#2FA862", "#268A50"];
+const SCREEN: Pal = ["#3A4A66", "#2E3A52", "#222B3D"];
+const MUG: Pal = ["#FFFFFF", "#F0F0F0", "#E0E0E0"];
 
 // ── Meubelstukken (geven rauwe SVG-markup terug) ──────────────
 function bureau() {
@@ -83,7 +92,13 @@ function bureau() {
     [w - 0.18, d - 0.18],
   ])
     s += box(x, y, 0, 0.18, 0.18, lh, DARK);
-  s += box(-0.1, -0.1, lh, w + 0.2, d + 0.2, 0.16, WOOD);
+  s += box(-0.1, -0.1, lh, w + 0.2, d + 0.2, 0.16, WOOD); // blad
+  // Bureau-accessoires op het blad (horen bij het bureau, liften dus mee).
+  const t = lh + 0.16;
+  s += box(1.5, 0.35, t, 0.8, 0.3, 0.16, DARK); // monitorvoet
+  s += box(1.83, 0.45, t + 0.16, 0.12, 0.12, 0.42, DARK); // nek
+  s += box(1.1, 0.3, t + 0.5, 1.55, 0.14, 0.92, SCREEN); // scherm
+  s += box(2.85, 1.5, t, 0.26, 0.26, 0.3, MUG); // mok
   return s;
 }
 
@@ -152,17 +167,75 @@ function accessoire() {
   return s;
 }
 
+// ── Sfeer (niet-klikbare decoratie) ─────────────────────────
+function plant() {
+  let s = schaduw(0.5, 0.5, 26);
+  s += box(0.18, 0.18, 0, 0.64, 0.64, 0.7, ["#C9714E", "#B5603F", "#9C4E31"]);
+  const [bx, by] = P(0.5, 0.5, 0.7);
+  const blad = (dx: number, dy: number, rot: number, sc: number) =>
+    `<ellipse cx="${(+bx + dx).toFixed(1)}" cy="${(+by + dy).toFixed(1)}" rx="${(
+      7 * sc
+    ).toFixed(1)}" ry="${(20 * sc).toFixed(1)}" fill="${
+      GREEN[Math.abs(Math.round(dx)) % 2]
+    }" transform="rotate(${rot} ${(+bx + dx).toFixed(1)} ${(+by + dy).toFixed(
+      1
+    )})"/>`;
+  return (
+    s +
+    blad(-8, -16, -24, 1) +
+    blad(8, -18, 22, 1.05) +
+    blad(0, -26, 0, 1.15) +
+    blad(-14, -10, -48, 0.8) +
+    blad(14, -12, 46, 0.82)
+  );
+}
+
+// Vloerkleed: zacht parallellogram op de grond (iso-rechthoek).
+function kleed(
+  ox: number,
+  oy: number,
+  w: number,
+  d: number,
+  kleur: string
+) {
+  return `<polygon points="${pts(
+    [ox, oy, 0],
+    [ox + w, oy, 0],
+    [ox + w, oy + d, 0],
+    [ox, oy + d, 0]
+  )}" fill="${kleur}" opacity="0.55"/>`;
+}
+
+// Weststrate-beeldmerk: de gekleurde W als vier diagonale streken, in de
+// huisstijlkleuren (links→rechts). Platte 2D-merkstempel (volgt niet de iso).
+function logoW(x: number, y: number, w: number, h: number, sw: number) {
+  const X = (t: number) => (x + t * w).toFixed(1);
+  const Y = (t: number) => (y + t * h).toFixed(1);
+  const seg = (x1: number, y1: number, x2: number, y2: number, kl: string) =>
+    `<line x1="${X(x1)}" y1="${Y(y1)}" x2="${X(x2)}" y2="${Y(
+      y2
+    )}" stroke="${kl}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return (
+    seg(0, 0, 0.2, 1, "#A1367E") +
+    seg(0.2, 1, 0.5, 0.28, "#01B6E3") +
+    seg(0.5, 0.28, 0.8, 1, "#009D46") +
+    seg(0.8, 1, 1, 0, "#F29828")
+  );
+}
+
 // Per hoofdcategorie: bouwer, plek (translate) en het middelpunt van de
-// grondgloed (lokale iso-coördinaten → schermpunt).
+// grondgloed (lokale iso-coördinaten → schermpunt). Layout = ingerichte hoek:
+// kast links-achter, werkplek (bureau + stoel) in het midden, scheidingswand
+// als verdeler, vergadertafel rechts.
 const SOORTEN: Record<
   string,
   { bouw: () => string; tx: number; ty: number; gx: number; gy: number }
 > = {
-  Bureaus: { bouw: bureau, tx: 345, ty: 290, gx: 2, gy: 1.1 },
-  Stoelen: { bouw: stoel, tx: 660, ty: 330, gx: 0.75, gy: 0.75 },
-  Tafels: { bouw: tafel, tx: 470, ty: 175, gx: 2.5, gy: 1.3 },
-  "Kasten & opbergen": { bouw: kast, tx: 175, ty: 205, gx: 1.15, gy: 0.8 },
-  Accessoires: { bouw: accessoire, tx: 845, ty: 245, gx: 1.6, gy: 0.1 },
+  "Kasten & opbergen": { bouw: kast, tx: 215, ty: 150, gx: 1.15, gy: 0.8 },
+  Bureaus: { bouw: bureau, tx: 360, ty: 235, gx: 2, gy: 1.1 },
+  Stoelen: { bouw: stoel, tx: 442, ty: 298, gx: 0.75, gy: 0.75 },
+  Accessoires: { bouw: accessoire, tx: 690, ty: 175, gx: 1.6, gy: 0.1 },
+  Tafels: { bouw: tafel, tx: 760, ty: 270, gx: 2.5, gy: 1.3 },
 };
 
 export interface SceneCategorie {
@@ -193,10 +266,23 @@ export default function KantoorScene({
       <ellipse cx="540" cy="285" rx="470" ry="150" fill="#FFFFFF" opacity="0.7" />
       <ellipse cx="540" cy="295" rx="430" ry="125" fill="#EFEFEA" opacity="0.9" />
 
+      {/* Vloerkleden (werkplek + vergaderhoek) en plant — sfeer, niet klikbaar */}
+      <g
+        transform="translate(360,235)"
+        dangerouslySetInnerHTML={{ __html: kleed(-0.9, -0.9, 5.6, 4.4, "#D9C7E0") }}
+      />
+      <g
+        transform="translate(760,270)"
+        dangerouslySetInnerHTML={{ __html: kleed(-0.7, -0.7, 6, 4, "#CFE6D6") }}
+      />
+      <g
+        transform="translate(250,330)"
+        dangerouslySetInnerHTML={{ __html: plant() }}
+      />
+
       {items.map((m) => {
         const slug = slugify(m.hoofd);
         const [gx, gy] = P(m.gx, m.gy, 0);
-        const [lx, ly] = P(m.gx, m.gy, 0); // labelanker = footprint-midden
         return (
           <a
             key={m.hoofd}
@@ -221,8 +307,8 @@ export default function KantoorScene({
               />
               {/* Label: neutraal, kleurt mee bij hover */}
               <text
-                x={lx}
-                y={+ly + 54}
+                x={0}
+                y={60}
                 textAnchor="middle"
                 className="fill-ink-2 transition-colors duration-300 group-hover:[fill:var(--c)] group-focus-visible:[fill:var(--c)]"
                 style={{ ["--c" as string]: m.kleur }}
@@ -235,6 +321,20 @@ export default function KantoorScene({
           </a>
         );
       })}
+
+      {/* Weststrate-merkstempel */}
+      <g opacity="0.92" dangerouslySetInnerHTML={{ __html: logoW(956, 392, 92, 56, 13) }} />
+      <text
+        x={1002}
+        y={466}
+        textAnchor="end"
+        className="fill-ink-2"
+        fontSize="13"
+        fontWeight="800"
+        letterSpacing="0.5"
+      >
+        weststrate
+      </text>
     </svg>
   );
 }
