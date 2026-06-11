@@ -15,7 +15,7 @@ import type {
   BlogPost,
   ZoekItem,
 } from "./types";
-import { subLabel } from "./categorieen";
+import { subLabel, SUB_NAAR_HOOFD } from "./categorieen";
 import { BRANCHES, type Branche, type BrancheFilter } from "./branches";
 import { JOHN } from "@/components/Accountmanager";
 import catalogus from "@/data/swan-catalogus.json";
@@ -56,11 +56,23 @@ function isToonbaar(product: Product): boolean {
   return Boolean(eersteBeschikbareAfbeelding(product));
 }
 
+// Hangt het product onder de juiste (klantgerichte) hoofdcategorie. De ruwe
+// Swan-indeling (Werken/Zitten/…) vervangen we door een indeling op productsoort
+// (Bureaus/Stoelen/Tafels/Kasten & opbergen/Accessoires) via SUB_NAAR_HOOFD in
+// lib/categorieen.ts. De subcategorie en slug blijven ongemoeid, dus alle
+// /catalogus/[slug]-links blijven werken. Onbekende subs houden hun ruwe hoofd.
+function hermapHoofd(product: Product): Product {
+  const nieuwHoofd = SUB_NAAR_HOOFD[product.subcategory];
+  return nieuwHoofd ? { ...product, category: nieuwHoofd } : product;
+}
+
 const ALLE_PRODUCTEN = [
   ...(bureaustoelen as unknown as Product[]),
   ...(zitStaBureaus as unknown as Product[]),
   ...(catalogus as unknown as Product[]),
-].filter(isToonbaar);
+]
+  .filter(isToonbaar)
+  .map(hermapHoofd);
 
 // Laagste variantprijs ("vanaf"), met de basisprijs als terugval.
 function vanafPrijs(product: Product): number {

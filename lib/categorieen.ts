@@ -3,13 +3,50 @@ import type { CategorieGroep } from "./data";
 // Centrale categorie-mapping voor de navigatie.
 //
 // De ruwe categorie-/subcategorienamen komen uit het Swan-snelleverprogramma.
-// Hier bepalen we de VOLGORDE, een nette KLANTGERICHTE label, een accentkleur en
-// een korte tagline per hoofdcategorie — zodat de megamenu-balk duidelijk maakt
-// wat we aanbieden. De URL-slugs blijven afgeleid van de originele namen (zodat
-// de links naar /catalogus/[slug] blijven kloppen); alleen het LABEL wijzigt.
+// Die ruwe indeling is werkwoord-gebaseerd (Werken/Zitten/Vergaderen/Opbergen)
+// en dat liep niet lekker: zit-sta bureaus stonden los van bureaus, en de
+// vergaderstoelen vielen onder "Zitten" i.p.v. bij "Vergaderen". Daarom leggen
+// we hier een KLANTGERICHTE indeling op PRODUCTSOORT overheen: we hangen elke
+// ruwe subcategorie onder een nieuwe hoofdcategorie (Bureaus, Stoelen, Tafels,
+// Kasten & opbergen, Accessoires). De subcategorie-namen en hun URL-slugs
+// blijven gelijk, dus alle /catalogus/[slug]-links blijven kloppen — alleen de
+// GROEPERING en VOLGORDE veranderen.
 
-// Gewenste volgorde van de hoofdcategorieën (de werkplek-flow).
-export const HOOFD_VOLGORDE = ["Werken", "Zitten", "Vergaderen", "Opbergen"];
+// ── Herindeling: ruwe subcategorie → nieuwe hoofdcategorie (productsoort) ──
+// data.ts gebruikt deze map om p.category te hermappen voordat de rest van de
+// site de structuur opbouwt. Onbekende subcategorieën vallen terug op hun
+// originele hoofdcategorie (zie data.ts).
+export const SUB_NAAR_HOOFD: Record<string, string> = {
+  // Bureaus — zit-sta is óók een bureau, dus onder dezelfde groep
+  Bureaus: "Bureaus",
+  "Zit-sta bureaus": "Bureaus",
+  "Flex dynamisch werken": "Bureaus",
+  // Stoelen — alle stoelen bij elkaar, ongeacht de ruimte
+  Bureaustoelen: "Stoelen",
+  Vergaderstoelen: "Stoelen",
+  "Terras- / Kantinestoelen": "Stoelen",
+  // Tafels
+  Vergadertafels: "Tafels",
+  Klaptafels: "Tafels",
+  // Kasten & opbergen — inclusief ladenblokken
+  Roldeurkasten: "Kasten & opbergen",
+  Schuifdeurkasten: "Kasten & opbergen",
+  Ladenblokken: "Kasten & opbergen",
+  "Persoonlijke lade": "Kasten & opbergen",
+  // Accessoires — geen meubels, maar wat een werkplek afmaakt
+  Kabelmanagement: "Accessoires",
+  Scheidingswanden: "Accessoires",
+  Componenten: "Accessoires",
+};
+
+// Gewenste volgorde van de (nieuwe) hoofdcategorieën.
+export const HOOFD_VOLGORDE = [
+  "Bureaus",
+  "Stoelen",
+  "Tafels",
+  "Kasten & opbergen",
+  "Accessoires",
+];
 
 interface HoofdMeta {
   tagline: string;
@@ -17,10 +54,17 @@ interface HoofdMeta {
 }
 
 export const HOOFD_META: Record<string, HoofdMeta> = {
-  Werken: { tagline: "Bureaus, zit-sta & werkplekken", kleur: "#A1367E" },
-  Zitten: { tagline: "Bureaustoelen & zitoplossingen", kleur: "#01B6E3" },
-  Vergaderen: { tagline: "Vergader- & klaptafels", kleur: "#009D46" },
-  Opbergen: { tagline: "Kasten & opbergoplossingen", kleur: "#F29828" },
+  Bureaus: { tagline: "Bureaus, zit-sta & flexwerkplekken", kleur: "#A1367E" },
+  Stoelen: { tagline: "Bureau-, vergader- & kantinestoelen", kleur: "#01B6E3" },
+  Tafels: { tagline: "Vergader- & klaptafels", kleur: "#009D46" },
+  "Kasten & opbergen": {
+    tagline: "Kasten, ladenblokken & opbergen",
+    kleur: "#F29828",
+  },
+  Accessoires: {
+    tagline: "Kabelmanagement, wanden & meer",
+    kleur: "#6E4B9E",
+  },
 };
 
 const HOOFD_FALLBACK: HoofdMeta = {
@@ -40,12 +84,38 @@ export function subLabel(sub: string): string {
   return SUB_LABEL[sub] ?? sub;
 }
 
+// ── Iconen per subcategorie ──────────────────────────────────
+// Welke pictogram-sleutel hoort bij een ruwe subcategorie? CategorieIcon.tsx
+// tekent het bijbehorende line-icoon. Onbekende subs vallen terug op "meubel".
+const SUB_ICOON: Record<string, string> = {
+  Bureaus: "bureau",
+  "Zit-sta bureaus": "zitsta",
+  "Flex dynamisch werken": "flex",
+  Bureaustoelen: "bureaustoel",
+  Vergaderstoelen: "stoel",
+  "Terras- / Kantinestoelen": "kruk",
+  Vergadertafels: "tafel",
+  Klaptafels: "klaptafel",
+  Roldeurkasten: "kast",
+  Schuifdeurkasten: "kast",
+  Ladenblokken: "ladenblok",
+  "Persoonlijke lade": "ladenblok",
+  Kabelmanagement: "kabel",
+  Scheidingswanden: "wand",
+  Componenten: "component",
+};
+
+export function subIcoon(sub: string): string {
+  return SUB_ICOON[sub] ?? "meubel";
+}
+
 // ── Genavigeerde structuur (klein, veilig om naar de client te sturen) ──
 export interface NavSub {
   label: string;
   slug: string;
   aantal: number; // aantal series
   uitvoeringen: number; // aantal varianten
+  icoon: string; // pictogram-sleutel voor CategorieIcon
 }
 
 export interface NavHoofd {
@@ -76,6 +146,7 @@ export function ordenNav(structuur: CategorieGroep[]): NavHoofd[] {
       slug: s.slug,
       aantal: s.aantal,
       uitvoeringen: s.uitvoeringen,
+      icoon: subIcoon(s.sub),
     }));
     return {
       hoofd,

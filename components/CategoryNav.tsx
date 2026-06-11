@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { NavHoofd } from "@/lib/categorieen";
+import CategorieIcon from "@/components/CategorieIcon";
 
 // De horizontale categoriebalk met megamenu. Donkere, ingetogen balk (ink) met
 // per hoofdcategorie een klein accent-stipje in de eigen merkkleur en een nette
@@ -104,11 +105,17 @@ export default function CategoryNav({
                             <Link
                               href={`/catalogus/${sub.slug}`}
                               onClick={() => setOpen(null)}
-                              className={`flex items-center justify-between gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-paper-2 ${
+                              className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-paper-2 ${
                                 subActief ? "font-semibold text-brand" : "text-ink"
                               }`}
                             >
-                              <span>{sub.label}</span>
+                              {/* Line-icoon per productsoort, kleurt mee met de categorie */}
+                              <CategorieIcon
+                                naam={sub.icoon}
+                                className="h-5 w-5 shrink-0"
+                                style={{ color: cat.kleur }}
+                              />
+                              <span className="flex-1">{sub.label}</span>
                               <span className="text-xs text-ink-2">
                                 {sub.uitvoeringen}
                               </span>
