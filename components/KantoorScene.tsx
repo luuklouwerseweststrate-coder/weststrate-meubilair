@@ -1,5 +1,3 @@
-import { slugify } from "@/lib/types";
-
 // Interactieve isometrische kantoor-scène voor de homepage. De scène is een
 // ingerichte kantoorhoek: de bureaustoel staat vóór het bureau (één werkplek),
 // de vergadertafel staat met vergaderstoelen in een eigen hoek, de kast
@@ -208,37 +206,113 @@ function plant() {
   );
 }
 
-// Per hoofdcategorie: bouwer, plek (translate) en het middelpunt van de
-// grondgloed (lokale iso-coördinaten → schermpunt). Layout = ingerichte hoek:
-// kast links-achter, werkplek (bureau + bureaustoel) in het midden,
-// scheidingswand als verdeler, vergadertafel rechts.
-const SOORTEN: Record<
-  string,
-  { bouw: () => string; tx: number; ty: number; gx: number; gy: number }
-> = {
-  "Kasten & opbergen": { bouw: kast, tx: 215, ty: 150, gx: 1.15, gy: 0.8 },
-  Bureaus: { bouw: bureau, tx: 360, ty: 235, gx: 2, gy: 1.1 },
-  Stoelen: { bouw: stoel, tx: 470, ty: 330, gx: 0.85, gy: 0.85 },
-  Accessoires: { bouw: accessoire, tx: 660, ty: 165, gx: 1.6, gy: 0.1 },
-  Tafels: { bouw: tafel, tx: 760, ty: 270, gx: 2.5, gy: 1.3 },
-};
-
-export interface SceneCategorie {
-  hoofd: string;
+// De klikbare punten in de scène. Elk punt is een eigen meubel met een eigen
+// bestemming. Stoelen splitsen we bewust: de bureaustoel (aan het bureau) gaat
+// naar de subcategorie Bureaustoelen, de vergaderstoelen (aan de tafel) naar
+// Vergaderstoelen. De overige categorieën linken naar hun hoofd-sectie op de
+// catalogus, waar je alle subcategorieën ziet.
+//
+// Velden: bouw = meubel-tekenaar, tx/ty = plek (translate), gx/gy = midden van
+// de grondgloed (lokale iso-coördinaten), href = bestemming, kleur = accent,
+// label = tekst onder het meubel (leeg = geen label, bv. de 2e vergaderstoel).
+interface Klikpunt {
+  id: string;
+  label: string;
+  href: string;
   kleur: string;
+  bouw: () => string;
+  tx: number;
+  ty: number;
+  gx: number;
+  gy: number;
 }
 
-export default function KantoorScene({
-  categorieen,
-}: {
-  categorieen: SceneCategorie[];
-}) {
-  // Alleen categorieën waarvoor we een meubel hebben; van achter naar voren
-  // tekenen (op ty) voor de juiste overlap.
-  const items = categorieen
-    .filter((c) => SOORTEN[c.hoofd])
-    .map((c) => ({ ...c, ...SOORTEN[c.hoofd] }))
-    .sort((a, b) => a.ty - b.ty);
+const KLIKPUNTEN: Klikpunt[] = [
+  // Layout = ingerichte hoek: kast links-achter, werkplek (bureau + bureaustoel)
+  // in het midden, scheidingswand als verdeler, vergadertafel + stoelen rechts.
+  {
+    id: "kasten",
+    label: "Kasten & opbergen",
+    href: "/catalogus#kasten-opbergen",
+    kleur: "#F29828",
+    bouw: kast,
+    tx: 215,
+    ty: 150,
+    gx: 1.15,
+    gy: 0.8,
+  },
+  {
+    id: "bureaus",
+    label: "Bureaus",
+    href: "/catalogus#bureaus",
+    kleur: "#A1367E",
+    bouw: bureau,
+    tx: 360,
+    ty: 235,
+    gx: 2,
+    gy: 1.1,
+  },
+  {
+    id: "bureaustoelen",
+    label: "Bureaustoelen",
+    href: "/catalogus/bureaustoelen",
+    kleur: "#01B6E3",
+    bouw: stoel,
+    tx: 470,
+    ty: 330,
+    gx: 0.85,
+    gy: 0.85,
+  },
+  {
+    id: "accessoires",
+    label: "Accessoires",
+    href: "/catalogus#accessoires",
+    kleur: "#6E4B9E",
+    bouw: accessoire,
+    tx: 660,
+    ty: 165,
+    gx: 1.6,
+    gy: 0.1,
+  },
+  {
+    id: "tafels",
+    label: "Tafels",
+    href: "/catalogus#tafels",
+    kleur: "#009D46",
+    bouw: tafel,
+    tx: 760,
+    ty: 270,
+    gx: 2.5,
+    gy: 1.3,
+  },
+  {
+    id: "vergaderstoelen",
+    label: "Vergaderstoelen",
+    href: "/catalogus/vergaderstoelen",
+    kleur: "#01B6E3",
+    bouw: vergaderstoel,
+    tx: 690,
+    ty: 360,
+    gx: 0.6,
+    gy: 0.6,
+  },
+  {
+    // Tweede vergaderstoel: zelfde bestemming, zonder eigen label (anders dubbel).
+    id: "vergaderstoelen-2",
+    label: "",
+    href: "/catalogus/vergaderstoelen",
+    kleur: "#01B6E3",
+    bouw: vergaderstoel,
+    tx: 895,
+    ty: 350,
+    gx: 0.6,
+    gy: 0.6,
+  },
+];
+
+export default function KantoorScene() {
+  // Van achter naar voren tekenen (op ty) voor de juiste overlap.
+  const items = [...KLIKPUNTEN].sort((a, b) => a.ty - b.ty);
 
   return (
     <svg
@@ -258,14 +332,13 @@ export default function KantoorScene({
       />
 
       {items.map((m) => {
-        const slug = slugify(m.hoofd);
         const [gx, gy] = P(m.gx, m.gy, 0);
         return (
           <a
-            key={m.hoofd}
-            href={`/catalogus#${slug}`}
+            key={m.id}
+            href={m.href}
             className="group cursor-pointer outline-none"
-            aria-label={`${m.hoofd} bekijken`}
+            aria-label={`${m.label || "Vergaderstoelen"} bekijken`}
           >
             <g transform={`translate(${m.tx},${m.ty})`}>
               {/* Gekleurde gloed onder het meubel (alleen bij hover/focus) */}
@@ -283,32 +356,23 @@ export default function KantoorScene({
                 dangerouslySetInnerHTML={{ __html: m.bouw() }}
               />
               {/* Label: neutraal, kleurt mee bij hover */}
-              <text
-                x={0}
-                y={60}
-                textAnchor="middle"
-                className="fill-ink-2 transition-colors duration-300 group-hover:[fill:var(--c)] group-focus-visible:[fill:var(--c)]"
-                style={{ ["--c" as string]: m.kleur }}
-                fontSize="15"
-                fontWeight="700"
-              >
-                {m.hoofd}
-              </text>
+              {m.label && (
+                <text
+                  x={0}
+                  y={60}
+                  textAnchor="middle"
+                  className="fill-ink-2 transition-colors duration-300 group-hover:[fill:var(--c)] group-focus-visible:[fill:var(--c)]"
+                  style={{ ["--c" as string]: m.kleur }}
+                  fontSize="15"
+                  fontWeight="700"
+                >
+                  {m.label}
+                </text>
+              )}
             </g>
           </a>
         );
       })}
-
-      {/* Vergaderstoelen bij de tafel — sfeer, niet klikbaar. Na de meubels
-          getekend zodat ze vóór de tafel staan. */}
-      <g
-        transform="translate(690,360)"
-        dangerouslySetInnerHTML={{ __html: vergaderstoel() }}
-      />
-      <g
-        transform="translate(895,350)"
-        dangerouslySetInnerHTML={{ __html: vergaderstoel() }}
-      />
     </svg>
   );
 }

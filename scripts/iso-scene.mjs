@@ -239,7 +239,7 @@ function logoW(x, y, w, h, sw) {
 const MEUBELS = [
   { bouw: kast, tx: 215, ty: 150, label: "Kasten", kleur: "#F29828" },
   { bouw: bureau, tx: 360, ty: 235, label: "Bureaus", kleur: "#A1367E" },
-  { bouw: stoel, tx: 470, ty: 330, label: "Stoelen", kleur: "#01B6E3" },
+  { bouw: stoel, tx: 470, ty: 330, label: "Bureaustoelen", kleur: "#01B6E3" },
   { bouw: accessoire, tx: 660, ty: 165, label: "Accessoires", kleur: "#6E4B9E" },
   { bouw: tafel, tx: 760, ty: 270, label: "Tafels", kleur: "#009D46" },
 ];
@@ -262,7 +262,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}">
 <ellipse cx="540" cy="295" rx="430" ry="125" fill="#EFEFEA" opacity="0.9"/>
 <g transform="translate(250,330)">${plant()}</g>
 ${scene}
-<g transform="translate(690,360)">${vergaderstoel()}</g>
+<g transform="translate(690,360)">${vergaderstoel()}<text x="0" y="60" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="700" fill="#01B6E3">Vergaderstoelen</text></g>
 <g transform="translate(895,350)">${vergaderstoel()}</g>
 </svg>`;
 

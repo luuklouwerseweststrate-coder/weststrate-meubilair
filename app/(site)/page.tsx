@@ -1,13 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  getCategorieStructuur,
   getProjecten,
   getPosts,
   getCatalogusStats,
   getBrancheKaarten,
 } from "@/lib/data";
-import { HOOFD_VOLGORDE, HOOFD_META } from "@/lib/categorieen";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
 import BrancheCard from "@/components/BrancheCard";
@@ -18,11 +16,6 @@ import Reveal from "@/components/motion/Reveal";
 import SpecialistCTA from "@/components/SpecialistCTA";
 
 export const revalidate = 3600; // ISR: elk uur verversen
-
-// Accentkleur + tagline per hoofdcategorie komen uit de centrale mapping
-// (lib/categorieen.ts), dezelfde bron als de zwarte categoriebalk. Zo
-// corresponderen kleur én volgorde van deze kaarten met die balk.
-const HOOFD_FALLBACK = { kleur: "#673981", tagline: "Bekijk het assortiment." };
 
 const DISCIPLINES = [
   {
@@ -43,14 +36,12 @@ const DISCIPLINES = [
 ];
 
 export default async function HomePage() {
-  const [structuur, projecten, posts, stats, brancheKaarten] =
-    await Promise.all([
-      getCategorieStructuur(),
-      getProjecten(),
-      getPosts(),
-      getCatalogusStats(),
-      getBrancheKaarten(),
-    ]);
+  const [projecten, posts, stats, brancheKaarten] = await Promise.all([
+    getProjecten(),
+    getPosts(),
+    getCatalogusStats(),
+    getBrancheKaarten(),
+  ]);
   const uitgelichteProjecten = projecten.slice(0, 3);
   // Echte opdrachtgevers uit de projecten, ontdubbeld en zonder onze eigen
   // showroom. Dit is concreet bewijs voor de pitch: serieuze namen.
@@ -219,20 +210,7 @@ export default async function HomePage() {
           </p>
         </Reveal>
         <Reveal>
-          <KantoorScene
-            categorieen={[...structuur]
-              .map((g) => g.hoofd)
-              .filter((h, i, arr) => arr.indexOf(h) === i)
-              .sort(
-                (a, b) =>
-                  (HOOFD_VOLGORDE.indexOf(a) + 1 || 99) -
-                  (HOOFD_VOLGORDE.indexOf(b) + 1 || 99)
-              )
-              .map((hoofd) => ({
-                hoofd,
-                kleur: (HOOFD_META[hoofd] ?? HOOFD_FALLBACK).kleur,
-              }))}
-          />
+          <KantoorScene />
         </Reveal>
       </section>
 
