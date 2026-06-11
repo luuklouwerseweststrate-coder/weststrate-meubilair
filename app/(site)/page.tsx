@@ -328,7 +328,7 @@ export default async function HomePage() {
           </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
             {uitgelichtePosts.map((p, i) => (
-              <Reveal key={p._id} delay={i * 0.08}>
+              <Reveal key={p._id} delay={i * 0.08} className="h-full">
                 <PostCard post={p} />
               </Reveal>
             ))}

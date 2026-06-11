@@ -17,7 +17,7 @@ export default function PostCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-rule bg-white transition-shadow hover:shadow-lg"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-rule bg-white transition-shadow hover:shadow-lg"
     >
       <div className="relative aspect-[3/2] overflow-hidden">
         {post.image ? (
