@@ -87,14 +87,17 @@ function bureau() {
   s += box(1.5, 0.35, t, 0.8, 0.3, 0.16, DARK); // monitorvoet
   s += box(1.83, 0.45, t + 0.16, 0.12, 0.12, 0.42, DARK); // nek
   s += box(1.1, 0.3, t + 0.5, 1.55, 0.14, 0.92, SCREEN); // scherm
-  s += box(2.85, 1.5, t, 0.26, 0.26, 0.3, MUG); // mok
   return s;
 }
 
 function stoel() {
-  let s = schaduw(0.75, 0.75, 30);
-  // Stervoet: vijf slanke spaken met wieltjes vanuit het midden.
-  const c = P(0.75, 0.75, 0.06);
+  // Bureaustoel: stervoet met wieltjes, gasveer, zitting en hoge rugleuning.
+  // De rugleuning staat aan de achterkant (kleine x/y) zodat de stoel naar de
+  // kijker/het bureau toe "open" staat.
+  const cx = 0.85,
+    cy = 0.85;
+  let s = schaduw(cx, cy, 30);
+  const c = P(cx, cy, 0.06);
   for (let i = 0; i < 5; i++) {
     const a = (i / 5) * Math.PI * 2 + 0.3;
     const ex = +c[0] + Math.cos(a) * 30;
@@ -102,12 +105,32 @@ function stoel() {
     s += `<line x1="${c[0]}" y1="${c[1]}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(
       1
     )}" stroke="${DARK[1]}" stroke-width="4" stroke-linecap="round"/>`;
-    s += `<circle cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" r="3.5" fill="${DARK[2]}"/>`;
+    s += `<circle cx="${ex.toFixed(1)}" cy="${ey.toFixed(
+      1
+    )}" r="3.5" fill="${DARK[2]}"/>`;
   }
-  s += box(0.62, 0.62, 0.06, 0.26, 0.26, 0.78, DARK); // gasveer
-  s += box(-0.1, -0.1, 0.84, 1.7, 1.7, 0.34, GREY); // zitting (breed)
-  // Rugleuning: net achter de zitting, iets hoger dan breed.
-  s += box(0.12, 1.46, 1.18, 1.4, 0.2, 1.5, GREY);
+  s += box(cx - 0.13, cy - 0.13, 0.06, 0.26, 0.26, 0.7, DARK); // gasveer
+  s += box(0.1, 0.1, 0.76, 1.5, 1.5, 0.28, GREY); // zitting
+  // Rugleuning aan de achterkant (kleine y), licht naar achteren.
+  s += box(0.18, 0.12, 1.04, 1.34, 0.22, 1.45, GREY);
+  return s;
+}
+
+function vergaderstoel() {
+  // Eenvoudige vergaderstoel: vier poten, zitting, rugleuning. Geen wieltjes,
+  // duidelijk een ander silhouet dan de bureaustoel.
+  const w = 1.2,
+    d = 1.2;
+  let s = schaduw(w / 2, d / 2, 18);
+  for (const [x, y] of [
+    [0.05, 0.05],
+    [w - 0.17, 0.05],
+    [0.05, d - 0.17],
+    [w - 0.17, d - 0.17],
+  ])
+    s += box(x, y, 0, 0.12, 0.12, 0.92, DARK);
+  s += box(0, 0, 0.92, w, d, 0.16, GREY); // zitting
+  s += box(0.05, 0.05, 1.08, w - 0.1, 0.16, 1.0, GREY); // rugleuning (achter)
   return s;
 }
 
@@ -216,8 +239,8 @@ function logoW(x, y, w, h, sw) {
 const MEUBELS = [
   { bouw: kast, tx: 215, ty: 150, label: "Kasten", kleur: "#F29828" },
   { bouw: bureau, tx: 360, ty: 235, label: "Bureaus", kleur: "#A1367E" },
-  { bouw: stoel, tx: 442, ty: 298, label: "Stoelen", kleur: "#01B6E3" },
-  { bouw: accessoire, tx: 690, ty: 175, label: "Accessoires", kleur: "#6E4B9E" },
+  { bouw: stoel, tx: 470, ty: 330, label: "Stoelen", kleur: "#01B6E3" },
+  { bouw: accessoire, tx: 660, ty: 165, label: "Accessoires", kleur: "#6E4B9E" },
   { bouw: tafel, tx: 760, ty: 270, label: "Tafels", kleur: "#009D46" },
 ];
 
@@ -237,12 +260,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}">
 <rect width="${W}" height="${H}" fill="#F7F7F4"/>
 <ellipse cx="540" cy="285" rx="470" ry="150" fill="#FFFFFF" opacity="0.7"/>
 <ellipse cx="540" cy="295" rx="430" ry="125" fill="#EFEFEA" opacity="0.9"/>
-<g transform="translate(360,235)">${kleed(-0.9, -0.9, 5.6, 4.4, "#D9C7E0")}</g>
-<g transform="translate(760,270)">${kleed(-0.7, -0.7, 6, 4, "#CFE6D6")}</g>
 <g transform="translate(250,330)">${plant()}</g>
 ${scene}
-<g opacity="0.92">${logoW(956, 392, 92, 56, 13)}</g>
-<text x="1002" y="466" text-anchor="end" font-family="sans-serif" font-size="13" font-weight="800" fill="#5A5560" letter-spacing="0.5">weststrate</text>
+<g transform="translate(690,360)">${vergaderstoel()}</g>
+<g transform="translate(895,350)">${vergaderstoel()}</g>
 </svg>`;
 
 writeFileSync(new URL("./iso-scene-preview.svg", import.meta.url), svg);
