@@ -33,6 +33,7 @@ const KLEUR_REGELS: KleurRegel[] = [
   { trefwoorden: ["groen", "green"], hex: "#3B7A3B" },
   { trefwoorden: ["rood", "red"], hex: "#B23A3A" },
   { trefwoorden: ["oranje", "orange"], hex: "#E07A2E" },
+  { trefwoorden: ["geel", "yellow"], hex: "#D4AF37" },
   { trefwoorden: ["taupe"], hex: "#8B7E6A" },
   { trefwoorden: ["beige"], hex: "#D8C9A8" },
   // Neutralen
@@ -63,7 +64,7 @@ export function kleurVoor(waarde: string): string | null {
 // Bepaalt of een optiegroep als kleurstalen getoond moet worden: ofwel het label
 // duidt op kleur/stoffering, ofwel de meeste waarden zijn herkenbare kleuren.
 export function isKleurGroep(label: string, waarden: string[]): boolean {
-  if (/kleur|stoffering|frame|blad/i.test(label)) return true;
+  if (/kleur|stoffering|frame|blad|formaat/i.test(label)) return true;
   const herkend = waarden.filter((w) => kleurVoor(w) !== null).length;
   return waarden.length > 0 && herkend / waarden.length >= 0.6;
 }
