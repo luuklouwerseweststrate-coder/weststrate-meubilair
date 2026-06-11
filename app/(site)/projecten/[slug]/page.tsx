@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProject, getProjecten } from "@/lib/data";
 import Reveal from "@/components/motion/Reveal";
+import ProjectHero from "@/components/ProjectHero";
 import ProjectGallery from "@/components/ProjectGallery";
 import Accountmanager from "@/components/Accountmanager";
 
@@ -59,36 +59,13 @@ export default async function ProjectPage({
 
   return (
     <article>
-      {/* ── Full-bleed hero ────────────────────────────── */}
-      <div className="relative h-[70vh] min-h-[440px] w-full overflow-hidden">
-        {project.image && (
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-ink/10" />
-        <div className="absolute inset-x-0 bottom-0">
-          <div className="mx-auto max-w-content px-5 pb-12">
-            <Reveal className="text-white" y={24}>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
-                {meta.join(" · ")}
-              </p>
-              <h1 className="mt-3 max-w-3xl text-3xl leading-[1.08] text-white md:text-5xl">
-                {project.title}
-              </h1>
-              {project.klant && (
-                <p className="mt-4 text-lg text-white/85">{project.klant}</p>
-              )}
-            </Reveal>
-          </div>
-        </div>
-        <div className="merkbalk absolute bottom-0 left-0" />
-      </div>
+      {/* ── Parallax hero ──────────────────────────────── */}
+      <ProjectHero
+        image={project.image}
+        title={project.title}
+        klant={project.klant}
+        meta={meta}
+      />
 
       <div className="mx-auto max-w-content px-5 py-14">
         <nav className="mb-12 text-sm text-ink-2">
@@ -123,15 +100,17 @@ export default async function ProjectPage({
           {/* Zijbalk: cijfers + categorieën (sticky) */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
             {project.cijfers.length > 0 && (
-              <Reveal className="rounded-2xl border border-rule bg-white p-6">
-                <p className="kicker mb-4">In cijfers</p>
-                <dl className="space-y-5">
+              <Reveal className="overflow-hidden rounded-2xl border border-rule bg-ink p-7 text-white">
+                <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
+                  Dit project in cijfers
+                </p>
+                <dl className="space-y-6">
                   {project.cijfers.map((c, i) => (
-                    <div key={i}>
-                      <dt className="font-display text-3xl font-extrabold text-brand">
+                    <div key={i} className="border-l-2 border-brand pl-4">
+                      <dt className="font-display text-4xl font-extrabold leading-none text-white">
                         {c.waarde}
                       </dt>
-                      <dd className="text-sm text-ink-2">{c.label}</dd>
+                      <dd className="mt-1.5 text-sm text-white/70">{c.label}</dd>
                     </div>
                   ))}
                 </dl>
@@ -163,8 +142,18 @@ export default async function ProjectPage({
 
         {/* ── Beeldgalerij ─────────────────────────────── */}
         {galerij.length > 0 && (
-          <Reveal className="mt-16">
-            <p className="kicker mb-5">In beeld</p>
+          <Reveal className="mt-20">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <div>
+                <p className="kicker mb-2">In beeld</p>
+                <h2 className="text-2xl md:text-3xl">
+                  {galerij.length} foto&apos;s van deze inrichting
+                </h2>
+              </div>
+              <p className="hidden text-sm text-ink-2 sm:block">
+                Klik een foto om te vergroten en door te bladeren
+              </p>
+            </div>
             <ProjectGallery images={galerij} alt={project.title} />
           </Reveal>
         )}
