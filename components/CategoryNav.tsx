@@ -105,17 +105,21 @@ export default function CategoryNav({
                             <Link
                               href={`/catalogus/${sub.slug}`}
                               onClick={() => setOpen(null)}
-                              className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors hover:bg-paper-2 ${
+                              className={`group/sub flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm transition-colors hover:bg-paper-2 ${
                                 subActief ? "font-semibold text-brand" : "text-ink"
                               }`}
                             >
-                              {/* Line-icoon per productsoort, kleurt mee met de categorie */}
-                              <CategorieIcon
-                                naam={sub.icoon}
-                                className="h-5 w-5 shrink-0"
-                                style={{ color: cat.kleur }}
-                              />
-                              <span className="flex-1">{sub.label}</span>
+                              {/* Pictogram in een zacht gekleurd tegeltje (categoriekleur) */}
+                              <span
+                                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors"
+                                style={{
+                                  background: `${cat.kleur}14`,
+                                  color: cat.kleur,
+                                }}
+                              >
+                                <CategorieIcon naam={sub.icoon} className="h-[22px] w-[22px]" />
+                              </span>
+                              <span className="flex-1 leading-tight">{sub.label}</span>
                               <span className="text-xs text-ink-2">
                                 {sub.uitvoeringen}
                               </span>

@@ -54,7 +54,7 @@ interface HoofdMeta {
 }
 
 export const HOOFD_META: Record<string, HoofdMeta> = {
-  Bureaus: { tagline: "Bureaus, zit-sta & flexwerkplekken", kleur: "#A1367E" },
+  Bureaus: { tagline: "Bureaus, zit-sta & benchbureaus", kleur: "#A1367E" },
   Stoelen: { tagline: "Bureau-, vergader- & kantinestoelen", kleur: "#01B6E3" },
   Tafels: { tagline: "Vergader- & klaptafels", kleur: "#009D46" },
   "Kasten & opbergen": {
@@ -76,7 +76,9 @@ const HOOFD_FALLBACK: HoofdMeta = {
 // subcategorieën houden gewoon hun originele naam.
 const SUB_LABEL: Record<string, string> = {
   "Terras- / Kantinestoelen": "Terras- & kantinestoelen",
-  "Flex dynamisch werken": "Flex & dynamisch werken",
+  // "Flex dynamisch werken" is in de Swan-data een vaag label; het zijn in
+  // werkelijkheid benchbureaus (meerdere werkplekken aan elkaar voor flexkantoren).
+  "Flex dynamisch werken": "Benchbureaus",
   "Persoonlijke lade": "Persoonlijke lades",
 };
 
@@ -90,7 +92,7 @@ export function subLabel(sub: string): string {
 const SUB_ICOON: Record<string, string> = {
   Bureaus: "bureau",
   "Zit-sta bureaus": "zitsta",
-  "Flex dynamisch werken": "flex",
+  "Flex dynamisch werken": "bench",
   Bureaustoelen: "bureaustoel",
   Vergaderstoelen: "stoel",
   "Terras- / Kantinestoelen": "kruk",
@@ -107,6 +109,18 @@ const SUB_ICOON: Record<string, string> = {
 
 export function subIcoon(sub: string): string {
   return SUB_ICOON[sub] ?? "meubel";
+}
+
+// Gewenste volgorde van subcategorieën binnen hun hoofdcategorie. We hergebruiken
+// de volgorde waarin SUB_NAAR_HOOFD is gedefinieerd: die staat al logisch
+// (kasten vóór ladenblokken, vergadertafels vóór klaptafels). Onbekende subs
+// krijgen een hoge rang en belanden zo achteraan.
+const SUB_RANG: Record<string, number> = Object.fromEntries(
+  Object.keys(SUB_NAAR_HOOFD).map((sub, i) => [sub, i])
+);
+
+export function subRang(sub: string): number {
+  return SUB_RANG[sub] ?? 999;
 }
 
 // ── Genavigeerde structuur (klein, veilig om naar de client te sturen) ──
@@ -141,6 +155,7 @@ export function ordenNav(structuur: CategorieGroep[]): NavHoofd[] {
   return volgorde.map((hoofd) => {
     const groep = opNaam.get(hoofd)!;
     const meta = HOOFD_META[hoofd] ?? HOOFD_FALLBACK;
+    // De subs komen al gesorteerd uit getCategorieStructuur (op subRang).
     const subs = groep.subs.map((s) => ({
       label: subLabel(s.sub),
       slug: s.slug,

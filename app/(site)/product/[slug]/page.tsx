@@ -44,7 +44,7 @@ function productJsonLd(product: Awaited<ReturnType<typeof getProduct>>) {
     description: product.shortDescription,
     image: product.image || undefined,
     sku: product.variants[0]?.articleNumber,
-    category: product.subcategory,
+    category: subLabel(product.subcategory),
     brand: { "@type": "Brand", name: "Weststrate" },
     offers: {
       "@type": "AggregateOffer",

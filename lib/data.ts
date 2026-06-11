@@ -15,7 +15,7 @@ import type {
   BlogPost,
   ZoekItem,
 } from "./types";
-import { subLabel, SUB_NAAR_HOOFD } from "./categorieen";
+import { subLabel, SUB_NAAR_HOOFD, subRang } from "./categorieen";
 import { BRANCHES, type Branche, type BrancheFilter } from "./branches";
 import { JOHN } from "@/components/Accountmanager";
 import catalogus from "@/data/swan-catalogus.json";
@@ -130,7 +130,9 @@ export async function getCategorieStructuur(): Promise<CategorieGroep[]> {
   return [...groepen.entries()]
     .map(([hoofd, subs]) => ({
       hoofd,
-      subs: [...subs.values()].sort((a, b) => a.sub.localeCompare(b.sub)),
+      // Logische volgorde (kasten vóór ladenblokken, vergadertafels vóór
+      // klaptafels) i.p.v. alfabetisch — zie subRang in lib/categorieen.
+      subs: [...subs.values()].sort((a, b) => subRang(a.sub) - subRang(b.sub)),
     }))
     .sort((a, b) => a.hoofd.localeCompare(b.hoofd));
 }
