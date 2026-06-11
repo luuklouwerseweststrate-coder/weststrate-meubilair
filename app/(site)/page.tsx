@@ -7,14 +7,13 @@ import {
   getCatalogusStats,
   getBrancheKaarten,
 } from "@/lib/data";
-import { slugify } from "@/lib/types";
 import { HOOFD_VOLGORDE, HOOFD_META } from "@/lib/categorieen";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
-import ProductMedia from "@/components/ProductMedia";
 import BrancheCard from "@/components/BrancheCard";
 import StatsBand from "@/components/StatsBand";
 import ShowroomShowcase from "@/components/ShowroomShowcase";
+import KantoorScene from "@/components/KantoorScene";
 import Reveal from "@/components/motion/Reveal";
 import SpecialistCTA from "@/components/SpecialistCTA";
 
@@ -212,48 +211,29 @@ export default async function HomePage() {
 
       {/* ── Categorieën visueel ────────────────────────── */}
       <section className="mx-auto max-w-content px-5 py-20">
-        <Reveal className="mb-10">
+        <Reveal className="mb-4 text-center">
           <p className="kicker mb-3">Het assortiment</p>
           <h2 className="text-3xl md:text-4xl">Waaruit je kiest</h2>
+          <p className="mx-auto mt-3 max-w-xl text-ink-2">
+            Klik op een meubelstuk om die categorie te bekijken.
+          </p>
         </Reveal>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[...structuur]
-            .sort(
-              (a, b) =>
-                (HOOFD_VOLGORDE.indexOf(a.hoofd) + 1 || 99) -
-                (HOOFD_VOLGORDE.indexOf(b.hoofd) + 1 || 99)
-            )
-            .map((groep, i) => {
-            const info = HOOFD_META[groep.hoofd] ?? HOOFD_FALLBACK;
-            const beeld = groep.subs[0]?.beeld;
-            return (
-              <Reveal key={groep.hoofd} delay={i * 0.06}>
-                <Link
-                  href={`/catalogus#${slugify(groep.hoofd)}`}
-                  className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-white"
-                >
-                  <ProductMedia
-                    src={beeld}
-                    alt={groep.hoofd}
-                    naam={groep.hoofd}
-                    categorie={groep.hoofd}
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                    className="object-contain p-8 transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                    <span
-                      className="block h-1 w-10 rounded-full"
-                      style={{ background: info.kleur }}
-                    />
-                    <h3 className="mt-3 text-2xl text-white">{groep.hoofd}</h3>
-                    <p className="mt-1 text-sm text-white/80">{info.tagline}</p>
-                  </div>
-                </Link>
-              </Reveal>
-            );
-          })}
-        </div>
+        <Reveal>
+          <KantoorScene
+            categorieen={[...structuur]
+              .map((g) => g.hoofd)
+              .filter((h, i, arr) => arr.indexOf(h) === i)
+              .sort(
+                (a, b) =>
+                  (HOOFD_VOLGORDE.indexOf(a) + 1 || 99) -
+                  (HOOFD_VOLGORDE.indexOf(b) + 1 || 99)
+              )
+              .map((hoofd) => ({
+                hoofd,
+                kleur: (HOOFD_META[hoofd] ?? HOOFD_FALLBACK).kleur,
+              }))}
+          />
+        </Reveal>
       </section>
 
       {/* ── Werkplek samenstellen (interactieve CTA) ───── */}
