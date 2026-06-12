@@ -1,47 +1,5 @@
 import { groq } from "next-sanity";
 
-// Alle producten, gesorteerd op handmatige volgorde (orderRank) per categorie.
-export const ALLE_PRODUCTEN = groq`
-  *[_type == "product"] | order(orderRank asc) {
-    "_id": _id,
-    name,
-    "slug": slug.current,
-    articleNumber,
-    category,
-    shortDescription,
-    "description": pt::text(description),
-    basePrice,
-    "images": images[].asset->url,
-    specs[]{ label, value },
-    optionGroups[]{
-      label,
-      required,
-      choices[]{ label, priceDelta }
-    }
-  }
-`;
-
-// Eén product op slug.
-export const PRODUCT_OP_SLUG = groq`
-  *[_type == "product" && slug.current == $slug][0] {
-    "_id": _id,
-    name,
-    "slug": slug.current,
-    articleNumber,
-    category,
-    shortDescription,
-    "description": pt::text(description),
-    basePrice,
-    "images": images[].asset->url,
-    specs[]{ label, value },
-    optionGroups[]{
-      label,
-      required,
-      choices[]{ label, priceDelta }
-    }
-  }
-`;
-
 // Site-instellingen (singleton).
 export const SITE_SETTINGS = groq`
   *[_type == "settings"][0] {
@@ -70,6 +28,7 @@ const PROJECT_VELDEN = groq`
   resultaat,
   cijfers[]{ waarde, label },
   "image": image.asset->url,
+  "images": images[].asset->url,
   categorieen
 `;
 
@@ -81,7 +40,9 @@ export const PROJECT_OP_SLUG = groq`
   *[_type == "project" && slug.current == $slug][0] { ${PROJECT_VELDEN} }
 `;
 
-// Blogartikelen (nieuwste eerst).
+// Blogartikelen (nieuwste eerst). De body komt als ruwe Portable Text
+// (block-array) binnen; lib/data.ts zet die om naar het platte tekstformaat
+// dat de blogpagina rendert (alinea's met \n\n ertussen, "## " = tussenkop).
 const POST_VELDEN = groq`
   "_id": _id,
   title,
@@ -90,8 +51,9 @@ const POST_VELDEN = groq`
   thema,
   leestijd,
   samenvatting,
-  "body": pt::text(body),
-  "image": image.asset->url
+  body,
+  "image": image.asset->url,
+  faq[]{ vraag, antwoord }
 `;
 
 export const ALLE_POSTS = groq`
@@ -100,4 +62,15 @@ export const ALLE_POSTS = groq`
 
 export const POST_OP_SLUG = groq`
   *[_type == "post" && slug.current == $slug][0] { ${POST_VELDEN} }
+`;
+
+// Product-overrides (Productbeheer): de bijstuur-laag bovenop de Swan-data.
+// We halen alleen documenten op die echt iets overschrijven (offline of een
+// prijs) — voor de rest geldt de Swan-catalogus ongewijzigd.
+export const ALLE_PRODUCT_OVERRIDES = groq`
+  *[_type == "productOverride" && (offline == true || count(prijzen) > 0)] {
+    productSlug,
+    offline,
+    prijzen[]{ articleNumber, prijs }
+  }
 `;

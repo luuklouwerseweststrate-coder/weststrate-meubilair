@@ -4,12 +4,12 @@ import Image from "next/image";
 import { getSettings } from "@/lib/data";
 import VideoEmbed from "@/components/VideoEmbed";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Over ons",
   description:
-    "Weststrate richt complete ruimtes in: advies, levering en montage uit één hand.",
+    "Weststrate richt complete ruimtes in: advies, levering en montage uit Ã©Ã©n hand.",
 };
 
 const WAARDEN = [
@@ -19,11 +19,11 @@ const WAARDEN = [
   },
   {
     titel: "Toegankelijk",
-    tekst: "Korte lijnen. Je hebt één aanspreekpunt van advies tot oplevering.",
+    tekst: "Korte lijnen. Je hebt Ã©Ã©n aanspreekpunt van advies tot oplevering.",
   },
   {
     titel: "Breed",
-    tekst: "Van losse stoel tot complete inrichting, alles uit één hand.",
+    tekst: "Van losse stoel tot complete inrichting, alles uit Ã©Ã©n hand.",
   },
   {
     titel: "Betrouwbaar",

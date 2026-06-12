@@ -4,12 +4,12 @@ import { GROEP_LABEL, type BrancheGroep } from "@/lib/branches";
 import BrancheCard from "@/components/BrancheCard";
 import Reveal from "@/components/motion/Reveal";
 
-export const revalidate = 3600; // ISR: elk uur verversen
+export const revalidate = 300; // ISR: elke 5 minuten verversen (CMS-wijzigingen snel live)
 
 export const metadata: Metadata = {
   title: "Branches | Inrichting per branche en ruimte",
   description:
-    "Weststrate richt complete ruimtes in voor kantoren, zorg, onderwijs en horeca. Van kantine en vergaderruimte tot nieuwbouw en renovatie, met advies, levering en montage uit één hand.",
+    "Weststrate richt complete ruimtes in voor kantoren, zorg, onderwijs en horeca. Van kantine en vergaderruimte tot nieuwbouw en renovatie, met advies, levering en montage uit Ã©Ã©n hand.",
 };
 
 // Volgorde waarin we de groepen tonen.

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getPosts } from "@/lib/data";
 import PostCard from "@/components/PostCard";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Inspiratie",

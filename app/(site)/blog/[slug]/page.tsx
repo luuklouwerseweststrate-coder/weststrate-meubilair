@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { getPost, getPosts } from "@/lib/data";
 import { siteUrl, jsonLdScript } from "@/lib/seo";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 function datumNL(iso: string): string {
   const d = new Date(iso);

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { client, sanityIngesteld } from "@/sanity/lib/client";
 import {
   SITE_SETTINGS,
@@ -5,11 +6,13 @@ import {
   PROJECT_OP_SLUG,
   ALLE_POSTS,
   POST_OP_SLUG,
+  ALLE_PRODUCT_OVERRIDES,
 } from "@/sanity/lib/queries";
 import { MOCK_SETTINGS, MOCK_PROJECTS, MOCK_POSTS } from "./mock-data";
 import { slugify } from "./types";
 import type {
   Product,
+  ProductOverride,
   SiteSettings,
   Project,
   BlogPost,
@@ -80,13 +83,67 @@ function vanafPrijs(product: Product): number {
   return prijzen.length > 0 ? Math.min(...prijzen) : product.basePrice;
 }
 
+// ── Product-overrides (Sanity "Productbeheer") ───────────────
+// De Swan-data blijft de bron, maar via Sanity kan per product worden
+// bijgestuurd: offline halen (bv. geen voorraad) of variantprijzen
+// overschrijven. Zonder Sanity, bij fouten of zonder ingevulde overrides
+// geldt de Swan-catalogus ongewijzigd. cache() dedupliceert de fetch
+// binnen één render (veel functies hieronder hebben de lijst nodig).
+const getOverrides = cache(async (): Promise<ProductOverride[]> => {
+  if (!sanityIngesteld) return [];
+  try {
+    const data = await client.fetch<ProductOverride[]>(ALLE_PRODUCT_OVERRIDES);
+    return data ?? [];
+  } catch {
+    return [];
+  }
+});
+
+// Past één override toe op één product. null = offline gehaald.
+function pasOverrideToe(
+  product: Product,
+  override?: ProductOverride
+): Product | null {
+  if (!override) return product;
+  if (override.offline) return null;
+  const regels = override.prijzen ?? [];
+  if (regels.length === 0) return product;
+
+  // Vervang de prijs van de uitvoeringen waarvoor een regel bestaat en
+  // herbereken de "vanaf"-prijs, zodat tegels en offerte meebewegen.
+  const nieuwePrijs = new Map(regels.map((r) => [r.articleNumber, r.prijs]));
+  const variants = product.variants.map((v) =>
+    nieuwePrijs.has(v.articleNumber)
+      ? { ...v, price: nieuwePrijs.get(v.articleNumber)! }
+      : v
+  );
+  const prijzen = variants.map((v) => v.price).filter((p) => p > 0);
+  return {
+    ...product,
+    variants,
+    basePrice: prijzen.length > 0 ? Math.min(...prijzen) : product.basePrice,
+  };
+}
+
+// De catalogus zoals de site hem toont: Swan-data met overrides verwerkt.
+// Alle publieksfuncties hieronder gaan via deze lijst, zodat een offline
+// product óók uit zoeken, categorieën, branches en de samensteller verdwijnt.
+const getActieveProducten = cache(async (): Promise<Product[]> => {
+  const overrides = await getOverrides();
+  if (overrides.length === 0) return ALLE_PRODUCTEN;
+  const perSlug = new Map(overrides.map((o) => [o.productSlug, o]));
+  return ALLE_PRODUCTEN.map((p) => pasOverrideToe(p, perSlug.get(p.slug)))
+    .filter((p): p is Product => p !== null);
+});
+
 // ── Producten (uit de Swan-catalogus) ────────────────────────
 export async function getProducten(): Promise<Product[]> {
-  return ALLE_PRODUCTEN;
+  return getActieveProducten();
 }
 
 export async function getProduct(slug: string): Promise<Product | null> {
-  return ALLE_PRODUCTEN.find((p) => p.slug === slug) ?? null;
+  const producten = await getActieveProducten();
+  return producten.find((p) => p.slug === slug) ?? null;
 }
 
 // ── Categorie-structuur (dynamisch afgeleid) ─────────────────
@@ -108,7 +165,7 @@ export interface CategorieGroep {
 export async function getCategorieStructuur(): Promise<CategorieGroep[]> {
   const groepen = new Map<string, Map<string, SubcategorieInfo>>();
 
-  for (const p of ALLE_PRODUCTEN) {
+  for (const p of await getActieveProducten()) {
     if (!groepen.has(p.category)) groepen.set(p.category, new Map());
     const subs = groepen.get(p.category)!;
     const bestaand = subs.get(p.subcategory);
@@ -146,16 +203,17 @@ export interface CatalogusStats {
 }
 
 export async function getCatalogusStats(): Promise<CatalogusStats> {
+  const producten = await getActieveProducten();
   const categorieen = new Set<string>();
   const subcategorieen = new Set<string>();
   let uitvoeringen = 0;
-  for (const p of ALLE_PRODUCTEN) {
+  for (const p of producten) {
     categorieen.add(p.category);
     subcategorieen.add(p.subcategory);
     uitvoeringen += p.variants.length;
   }
   return {
-    series: ALLE_PRODUCTEN.length,
+    series: producten.length,
     uitvoeringen,
     categorieen: categorieen.size,
     subcategorieen: subcategorieen.size,
@@ -163,6 +221,8 @@ export async function getCatalogusStats(): Promise<CatalogusStats> {
 }
 
 // Alle subcategorie-slugs (voor generateStaticParams van /catalogus/[categorie]).
+// Bewust de volledige Swan-lijst (zonder overrides): zo blijft elke pagina
+// statisch bestaan, ook als alle producten erin tijdelijk offline staan.
 export async function getSubcategorieSlugs(): Promise<string[]> {
   const slugs = new Set<string>();
   for (const p of ALLE_PRODUCTEN) slugs.add(slugify(p.subcategory));
@@ -173,7 +233,9 @@ export async function getSubcategorieSlugs(): Promise<string[]> {
 export async function getProductenPerSubSlug(
   slug: string
 ): Promise<{ sub: string; hoofd: string; producten: Product[] }> {
-  const producten = ALLE_PRODUCTEN.filter((p) => slugify(p.subcategory) === slug)
+  const alle = await getActieveProducten();
+  const producten = alle
+    .filter((p) => slugify(p.subcategory) === slug)
     // Meeste uitvoeringen eerst (de "rijkste" producten bovenaan), bij gelijk
     // aantal op naam. Dit is de basisvolgorde; de client toont hem als
     // "Aanbevolen" en laat de bezoeker desgewenst anders sorteren.
@@ -223,18 +285,19 @@ function cureer(producten: Product[], max: number): Product[] {
 }
 
 export async function getWerkplekOpties(): Promise<WerkplekSlot[]> {
+  const alle = await getActieveProducten();
   // Bureau-slot: alleen echte bureaus (geen kabelmanagement, componenten e.d.).
-  const bureaus = ALLE_PRODUCTEN.filter(
+  const bureaus = alle.filter(
     (p) =>
       p.category === "Werken" &&
       ["Bureaus", "Zit-sta bureaus"].includes(p.subcategory)
   );
   // Stoel-slot: bureaustoelen.
-  const stoelen = ALLE_PRODUCTEN.filter(
+  const stoelen = alle.filter(
     (p) => p.category === "Zitten" && p.subcategory === "Bureaustoelen"
   );
   // Opbergen-slot (optioneel): kasten en ladenblokken.
-  const opbergen = ALLE_PRODUCTEN.filter((p) => p.category === "Opbergen");
+  const opbergen = alle.filter((p) => p.category === "Opbergen");
 
   return [
     {
@@ -323,8 +386,9 @@ export async function getBrancheData(slug: string): Promise<{
   const branche = BRANCHES.find((b) => b.slug === slug);
   if (!branche) return null;
 
+  const actief = await getActieveProducten();
   const producten = cureer(
-    ALLE_PRODUCTEN.filter((p) => productPastBranche(p, branche.productFilters)),
+    actief.filter((p) => productPastBranche(p, branche.productFilters)),
     8
   );
 
@@ -367,7 +431,8 @@ const ZOEK_PAGINAS: { titel: string; sub: string; href: string }[] = [
 ];
 
 export async function getZoekIndex(): Promise<ZoekItem[]> {
-  const [projecten, posts, structuur] = await Promise.all([
+  const [producten, projecten, posts, structuur] = await Promise.all([
+    getActieveProducten(),
     getProjecten(),
     getPosts(),
     getCategorieStructuur(),
@@ -376,7 +441,7 @@ export async function getZoekIndex(): Promise<ZoekItem[]> {
   const items: ZoekItem[] = [];
 
   // Producten
-  for (const p of ALLE_PRODUCTEN) {
+  for (const p of producten) {
     items.push({
       type: "Product",
       titel: p.name,
@@ -490,11 +555,41 @@ export async function getProject(slug: string): Promise<Project | null> {
 }
 
 // ── Blog ─────────────────────────────────────────────────────
+// Sanity slaat de body op als Portable Text (een array van "block"-objecten:
+// de echte teksteditor in de Studio). De blogpagina rendert platte tekst met
+// \n\n tussen de alinea's en "## " als prefix voor tussenkoppen. Deze helper
+// vertaalt het een naar het ander; mock-data is al plat en gaat er ongemoeid
+// doorheen.
+type PortableBlock = {
+  _type?: string;
+  style?: string;
+  children?: { text?: string }[];
+};
+
+function blocksNaarTekst(body: unknown): string {
+  if (typeof body === "string") return body;
+  if (!Array.isArray(body)) return "";
+  return (body as PortableBlock[])
+    .filter((b) => b._type === "block")
+    .map((b) => {
+      const tekst = (b.children ?? []).map((c) => c.text ?? "").join("");
+      // Kop 2 in de Studio wordt een "## "-tussenkop op de pagina. Overige
+      // kopniveaus renderen als gewone alinea (de pagina kent alleen h2).
+      return b.style === "h2" ? `## ${tekst}` : tekst;
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+function naarBlogPost(raw: BlogPost): BlogPost {
+  return { ...raw, body: blocksNaarTekst(raw.body) };
+}
+
 export async function getPosts(): Promise<BlogPost[]> {
   if (!sanityIngesteld) return MOCK_POSTS;
   try {
     const data = await client.fetch<BlogPost[]>(ALLE_POSTS);
-    return data && data.length > 0 ? data : MOCK_POSTS;
+    return data && data.length > 0 ? data.map(naarBlogPost) : MOCK_POSTS;
   } catch {
     return MOCK_POSTS;
   }
@@ -506,7 +601,7 @@ export async function getPost(slug: string): Promise<BlogPost | null> {
   }
   try {
     const data = await client.fetch<BlogPost | null>(POST_OP_SLUG, { slug });
-    if (data) return data;
+    if (data) return naarBlogPost(data);
   } catch {
     // val terug op mock
   }

@@ -8,7 +8,7 @@ import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/motion/Reveal";
 import SpecialistCTA from "@/components/SpecialistCTA";
 
-export const revalidate = 3600; // ISR: elk uur verversen
+export const revalidate = 300; // ISR: elke 5 minuten verversen (CMS-wijzigingen snel live)
 
 export async function generateStaticParams() {
   return getBrancheSlugs().map((branche) => ({ branche }));

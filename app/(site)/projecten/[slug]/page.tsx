@@ -7,7 +7,7 @@ import ProjectHero from "@/components/ProjectHero";
 import ProjectGallery from "@/components/ProjectGallery";
 import Accountmanager from "@/components/Accountmanager";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const projecten = await getProjecten();

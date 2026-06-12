@@ -57,6 +57,36 @@ export default defineType({
       type: "image",
       options: { hotspot: true },
     }),
+    defineField({
+      name: "faq",
+      title: "Veelgestelde vragen",
+      type: "array",
+      description:
+        "Verschijnen onderaan het artikel én als FAQ-structured-data, " +
+        "zodat de antwoorden rechtstreeks in zoekresultaten en " +
+        "AI-antwoorden kunnen verschijnen. Houd antwoorden kort (2-3 zinnen).",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "vraag",
+              title: "Vraag",
+              type: "string",
+              validation: (r) => r.required(),
+            },
+            {
+              name: "antwoord",
+              title: "Antwoord",
+              type: "text",
+              rows: 3,
+              validation: (r) => r.required(),
+            },
+          ],
+          preview: { select: { title: "vraag", subtitle: "antwoord" } },
+        },
+      ],
+    }),
   ],
   orderings: [
     {

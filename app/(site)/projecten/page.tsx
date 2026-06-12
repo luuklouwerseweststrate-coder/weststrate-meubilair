@@ -3,7 +3,7 @@ import { getProjecten } from "@/lib/data";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/motion/Reveal";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Projecten",

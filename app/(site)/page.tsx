@@ -15,7 +15,7 @@ import KantoorScene from "@/components/KantoorScene";
 import Reveal from "@/components/motion/Reveal";
 import SpecialistCTA from "@/components/SpecialistCTA";
 
-export const revalidate = 3600; // ISR: elk uur verversen
+export const revalidate = 300; // ISR: elke 5 minuten verversen (CMS-wijzigingen snel live)
 
 const DISCIPLINES = [
   {
@@ -49,7 +49,7 @@ export default async function HomePage() {
     (k) => k && k !== "Weststrate"
   );
   const uitgelichtePosts = posts.slice(0, 3);
-  // Eén kaart per groep-accent op de homepage: een doorsnede van branche, ruimte
+  // EÃ©n kaart per groep-accent op de homepage: een doorsnede van branche, ruimte
   // en projecttype, met de hele set achter "Alle branches".
   const uitgelichteBranches = brancheKaarten.filter((k) =>
     ["kantoor", "zorg", "onderwijs", "horeca", "kantine", "vergaderruimte"].includes(
@@ -59,7 +59,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* ── Hero met beeld ─────────────────────────────── */}
+      {/* â”€â”€ Hero met beeld â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="relative">
         <div className="relative h-[78vh] min-h-[520px] w-full overflow-hidden">
           <Image
@@ -84,13 +84,13 @@ export default async function HomePage() {
                 {/* Op mobiel een kortere tekst, op desktop het volledige verhaal */}
                 <p className="mt-4 max-w-lg text-base text-white/85 md:mt-6 md:text-lg">
                   <span className="md:hidden">
-                    Van één stoel tot de complete inrichting. Advies, levering en
-                    montage uit één hand.
+                    Van Ã©Ã©n stoel tot de complete inrichting. Advies, levering en
+                    montage uit Ã©Ã©n hand.
                   </span>
                   <span className="hidden md:inline">
-                    Van één ergonomische stoel tot de complete inrichting van een
+                    Van Ã©Ã©n ergonomische stoel tot de complete inrichting van een
                     pand. Als veelzijdige B2B-specialist regelt Weststrate alles
-                    uit één hand: advies, levering en montage, met maatwerk
+                    uit Ã©Ã©n hand: advies, levering en montage, met maatwerk
                     afgestemd op jouw wensen.
                   </span>
                 </p>
@@ -115,18 +115,18 @@ export default async function HomePage() {
         <div className="merkbalk" />
       </section>
 
-      {/* ── Stats / vertrouwen (cijfers uit de catalogus) ── */}
+      {/* â”€â”€ Stats / vertrouwen (cijfers uit de catalogus) â”€â”€ */}
       <StatsBand stats={stats} />
 
-      {/* ── Showroom in Middelburg (selling point, hoog op de pagina) ── */}
+      {/* â”€â”€ Showroom in Middelburg (selling point, hoog op de pagina) â”€â”€ */}
       <ShowroomShowcase />
 
-      {/* ── Wat Weststrate doet ────────────────────────── */}
+      {/* â”€â”€ Wat Weststrate doet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="mx-auto max-w-content px-5 py-20">
         <Reveal className="max-w-2xl">
           <p className="kicker mb-3">De veelzijdige specialist</p>
           <h2 className="text-3xl md:text-4xl">
-            Eén partner voor de hele inrichting.
+            EÃ©n partner voor de hele inrichting.
           </h2>
           <p className="mt-4 text-lg text-ink-2">
             Je hoeft niet te kiezen tussen losse leveranciers. Weststrate regelt
@@ -145,7 +145,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Voor welke ruimte richten we in? (branches) ── */}
+      {/* â”€â”€ Voor welke ruimte richten we in? (branches) â”€â”€ */}
       <section className="mx-auto max-w-content px-5 pb-4">
         <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
@@ -163,7 +163,7 @@ export default async function HomePage() {
             href="/branches"
             className="text-sm font-semibold text-brand hover:underline"
           >
-            Alle branches →
+            Alle branches â†’
           </Link>
         </Reveal>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -175,7 +175,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Projecten (visueel bewijs) ─────────────────── */}
+      {/* â”€â”€ Projecten (visueel bewijs) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="bg-paper-2 py-20 mt-16">
         <div className="mx-auto max-w-content px-5">
           <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
@@ -187,7 +187,7 @@ export default async function HomePage() {
               href="/projecten"
               className="text-sm font-semibold text-brand hover:underline"
             >
-              Alle projecten →
+              Alle projecten â†’
             </Link>
           </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
@@ -200,7 +200,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Categorieën visueel ────────────────────────── */}
+      {/* â”€â”€ CategorieÃ«n visueel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="mx-auto max-w-content px-5 py-20">
         <Reveal className="mb-4 text-center">
           <p className="kicker mb-3">Het assortiment</p>
@@ -210,14 +210,14 @@ export default async function HomePage() {
           </p>
         </Reveal>
         <Reveal>
-          {/* Witte kaart met rand zodat de scène niet los op de pagina zweeft */}
+          {/* Witte kaart met rand zodat de scÃ¨ne niet los op de pagina zweeft */}
           <div className="overflow-hidden rounded-3xl border border-rule bg-white px-4 py-6 md:px-10 md:py-8">
             <KantoorScene />
           </div>
         </Reveal>
       </section>
 
-      {/* ── Werkplek samenstellen (interactieve CTA) ───── */}
+      {/* â”€â”€ Werkplek samenstellen (interactieve CTA) â”€â”€â”€â”€â”€ */}
       <section className="mx-auto max-w-content px-5 pb-20">
         <Reveal>
           <div className="overflow-hidden rounded-2xl bg-brand px-6 py-12 text-white md:px-12 md:py-16">
@@ -230,7 +230,7 @@ export default async function HomePage() {
               </h2>
               <p className="mt-4 text-lg text-white/85">
                 Kies een bureau, een stoel en eventueel opbergruimte, stel het
-                aantal werkplekken in en zie direct wat het kost. In één klik
+                aantal werkplekken in en zie direct wat het kost. In Ã©Ã©n klik
                 staat alles in je offerte.
               </p>
               <Link
@@ -244,7 +244,7 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── Vertrouwd door (echte opdrachtgevers uit de projecten) ── */}
+      {/* â”€â”€ Vertrouwd door (echte opdrachtgevers uit de projecten) â”€â”€ */}
       <section className="mx-auto max-w-content px-5 pb-4">
         <Reveal className="rounded-3xl border border-rule bg-white px-8 py-12 md:px-16">
           <div className="merkbalk mx-auto mb-8 max-w-24 rounded-full" />
@@ -266,13 +266,13 @@ export default async function HomePage() {
               href="/projecten"
               className="text-sm font-semibold text-brand hover:underline"
             >
-              Bekijk alle projecten →
+              Bekijk alle projecten â†’
             </Link>
           </div>
         </Reveal>
       </section>
 
-      {/* ── Inspiratie / blog ──────────────────────────── */}
+      {/* â”€â”€ Inspiratie / blog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className="bg-paper-2 py-20">
         <div className="mx-auto max-w-content px-5">
           <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
@@ -284,7 +284,7 @@ export default async function HomePage() {
               href="/blog"
               className="text-sm font-semibold text-brand hover:underline"
             >
-              Alle artikelen →
+              Alle artikelen â†’
             </Link>
           </Reveal>
           <div className="grid gap-6 md:grid-cols-3">
@@ -297,7 +297,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Afsluitende CTA: persoonlijk, met John ─────── */}
+      {/* â”€â”€ Afsluitende CTA: persoonlijk, met John â”€â”€â”€â”€â”€â”€â”€ */}
       <SpecialistCTA />
     </div>
   );

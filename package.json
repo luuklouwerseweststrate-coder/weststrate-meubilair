@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "sync": "node scripts/sync-swan.mjs",
-    "catalogus": "node scripts/excel-to-json.mjs"
+    "catalogus": "node scripts/excel-to-json.mjs",
+    "seed": "tsx scripts/seed-sanity.ts"
   },
   "dependencies": {
     "@sanity/image-url": "^1.0.2",
@@ -29,6 +30,7 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
+    "tsx": "^4.22.4",
     "typescript": "^5.5.4",
     "xlsx": "^0.18.5"
   }

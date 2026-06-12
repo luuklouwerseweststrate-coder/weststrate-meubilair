@@ -69,6 +69,15 @@ export function vindVariant(
   return match ?? product.variants[0];
 }
 
+// Bijstuur-laag uit Sanity (Productbeheer) bovenop de Swan-data: een product
+// offline halen en/of prijzen van losse uitvoeringen (artikelnummers)
+// overschrijven. Geen override = de Swan-data geldt ongewijzigd.
+export interface ProductOverride {
+  productSlug: string;
+  offline?: boolean;
+  prijzen?: { articleNumber: string; prijs: number }[];
+}
+
 export interface SiteSettings {
   bedrijfsnaam: string;
   payoff: string;

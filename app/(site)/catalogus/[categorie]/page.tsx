@@ -6,7 +6,7 @@ import { subLabel } from "@/lib/categorieen";
 import { slugify } from "@/lib/types";
 import SubcatalogusClient from "@/components/SubcatalogusClient";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const slugs = await getSubcategorieSlugs();

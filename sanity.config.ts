@@ -31,51 +31,16 @@ export default defineConfig({
 
             S.divider(),
 
-            // ── Producten per categorie (sleepbaar) ────────
+            // ── Productbeheer ──────────────────────────────
+            // Producten komen uit de Swan-data (data/*.json), niet uit
+            // Sanity. Hier stuur je per product bij: offline halen of
+            // prijzen van uitvoeringen aanpassen.
             S.listItem()
-              .title("🪑 Bureaustoelen")
+              .title("🪑 Productbeheer")
               .child(
-                S.list()
-                  .title("Bureaustoelen")
-                  .items([
-                    orderableDocumentListDeskItem({
-                      type: "product",
-                      title: "Bureaustoelen (sleep om volgorde te bepalen)",
-                      filter: `category == "bureaustoelen"`,
-                      S,
-                      context,
-                    }),
-                  ])
-              ),
-            S.listItem()
-              .title("🖥️ Bureaus")
-              .child(
-                S.list()
-                  .title("Bureaus")
-                  .items([
-                    orderableDocumentListDeskItem({
-                      type: "product",
-                      title: "Bureaus (sleep om volgorde te bepalen)",
-                      filter: `category == "bureaus"`,
-                      S,
-                      context,
-                    }),
-                  ])
-              ),
-            S.listItem()
-              .title("👥 Vergadertafels")
-              .child(
-                S.list()
-                  .title("Vergadertafels")
-                  .items([
-                    orderableDocumentListDeskItem({
-                      type: "product",
-                      title: "Vergadertafels (sleep om volgorde te bepalen)",
-                      filter: `category == "vergadertafels"`,
-                      S,
-                      context,
-                    }),
-                  ])
+                S.documentTypeList("productOverride")
+                  .title("Producten (offline halen / prijzen aanpassen)")
+                  .defaultOrdering([{ field: "naam", direction: "asc" }])
               ),
 
             S.divider(),

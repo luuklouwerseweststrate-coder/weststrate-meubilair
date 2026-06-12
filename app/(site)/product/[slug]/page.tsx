@@ -7,7 +7,7 @@ import { subLabel } from "@/lib/categorieen";
 import { siteUrl, jsonLdScript } from "@/lib/seo";
 import ProductConfigurator from "@/components/ProductConfigurator";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const producten = await getProducten();

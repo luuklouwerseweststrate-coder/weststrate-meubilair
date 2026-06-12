@@ -77,6 +77,14 @@ export default defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "images",
+      title: "Fotogalerij",
+      type: "array",
+      description:
+        "Extra foto's voor de galerij op de detailpagina (naast het hoofdbeeld).",
+      of: [{ type: "image", options: { hotspot: true } }],
+    }),
+    defineField({
       name: "categorieen",
       title: "Gebruikte categorieën",
       type: "array",
