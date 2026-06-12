@@ -539,7 +539,136 @@ export const MOCK_PROJECTS: Project[] = [
 ];
 
 // ── Blog / inspiratie ────────────────────────────────────────
+// De nieuwere artikelen zijn opgebouwd volgens AEO/GEO/SEO-principes:
+// vraagvormige tussenkoppen ("## "), het antwoord direct in de eerste
+// alinea, citeerbare cijfers en normen, en een faq-array die als
+// FAQPage structured data wordt meegegeven.
 export const MOCK_POSTS: BlogPost[] = [
+  {
+    _id: "mock-post-7",
+    title: "Hoeveel vierkante meter heb je nodig per werkplek?",
+    slug: "vierkante-meters-per-werkplek",
+    datum: "2026-06-10",
+    thema: "Inrichting",
+    leestijd: 6,
+    samenvatting:
+      "Reken op 6 tot 7 m² per vaste werkplek, exclusief gangpaden en vergaderruimte. Zo kom je aan dat getal en zo reken je het door voor jouw pand.",
+    body:
+      "Voor een vaste kantoorwerkplek met beeldscherm reken je op 6 tot 7 vierkante meter per persoon. Dat getal komt uit NEN 1824, de Nederlandse norm voor de oppervlakte van kantoorwerkplekken. Gangpaden, vergaderruimtes en een pantry tellen daar niet in mee, die komen er nog bovenop. Wie een pand zoekt of een verdieping opnieuw indeelt, rekent dus beter met het totaalplaatje dan met alleen het aantal bureaus.\n\n## Hoe is die 6 tot 7 m² opgebouwd?\n\nNEN 1824 werkt met een optelsom per werkplek. De basis is 4 m² voor de werkplek zelf, met de ruimte om je stoel naar achteren te schuiven en op te staan. Daar komt 1 m² bij voor een werkplek met flatscreen en nog eens 1 m² als er ook een lees- en schrijfvlak nodig is. Voor een gangbare bureauopstelling kom je zo op 6 m², en met een kast of ladeblok binnen handbereik al snel op 7 m². De norm is een richtlijn en geen wet, maar arbodiensten en ondernemingsraden gebruiken hem als toetssteen.\n\n## Wat komt er bovenop de werkplekken?\n\nDe werkplekken zijn maar een deel van de vloer. Reken daarnaast op circa 2 m² per persoon voor vergader- en overlegruimte, en houd rekening met looppaden van minimaal 1,2 meter breed tussen werkplekrijen. Een pantry, garderobe, lockers en printhoek vragen samen ook nog ruimte. In de praktijk kom je daardoor op 10 tot 14 m² bruto vloeroppervlak per medewerker, afhankelijk van hoeveel overlegruimte je organisatie nodig heeft.\n\n## Rekenvoorbeeld: 12 mensen op één verdieping\n\nStel, je wilt 12 vaste werkplekken inrichten. De werkplekken zelf vragen 12 keer 7 is 84 m². Tel daar 24 m² overlegruimte bij op (2 m² per persoon, bijvoorbeeld één vergaderruimte voor acht en een belplek), plus zo'n 25 procent voor looppaden en voorzieningen. Dan zit je rond de 135 m². Past dat niet, dan is flexwerken de knop waar je aan kunt draaien: bij gedeeltelijk thuiswerken kun je vaak met 7 of 8 bureaus voor 12 mensen toe, mits je de afspraken daarover goed regelt.\n\n## Werkt dit ook voor flexplekken?\n\nVoor flexplekken gelden dezelfde maten per plek, je hebt er alleen minder van nodig. De winst zit in de verhouding tussen mensen en plekken, niet in kleinere bureaus. Let wel op de randvoorwaarden: voldoende lockers zodat spullen een vaste plek hebben, en genoeg uitwijkplekken zoals aanlandplekken en stilteruimtes. Een flexkantoor dat alleen uit minder bureaus bestaat, loopt op drukke dagen direct vast.\n\nTwijfel je hoeveel werkplekken er in jouw ruimte passen? Wij meten op locatie en maken een indelingsvoorstel op schaal, inclusief looppaden en overlegruimte.",
+    image: "/beelden/blog-vierkante-meters.png",
+    faq: [
+      {
+        vraag: "Is een minimum aantal vierkante meters wettelijk verplicht?",
+        antwoord:
+          "Het Arbobesluit eist voldoende bewegingsruimte op de werkplek, maar noemt geen hard getal. NEN 1824 vult dat in met circa 6 tot 7 m² per vaste beeldschermwerkplek en wordt door arbodiensten als richtlijn gebruikt.",
+      },
+      {
+        vraag: "Hoeveel vierkante meter vergaderruimte heb ik nodig?",
+        antwoord:
+          "Reken op circa 2 m² per persoon die aan het overleg deelneemt. Een vergaderruimte voor acht personen komt daarmee op zo'n 16 tot 20 m², inclusief ruimte om achter de stoelen langs te lopen.",
+      },
+      {
+        vraag: "Hoeveel werkplekken passen er in 100 m²?",
+        antwoord:
+          "In 100 m² kantoorvloer passen realistisch 8 tot 10 vaste werkplekken, als je naast de 6 tot 7 m² per werkplek ook looppaden en een overlegplek meerekent. Met flexwerken bedien je met die plekken vaak 12 tot 15 medewerkers.",
+      },
+    ],
+  },
+  {
+    _id: "mock-post-6",
+    title: "Waar moet een goede bureaustoel aan voldoen?",
+    slug: "waar-moet-een-goede-bureaustoel-aan-voldoen",
+    datum: "2026-05-28",
+    thema: "Ergonomie",
+    leestijd: 5,
+    samenvatting:
+      "Een goede bureaustoel voldoet aan NEN-EN 1335 en heeft vier instelpunten: zithoogte, zitdiepte, armleggers en lendensteun. Dit is waar je op let.",
+    body:
+      "Een goede bureaustoel voldoet aan de Europese norm NEN-EN 1335 en heeft minimaal vier instelpunten: zithoogte, zitdiepte, armleggers en lendensteun. Wie meer dan twee uur per dag aan een bureau zit, merkt het verschil tussen een stoel die op die punten instelbaar is en een stoel die dat niet is. Niet meteen, maar wel na een paar weken, in de onderrug, de nek en de schouders.\n\n## Wat zegt NEN-EN 1335 precies?\n\nNEN-EN 1335 is de Europese norm voor kantoorstoelen. De norm stelt eisen aan de maten en het instelbereik van de stoel, zodat hij past bij het grootste deel van de gebruikers. Een stoel die aan de norm voldoet heeft onder meer een zithoogte die instelbaar is tussen circa 40 en 51 cm en een rugleuning die de onderrug ondersteunt. Voor zakelijk gebruik is de norm de ondergrens: arbodiensten toetsen eraan en bij beeldschermwerk van meer dan twee uur per dag mag je werkgever er eigenlijk niet onder gaan zitten.\n\n## Welke instelpunten doen er het meest toe?\n\nVier instelpunten bepalen het grootste deel van het zitcomfort. De zithoogte zorgt dat je voeten plat op de vloer staan met de knieën in een hoek van ongeveer 90 graden. De zitdiepte zorgt voor twee tot drie vingers ruimte tussen de voorkant van de zitting en je knieholte. De armleggers ondersteunen je onderarmen op ellebooghoogte, zodat je schouders ontspannen blijven. En de lendensteun vult de holte van je onderrug, op de plek waar die zit en niet een paar centimeter erboven of eronder. Een wipmechaniek met instelbare tegendruk is een waardevolle vijfde: een stoel die meebeweegt houdt je rug actief.\n\n## Hoe stel je een bureaustoel goed in?\n\nDe beste stoel zit verkeerd als hij niet is ingesteld. Begin bij de zithoogte: voeten plat, knieën rond 90 graden. Stel daarna de zitdiepte in, dan de lendensteun op de holte van je onderrug, en als laatste de armleggers op de hoogte van je ellebogen. Check daarna of je bureaublad op dezelfde hoogte zit als de armleggers. In de praktijk zien we dat het merendeel van de stoelen op een kantoor nooit is aangepast aan de gebruiker, terwijl dat vijf minuten werk is.\n\n## Wanneer is een bureaustoel aan vervanging toe?\n\nBij dagelijks gebruik gaat een goede bureaustoel 7 tot 10 jaar mee. Eerder vervangen is verstandig als het gasveer-mechanisme zakt, de schuimvulling van de zitting is doorgezeten of instelmechanismen niet meer vastzitten in hun stand. Een stoel die zijn instelling niet meer vasthoudt, is feitelijk geen instelbare stoel meer.\n\nWil je stoelen eerst proberen? In onze showroom in Middelburg zit je op de modellen uit het snelleverprogramma en stellen we ze direct voor je in.",
+    image: "/beelden/blog-bureaustoel.png",
+    faq: [
+      {
+        vraag: "Hoe lang gaat een bureaustoel mee?",
+        antwoord:
+          "Bij dagelijks gebruik van zes tot acht uur gaat een goede bureaustoel 7 tot 10 jaar mee. Zakt de gasveer, is de zitting doorgezeten of houden de instelmechanismen hun stand niet meer vast, dan is hij aan vervanging toe.",
+      },
+      {
+        vraag: "Heb ik een hoofdsteun nodig op mijn bureaustoel?",
+        antwoord:
+          "Voor de meeste mensen niet. Bij actief beeldschermwerk raakt je hoofd de steun zelden. Een hoofdsteun is vooral zinvol bij nekklachten of als je regelmatig achterover geleund belt of leest.",
+      },
+      {
+        vraag: "Wat is het verschil tussen een bureaustoel en een vergaderstoel?",
+        antwoord:
+          "Een bureaustoel is gemaakt voor uren achtereen zitten en is daarom instelbaar op zithoogte, zitdiepte, armleggers en lendensteun. Een vergaderstoel is bedoeld voor kortere sessies en heeft die instelpunten meestal niet.",
+      },
+      {
+        vraag: "Welke zithoogte is goed?",
+        antwoord:
+          "De juiste zithoogte is bereikt als je voeten plat op de vloer staan en je knieën een hoek van ongeveer 90 graden maken. Voor de meeste mensen ligt dat tussen 42 en 50 cm, binnen het instelbereik dat NEN-EN 1335 voorschrijft.",
+      },
+    ],
+  },
+  {
+    _id: "mock-post-5",
+    title: "Opbergen op kantoor: lockers, kasten en wat clean desk echt vraagt",
+    slug: "opbergen-op-kantoor",
+    datum: "2026-04-21",
+    thema: "Inrichting",
+    leestijd: 4,
+    samenvatting:
+      "Clean desk mislukt zelden door de mensen en vaak door te weinig opbergruimte. Zo bepaal je wat je nodig hebt aan lockers en kasten.",
+    body:
+      "Een opgeruimd kantoor begint niet bij een clean desk-regel, maar bij voldoende plekken om spullen op te bergen. Reken per medewerker op een eigen lockervak en daarnaast op een halve tot een hele meter kastruimte per persoon voor teamspullen. Is dat er niet, dan belandt alles alsnog op bureaus en vensterbanken, hoe streng de afspraak ook is.\n\n## Waarom mislukt clean desk zo vaak?\n\nClean desk mislukt meestal om een simpele reden: spullen hebben geen alternatieve plek. Een medewerker met een laptop, oplader, headset, notitieblok en een ordner ruimt die alleen op als daar een vak voor is dat dichtbij, afsluitbaar en groot genoeg is. De volgorde is dus eerst de opbergruimte regelen, dan pas de afspraak invoeren. Andersom werkt het niet.\n\n## Lockers of teamkasten: wat kies je?\n\nLockers en kasten lossen verschillende problemen op. Een locker is persoonlijk: één afsluitbaar vak per medewerker voor laptop, tas en persoonlijke spullen. Bij flexwerken zijn lockers feitelijk onmisbaar, want zonder vaste werkplek is er geen vaste la. Teamkasten zijn gedeeld: ordners, voorraad, apparatuur en alles wat van het team is in plaats van van één persoon. De meeste kantoren hebben beide nodig, in een verhouding die afhangt van hoeveel papier en materiaal het werk nog vraagt.\n\n## Kunnen kasten ook de ruimte indelen?\n\nJa, en dat is meteen het tweede argument om er niet op te besparen. Een kast van 160 cm hoog scheidt twee teams zonder de vloer dicht te bouwen, en een rij lockers markeert de overgang van een looproute naar een werkzone. Gestoffeerde of akoestische kastwanden dempen bovendien het geluid tussen zones. Zo doet de opbergruimte dubbel werk: spullen uit het zicht en rust in de plattegrond.\n\n## Hoeveel opbergruimte heb je per persoon nodig?\n\nAls vuistregel: één lockervak per medewerker van minimaal 45 cm breed waar een 15,6 inch laptop en een tas in passen, plus een halve tot een hele meter kastbreedte per persoon voor het team samen. Werk je in een vak met veel fysiek materiaal, zoals techniek of zorg, reken dan ruimer. Tel het na een jaar na: puilen de kasten uit of staan er dozen op de grond, dan was de schatting te krap.\n\nWil je weten wat er in jouw plattegrond past? We denken mee over een indeling waarin opbergen, akoestiek en looproutes samenvallen.",
+    image: "/beelden/blog-opbergen.png",
+    faq: [
+      {
+        vraag: "Hoeveel lockers heb ik nodig bij flexwerken?",
+        antwoord:
+          "Eén lockervak per medewerker, ook als er minder bureaus dan mensen zijn. De locker vervangt de vaste la van de vaste werkplek, dus daarop bezuinigen ondergraaft het flexconcept.",
+      },
+      {
+        vraag: "Welke kasthoogte kan ik als ruimteverdeler gebruiken?",
+        antwoord:
+          "Een kast van 120 tot 160 cm hoog scheidt zones terwijl je er overheen blijft kijken, wat het kantoor open houdt. Boven de 180 cm werkt een kast als een wand en deel je de ruimte echt op.",
+      },
+      {
+        vraag: "Hoe groot moet een lockervak zijn?",
+        antwoord:
+          "Minimaal 45 cm breed en 30 cm hoog, zodat een 15,6 inch laptop, een oplader en een tas erin passen. Komen er ook jassen of helmen in, kies dan hogere vakken of een aparte garderobekast.",
+      },
+    ],
+  },
+  {
+    _id: "mock-post-4",
+    title: "Tafelhoogtes en tafelmaten: de cijfers waar je op kunt rekenen",
+    slug: "tafelhoogtes-en-maten",
+    datum: "2026-03-15",
+    thema: "Inrichting",
+    leestijd: 5,
+    samenvatting:
+      "Bureau en vergadertafel: 75 cm hoog. Statafel: circa 110 cm. En per persoon reken je 60 tot 70 cm tafelbreedte. Alle maten op een rij.",
+    body:
+      "De standaardhoogte van een bureau en een vergadertafel is 75 cm, een statafel staat op circa 110 cm en per persoon aan tafel reken je 60 tot 70 cm breedte. Met die drie getallen kom je bij het inrichten van een kantoor al een heel eind. Hieronder lopen we de maten langs die je nodig hebt om tafels te kiezen die kloppen met de ruimte en met de mensen die eraan zitten.\n\n## Welke hoogte heeft een bureau of vergadertafel?\n\nDe vaste standaard is 75 cm, gerekend vanaf de vloer tot de bovenkant van het blad. Die hoogte past bij een gemiddelde lichaamslengte in combinatie met een goed ingestelde bureaustoel. Zijn de gebruikers duidelijk langer of korter, dan lost een in hoogte instelbaar onderstel dat op: veel bureauframes zijn instelbaar tussen 62 en 86 cm, en zit-sta frames gaan door tot zo'n 125 cm. Voor een vergadertafel die door wisselende groepen wordt gebruikt, blijft 75 cm de veilige keuze.\n\n## Hoeveel tafelruimte heeft één persoon nodig?\n\nReken op 60 tot 70 cm tafelbreedte per persoon, met 70 cm als comfortabele maat zodra er laptops op tafel staan. De diepte van het blad bepaalt of mensen elkaar recht aankijken zonder schermen tegen elkaar: 120 cm diepte is voor een vergadertafel een prettige maat, bij 100 cm wordt het krap zodra beide kanten een laptop opengeklapt hebben.\n\n## Welk formaat vergadertafel past bij hoeveel personen?\n\nMet de maat van 60 tot 70 cm per persoon reken je het zo uit: een tafel van 240 bij 120 cm zit goed voor acht personen, drie aan elke lange zijde en één aan elk uiteinde. Voor zes personen volstaat 200 bij 100 cm, voor tien tot twaalf ga je naar 320 bij 120 cm of koppel je twee tafels. Houd daarnaast minimaal 90 cm vrij tussen tafelrand en muur, zodat iemand achter een bezette stoel langs kan, en liever 120 cm aan de kant waar de deur of het scherm zit.\n\n## Wanneer kies je een statafel?\n\nEen statafel van circa 110 cm hoog is op zijn best bij kort overleg: een dagstart, een stand-up of een overleg dat niet langer dan een half uur hoeft te duren. Staand overleg blijkt in de praktijk korter en doelgerichter, alleen al omdat niemand achterover gaat hangen. Combineer de statafel met krukken op zithoogte 80 tot 85 cm, dan kan wie wil toch even zitten zonder dat de tafel zijn functie verliest.\n\nWil je zeker weten dat een tafel in je ruimte past voordat je bestelt? Stuur ons de maten van de ruimte en we tekenen de opstelling voor je uit.",
+    image: "/beelden/blog-tafelhoogtes.png",
+    faq: [
+      {
+        vraag: "Hoe hoog is een statafel?",
+        antwoord:
+          "Een statafel is circa 110 cm hoog, passend bij staand overleg en bij krukken met een zithoogte van 80 tot 85 cm. Sommige modellen zijn instelbaar, zodat dezelfde tafel ook op 75 cm als zittafel dient.",
+      },
+      {
+        vraag: "Welke tafelmaat heb ik nodig voor 8 personen?",
+        antwoord:
+          "Voor acht personen is 240 bij 120 cm een passende vergadertafel: drie personen aan elke lange zijde en één aan elk uiteinde, met 60 tot 70 cm tafelbreedte per persoon.",
+      },
+      {
+        vraag: "Hoe hoog is een kantinetafel?",
+        antwoord:
+          "Een gewone kantinetafel is net als een bureau 75 cm hoog. In kantines zie je daarnaast vaak hoge tafels van circa 110 cm met barkrukken, die de ruimte ook geschikt maken voor staand en informeel overleg.",
+      },
+    ],
+  },
   {
     _id: "mock-post-1",
     title: "Zit-sta werken: wat levert het echt op?",

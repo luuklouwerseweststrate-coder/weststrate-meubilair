@@ -61,6 +61,22 @@ function artikelJsonLd(post: Awaited<ReturnType<typeof getPost>>) {
   };
 }
 
+// FAQ-structured-data (schema.org/FAQPage): hiermee kunnen de vragen en
+// antwoorden rechtstreeks in zoekresultaten en AI-antwoorden verschijnen.
+function faqJsonLd(post: Awaited<ReturnType<typeof getPost>>) {
+  if (!post?.faq?.length) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: "nl-NL",
+    mainEntity: post.faq.map((f) => ({
+      "@type": "Question",
+      name: f.vraag,
+      acceptedAnswer: { "@type": "Answer", text: f.antwoord },
+    })),
+  };
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -77,6 +93,12 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLdScript(artikelJsonLd(post))}
       />
+      {post.faq && post.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLdScript(faqJsonLd(post))}
+        />
+      )}
       <nav className="mb-8 text-sm text-ink-2">
         <Link href="/blog" className="hover:text-brand">
           Inspiratie
@@ -107,10 +129,31 @@ export default async function BlogPostPage({
       )}
 
       <div className="mt-10 space-y-5 text-lg leading-relaxed text-ink">
-        {alineas.map((a, i) => (
-          <p key={i}>{a}</p>
-        ))}
+        {alineas.map((a, i) =>
+          // Een blok dat met "## " begint is een tussenkop, geen alinea.
+          a.startsWith("## ") ? (
+            <h2 key={i} className="pt-4 text-2xl">
+              {a.slice(3)}
+            </h2>
+          ) : (
+            <p key={i}>{a}</p>
+          )
+        )}
       </div>
+
+      {post.faq && post.faq.length > 0 && (
+        <section className="mt-14">
+          <h2 className="text-2xl">Veelgestelde vragen</h2>
+          <dl className="mt-6 divide-y divide-rule rounded-2xl border border-rule bg-white">
+            {post.faq.map((f) => (
+              <div key={f.vraag} className="p-6">
+                <dt className="font-semibold text-ink">{f.vraag}</dt>
+                <dd className="mt-2 text-ink-2">{f.antwoord}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
 
       <div className="mt-12 rounded-2xl border border-rule bg-paper-2 p-8">
         <h2 className="text-xl">Hulp nodig bij je inrichting?</h2>

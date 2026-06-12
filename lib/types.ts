@@ -109,8 +109,16 @@ export interface BlogPost {
   thema: string; // bv. "Ergonomie", "Akoestiek"
   leestijd: number; // minuten
   samenvatting: string;
-  body: string; // platte tekst met dubbele newlines tussen alinea's
+  // Platte tekst met dubbele newlines tussen alinea's. Een regel die begint
+  // met "## " wordt op de detailpagina een tussenkop (h2). Vraagvormige
+  // koppen helpen bij AEO: zoekmachines en AI-assistenten matchen ze direct
+  // op de vraag van de gebruiker.
+  body: string;
   image: string; // (leeg = placeholder)
+  // Veelgestelde vragen bij het artikel. Worden onderaan getoond én als
+  // schema.org/FAQPage structured data meegegeven, zodat het antwoord
+  // rechtstreeks in zoekresultaten en AI-antwoorden kan verschijnen.
+  faq?: { vraag: string; antwoord: string }[];
 }
 
 // ── Zoeken ─────────────────────────────────────────────────
