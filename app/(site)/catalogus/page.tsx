@@ -32,7 +32,7 @@ export default async function CatalogusPage() {
         je eigen uitvoering samen.
       </p>
 
-      {/* Snelnavigatie naar de hoofdcategorieÃ«n */}
+      {/* Snelnavigatie naar de hoofdcategorieën */}
       <div className="mt-6 flex flex-wrap gap-2">
         {geordend.map((groep) => {
           const meta = HOOFD_META[groep.hoofd];
@@ -75,7 +75,7 @@ export default async function CatalogusPage() {
                 const uitv = groep.subs.reduce((s, x) => s + x.uitvoeringen, 0);
                 return (
                   <span className="ml-auto text-sm text-ink-2">
-                    {series} series Â· {uitv} uitvoeringen
+                    {series} series · {uitv} uitvoeringen
                   </span>
                 );
               })()}
@@ -98,7 +98,7 @@ export default async function CatalogusPage() {
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5">
                     <h3 className="text-lg text-white">{subLabel(sub.sub)}</h3>
                     <p className="text-sm text-white/80">
-                      {sub.aantal} {sub.aantal === 1 ? "serie" : "series"} Â·{" "}
+                      {sub.aantal} {sub.aantal === 1 ? "serie" : "series"} ·{" "}
                       {sub.uitvoeringen} uitvoeringen
                     </p>
                   </div>

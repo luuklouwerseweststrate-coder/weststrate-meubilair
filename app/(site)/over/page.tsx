@@ -9,7 +9,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Over ons",
   description:
-    "Weststrate richt complete ruimtes in: advies, levering en montage uit Ã©Ã©n hand.",
+    "Weststrate richt complete ruimtes in: advies, levering en montage uit één hand.",
 };
 
 const WAARDEN = [
@@ -19,11 +19,11 @@ const WAARDEN = [
   },
   {
     titel: "Toegankelijk",
-    tekst: "Korte lijnen. Je hebt Ã©Ã©n aanspreekpunt van advies tot oplevering.",
+    tekst: "Korte lijnen. Je hebt één aanspreekpunt van advies tot oplevering.",
   },
   {
     titel: "Breed",
-    tekst: "Van losse stoel tot complete inrichting, alles uit Ã©Ã©n hand.",
+    tekst: "Van losse stoel tot complete inrichting, alles uit één hand.",
   },
   {
     titel: "Betrouwbaar",

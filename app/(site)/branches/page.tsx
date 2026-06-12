@@ -9,7 +9,7 @@ export const revalidate = 300; // ISR: elke 5 minuten verversen (CMS-wijzigingen
 export const metadata: Metadata = {
   title: "Branches | Inrichting per branche en ruimte",
   description:
-    "Weststrate richt complete ruimtes in voor kantoren, zorg, onderwijs en horeca. Van kantine en vergaderruimte tot nieuwbouw en renovatie, met advies, levering en montage uit Ã©Ã©n hand.",
+    "Weststrate richt complete ruimtes in voor kantoren, zorg, onderwijs en horeca. Van kantine en vergaderruimte tot nieuwbouw en renovatie, met advies, levering en montage uit één hand.",
 };
 
 // Volgorde waarin we de groepen tonen.
