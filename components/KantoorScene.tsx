@@ -351,8 +351,8 @@ const ITEMS: SceneItem[] = [
     ry: 3.8,
     cx: 2,
     cy: 1.1,
-    lx: -115,
-    ly: 80,
+    lx: 68,
+    ly: -92,
   },
   {
     id: "bureaustoelen",

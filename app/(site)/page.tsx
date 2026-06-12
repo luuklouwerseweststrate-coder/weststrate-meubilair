@@ -210,7 +210,10 @@ export default async function HomePage() {
           </p>
         </Reveal>
         <Reveal>
-          <KantoorScene />
+          {/* Witte kaart met rand zodat de scène niet los op de pagina zweeft */}
+          <div className="overflow-hidden rounded-3xl border border-rule bg-white px-4 py-6 md:px-10 md:py-8">
+            <KantoorScene />
+          </div>
         </Reveal>
       </section>
 

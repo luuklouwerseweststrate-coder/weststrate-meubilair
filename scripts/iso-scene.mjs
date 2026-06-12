@@ -309,8 +309,8 @@ const ITEMS = [
     ry: 3.8,
     cx: 2,
     cy: 1.1,
-    lx: -115,
-    ly: 80,
+    lx: 68,
+    ly: -92,
   },
   {
     naam: "Bureaustoelen",
