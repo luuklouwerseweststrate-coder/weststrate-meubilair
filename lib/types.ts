@@ -88,6 +88,32 @@ export interface SiteSettings {
   footerTekst: string;
 }
 
+// Alle vaste teksten van de homepage, beheerbaar in Sanity ("Homepage").
+// De inhoud die uit data komt (projecten, blog, branches, cijfers) staat
+// hier bewust niet in; alleen koppen en lopende tekst.
+export interface HomepageContent {
+  hero: {
+    kicker: string;
+    titel: string;
+    introMobiel: string;
+    introDesktop: string;
+    knopProjecten: string;
+    knopCatalogus: string;
+  };
+  watWeDoen: {
+    kicker: string;
+    titel: string;
+    intro: string;
+    blokken: { titel: string; tekst: string }[];
+  };
+  branchesSectie: { kicker: string; titel: string; intro: string };
+  projectenSectie: { kicker: string; titel: string };
+  assortimentSectie: { kicker: string; titel: string; intro: string };
+  werkplekCta: { kicker: string; titel: string; tekst: string; knop: string };
+  opdrachtgeversTitel: string;
+  blogSectie: { kicker: string; titel: string };
+}
+
 // ── Referentieprojecten ────────────────────────────────────
 // Uitgevoerde inrichtingen die laten zien wat Weststrate kan.
 export interface Project {

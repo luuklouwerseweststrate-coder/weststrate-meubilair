@@ -13,6 +13,20 @@ export const SITE_SETTINGS = groq`
   }
 `;
 
+// Homepage-teksten (singleton). Velden spiegelen HomepageContent in lib/types.ts.
+export const HOMEPAGE_CONTENT = groq`
+  *[_type == "homepage"][0] {
+    hero { kicker, titel, introMobiel, introDesktop, knopProjecten, knopCatalogus },
+    watWeDoen { kicker, titel, intro, blokken[]{ titel, tekst } },
+    branchesSectie { kicker, titel, intro },
+    projectenSectie { kicker, titel },
+    assortimentSectie { kicker, titel, intro },
+    werkplekCta { kicker, titel, tekst, knop },
+    opdrachtgeversTitel,
+    blogSectie { kicker, titel }
+  }
+`;
+
 // Alle referentieprojecten (handmatige volgorde).
 const PROJECT_VELDEN = groq`
   "_id": _id,

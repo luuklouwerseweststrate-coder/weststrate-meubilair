@@ -19,7 +19,12 @@
 import { createClient } from "next-sanity";
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { MOCK_SETTINGS, MOCK_PROJECTS, MOCK_POSTS } from "../lib/mock-data";
+import {
+  MOCK_SETTINGS,
+  MOCK_HOMEPAGE,
+  MOCK_PROJECTS,
+  MOCK_POSTS,
+} from "../lib/mock-data";
 import type { Product } from "../lib/types";
 import bureaustoelen from "../data/bureaustoelen-weststrate.json";
 import zitStaBureaus from "../data/zit-sta-bureaus-weststrate.json";
@@ -144,6 +149,24 @@ async function seedSettings() {
   console.log("Site-instellingen: ok");
 }
 
+// ── 1b. Homepage-teksten (singleton) ─────────────────────────
+async function seedHomepage() {
+  await client.createIfNotExists({
+    _id: "homepage",
+    _type: "homepage",
+    ...MOCK_HOMEPAGE,
+    watWeDoen: {
+      ...MOCK_HOMEPAGE.watWeDoen,
+      // Array-items in Sanity hebben een _key nodig
+      blokken: MOCK_HOMEPAGE.watWeDoen.blokken.map((b, i) => ({
+        ...b,
+        _key: `blok-${i}`,
+      })),
+    },
+  });
+  console.log("Homepage-teksten: ok");
+}
+
 // ── 2. Projecten ─────────────────────────────────────────────
 async function seedProjecten() {
   for (const [i, p] of MOCK_PROJECTS.entries()) {
@@ -248,6 +271,7 @@ async function seedProductOverrides() {
 async function main() {
   console.log(`Seed naar Sanity-project ${projectId} (dataset ${dataset})\n`);
   await seedSettings();
+  await seedHomepage();
   await seedProjecten();
   await seedPosts();
   await seedProductOverrides();

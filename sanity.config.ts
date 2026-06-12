@@ -29,6 +29,14 @@ export default defineConfig({
                   .documentId(SETTINGS_DOC_ID)
               ),
 
+            // ── Homepage-teksten ───────────────────────────
+            S.listItem()
+              .title("🏠 Homepage")
+              .id("homepage")
+              .child(
+                S.document().schemaType("homepage").documentId("homepage")
+              ),
+
             S.divider(),
 
             // ── Productbeheer ──────────────────────────────

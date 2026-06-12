@@ -1,4 +1,4 @@
-import type { SiteSettings, Project, BlogPost } from "./types";
+import type { SiteSettings, HomepageContent, Project, BlogPost } from "./types";
 
 // Voorbeelddata zodat de site draait vóórdat Sanity gekoppeld is.
 // Zodra Sanity gevuld is, neemt die het over (zie lib/data.ts).
@@ -13,6 +13,71 @@ export const MOCK_SETTINGS: SiteSettings = {
   adres: "Herculesweg 37, Middelburg",
   footerTekst:
     "Prijzen zijn indicatief en exclusief btw. Aan een samengestelde offerte kunnen geen rechten worden ontleend.",
+};
+
+// Vaste homepage-teksten. Dit zijn de teksten zoals ze oorspronkelijk in de
+// code stonden; na de seed beheert Luuk ze in Sanity ("Homepage").
+export const MOCK_HOMEPAGE: HomepageContent = {
+  hero: {
+    kicker: "Meubilair & projectinrichting, onderdeel van Weststrate",
+    titel: "Wij richten je ruimte in. Van kantoor tot zorg en horeca.",
+    introMobiel:
+      "Van één stoel tot de complete inrichting. Advies, levering en montage uit één hand.",
+    introDesktop:
+      "Van één ergonomische stoel tot de complete inrichting van een pand. Als veelzijdige B2B-specialist regelt Weststrate alles uit één hand: advies, levering en montage, met maatwerk afgestemd op jouw wensen.",
+    knopProjecten: "Bekijk onze projecten",
+    knopCatalogus: "Naar de catalogus",
+  },
+  watWeDoen: {
+    kicker: "De veelzijdige specialist",
+    titel: "Eén partner voor de hele inrichting.",
+    intro:
+      "Je hoeft niet te kiezen tussen losse leveranciers. Weststrate regelt het advies, de meubels en de montage, afgestemd op jouw mensen en jouw ruimte.",
+    blokken: [
+      {
+        titel: "Advies op locatie",
+        tekst:
+          "We kijken mee in je pand, meten op en denken na over indeling, ergonomie en akoestiek.",
+      },
+      {
+        titel: "Levering uit voorraad",
+        tekst:
+          "Een breed assortiment uit eigen voorraad. Je weet vooraf wat er komt en wanneer.",
+      },
+      {
+        titel: "Montage en oplevering",
+        tekst:
+          "Onze monteurs plaatsen alles op locatie. Jij stapt een ruimte binnen die klaar is.",
+      },
+    ],
+  },
+  branchesSectie: {
+    kicker: "Voor wie we werken",
+    titel: "Voor welke ruimte richten we in?",
+    intro:
+      "Of het nu om losse meubels gaat of om een complete inrichting: kies je branche of het type ruimte en zie wat we voor jouw situatie doen.",
+  },
+  projectenSectie: {
+    kicker: "Recent uitgevoerd",
+    titel: "Zo ziet het er in de praktijk uit",
+  },
+  assortimentSectie: {
+    kicker: "Het assortiment",
+    titel: "Waaruit je kiest",
+    intro: "Klik op een meubelstuk om die categorie te bekijken.",
+  },
+  werkplekCta: {
+    kicker: "Stel het zelf samen",
+    titel: "Een complete werkplek in een paar klikken",
+    tekst:
+      "Kies een bureau, een stoel en eventueel opbergruimte, stel het aantal werkplekken in en zie direct wat het kost. In één klik staat alles in je offerte.",
+    knop: "Stel je werkplek samen",
+  },
+  opdrachtgeversTitel: "Onder andere uitgevoerd voor",
+  blogSectie: {
+    kicker: "Inspiratie",
+    titel: "Kennis over inrichten",
+  },
 };
 
 // ── Referentieprojecten ──────────────────────────────────────

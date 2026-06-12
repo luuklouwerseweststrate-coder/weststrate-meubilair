@@ -2,18 +2,25 @@ import { cache } from "react";
 import { client, sanityIngesteld } from "@/sanity/lib/client";
 import {
   SITE_SETTINGS,
+  HOMEPAGE_CONTENT,
   ALLE_PROJECTEN,
   PROJECT_OP_SLUG,
   ALLE_POSTS,
   POST_OP_SLUG,
   ALLE_PRODUCT_OVERRIDES,
 } from "@/sanity/lib/queries";
-import { MOCK_SETTINGS, MOCK_PROJECTS, MOCK_POSTS } from "./mock-data";
+import {
+  MOCK_SETTINGS,
+  MOCK_HOMEPAGE,
+  MOCK_PROJECTS,
+  MOCK_POSTS,
+} from "./mock-data";
 import { slugify } from "./types";
 import type {
   Product,
   ProductOverride,
   SiteSettings,
+  HomepageContent,
   Project,
   BlogPost,
   ZoekItem,
@@ -527,6 +534,54 @@ export async function getSettings(): Promise<SiteSettings> {
     return data ?? MOCK_SETTINGS;
   } catch {
     return MOCK_SETTINGS;
+  }
+}
+
+// ── Homepage-teksten ─────────────────────────────────────────
+// Vult ontbrekende of leeggemaakte velden uit Sanity aan met de mock-tekst,
+// zodat een half ingevuld document de homepage nooit kapot maakt.
+function vulAan<T extends object>(mock: T, data?: Partial<T> | null): T {
+  const resultaat = { ...mock };
+  if (!data) return resultaat;
+  for (const sleutel of Object.keys(mock) as (keyof T)[]) {
+    const waarde = data[sleutel];
+    if (waarde !== undefined && waarde !== null && waarde !== "") {
+      resultaat[sleutel] = waarde as T[keyof T];
+    }
+  }
+  return resultaat;
+}
+
+export async function getHomepage(): Promise<HomepageContent> {
+  if (!sanityIngesteld) return MOCK_HOMEPAGE;
+  try {
+    const data = await client.fetch<Partial<HomepageContent> | null>(
+      HOMEPAGE_CONTENT
+    );
+    if (!data) return MOCK_HOMEPAGE;
+    const watWeDoen = vulAan(MOCK_HOMEPAGE.watWeDoen, data.watWeDoen);
+    if (!watWeDoen.blokken?.length) {
+      watWeDoen.blokken = MOCK_HOMEPAGE.watWeDoen.blokken;
+    }
+    return {
+      hero: vulAan(MOCK_HOMEPAGE.hero, data.hero),
+      watWeDoen,
+      branchesSectie: vulAan(MOCK_HOMEPAGE.branchesSectie, data.branchesSectie),
+      projectenSectie: vulAan(
+        MOCK_HOMEPAGE.projectenSectie,
+        data.projectenSectie
+      ),
+      assortimentSectie: vulAan(
+        MOCK_HOMEPAGE.assortimentSectie,
+        data.assortimentSectie
+      ),
+      werkplekCta: vulAan(MOCK_HOMEPAGE.werkplekCta, data.werkplekCta),
+      opdrachtgeversTitel:
+        data.opdrachtgeversTitel || MOCK_HOMEPAGE.opdrachtgeversTitel,
+      blogSectie: vulAan(MOCK_HOMEPAGE.blogSectie, data.blogSectie),
+    };
+  } catch {
+    return MOCK_HOMEPAGE;
   }
 }
 

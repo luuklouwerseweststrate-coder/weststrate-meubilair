@@ -5,6 +5,7 @@ import {
   getPosts,
   getCatalogusStats,
   getBrancheKaarten,
+  getHomepage,
 } from "@/lib/data";
 import ProjectCard from "@/components/ProjectCard";
 import PostCard from "@/components/PostCard";
@@ -17,30 +18,15 @@ import SpecialistCTA from "@/components/SpecialistCTA";
 
 export const revalidate = 300; // ISR: elke 5 minuten verversen (CMS-wijzigingen snel live)
 
-const DISCIPLINES = [
-  {
-    titel: "Advies op locatie",
-    tekst:
-      "We kijken mee in je pand, meten op en denken na over indeling, ergonomie en akoestiek.",
-  },
-  {
-    titel: "Levering uit voorraad",
-    tekst:
-      "Een breed assortiment uit eigen voorraad. Je weet vooraf wat er komt en wanneer.",
-  },
-  {
-    titel: "Montage en oplevering",
-    tekst:
-      "Onze monteurs plaatsen alles op locatie. Jij stapt een ruimte binnen die klaar is.",
-  },
-];
-
 export default async function HomePage() {
-  const [projecten, posts, stats, brancheKaarten] = await Promise.all([
+  // Alle vaste teksten komen uit Sanity ("Homepage" in Studio), met de
+  // oorspronkelijke teksten als terugval (zie lib/mock-data.ts).
+  const [projecten, posts, stats, brancheKaarten, tekst] = await Promise.all([
     getProjecten(),
     getPosts(),
     getCatalogusStats(),
     getBrancheKaarten(),
+    getHomepage(),
   ]);
   const uitgelichteProjecten = projecten.slice(0, 3);
   // Echte opdrachtgevers uit de projecten, ontdubbeld en zonder onze eigen
@@ -76,22 +62,16 @@ export default async function HomePage() {
             <div className="mx-auto w-full max-w-content px-5">
               <Reveal className="max-w-xl text-white" y={24}>
                 <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/80 md:text-xs">
-                  Meubilair &amp; projectinrichting, onderdeel van Weststrate
+                  {tekst.hero.kicker}
                 </p>
                 <h1 className="mt-3 text-[1.9rem] leading-tight text-white md:mt-4 md:text-6xl md:leading-[1.05]">
-                  Wij richten je ruimte in. Van kantoor tot zorg en horeca.
+                  {tekst.hero.titel}
                 </h1>
                 {/* Op mobiel een kortere tekst, op desktop het volledige verhaal */}
                 <p className="mt-4 max-w-lg text-base text-white/85 md:mt-6 md:text-lg">
-                  <span className="md:hidden">
-                    Van één stoel tot de complete inrichting. Advies, levering en
-                    montage uit één hand.
-                  </span>
+                  <span className="md:hidden">{tekst.hero.introMobiel}</span>
                   <span className="hidden md:inline">
-                    Van één ergonomische stoel tot de complete inrichting van een
-                    pand. Als veelzijdige B2B-specialist regelt Weststrate alles
-                    uit één hand: advies, levering en montage, met maatwerk
-                    afgestemd op jouw wensen.
+                    {tekst.hero.introDesktop}
                   </span>
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3 md:mt-8">
@@ -99,13 +79,13 @@ export default async function HomePage() {
                     href="/projecten"
                     className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-transform hover:scale-[1.03]"
                   >
-                    Bekijk onze projecten
+                    {tekst.hero.knopProjecten}
                   </Link>
                   <Link
                     href="/catalogus"
                     className="rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
                   >
-                    Naar de catalogus
+                    {tekst.hero.knopCatalogus}
                   </Link>
                 </div>
               </Reveal>
@@ -124,18 +104,12 @@ export default async function HomePage() {
       {/* ── Wat Weststrate doet ────────────────────────── */}
       <section className="mx-auto max-w-content px-5 py-20">
         <Reveal className="max-w-2xl">
-          <p className="kicker mb-3">De veelzijdige specialist</p>
-          <h2 className="text-3xl md:text-4xl">
-            Eén partner voor de hele inrichting.
-          </h2>
-          <p className="mt-4 text-lg text-ink-2">
-            Je hoeft niet te kiezen tussen losse leveranciers. Weststrate regelt
-            het advies, de meubels en de montage, afgestemd op jouw mensen en
-            jouw ruimte.
-          </p>
+          <p className="kicker mb-3">{tekst.watWeDoen.kicker}</p>
+          <h2 className="text-3xl md:text-4xl">{tekst.watWeDoen.titel}</h2>
+          <p className="mt-4 text-lg text-ink-2">{tekst.watWeDoen.intro}</p>
         </Reveal>
         <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-rule bg-rule md:grid-cols-3">
-          {DISCIPLINES.map((d, i) => (
+          {tekst.watWeDoen.blokken.map((d, i) => (
             <Reveal key={d.titel} delay={i * 0.08} className="bg-white p-8">
               <p className="font-mono text-sm text-brand">0{i + 1}</p>
               <h3 className="mt-3 text-xl">{d.titel}</h3>
@@ -149,14 +123,10 @@ export default async function HomePage() {
       <section className="mx-auto max-w-content px-5 pb-4">
         <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
-            <p className="kicker mb-3">Voor wie we werken</p>
-            <h2 className="text-3xl md:text-4xl">
-              Voor welke ruimte richten we in?
-            </h2>
+            <p className="kicker mb-3">{tekst.branchesSectie.kicker}</p>
+            <h2 className="text-3xl md:text-4xl">{tekst.branchesSectie.titel}</h2>
             <p className="mt-4 text-lg text-ink-2">
-              Of het nu om losse meubels gaat of om een complete inrichting:
-              kies je branche of het type ruimte en zie wat we voor jouw
-              situatie doen.
+              {tekst.branchesSectie.intro}
             </p>
           </div>
           <Link
@@ -180,8 +150,10 @@ export default async function HomePage() {
         <div className="mx-auto max-w-content px-5">
           <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="kicker mb-3">Recent uitgevoerd</p>
-              <h2 className="text-3xl md:text-4xl">Zo ziet het er in de praktijk uit</h2>
+              <p className="kicker mb-3">{tekst.projectenSectie.kicker}</p>
+              <h2 className="text-3xl md:text-4xl">
+                {tekst.projectenSectie.titel}
+              </h2>
             </div>
             <Link
               href="/projecten"
@@ -203,10 +175,10 @@ export default async function HomePage() {
       {/* ── Categorieën visueel ────────────────────────── */}
       <section className="mx-auto max-w-content px-5 py-20">
         <Reveal className="mb-4 text-center">
-          <p className="kicker mb-3">Het assortiment</p>
-          <h2 className="text-3xl md:text-4xl">Waaruit je kiest</h2>
+          <p className="kicker mb-3">{tekst.assortimentSectie.kicker}</p>
+          <h2 className="text-3xl md:text-4xl">{tekst.assortimentSectie.titel}</h2>
           <p className="mx-auto mt-3 max-w-xl text-ink-2">
-            Klik op een meubelstuk om die categorie te bekijken.
+            {tekst.assortimentSectie.intro}
           </p>
         </Reveal>
         <Reveal>
@@ -223,21 +195,19 @@ export default async function HomePage() {
           <div className="overflow-hidden rounded-2xl bg-brand px-6 py-12 text-white md:px-12 md:py-16">
             <div className="max-w-2xl">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/80">
-                Stel het zelf samen
+                {tekst.werkplekCta.kicker}
               </p>
               <h2 className="mt-3 text-3xl text-white md:text-4xl">
-                Een complete werkplek in een paar klikken
+                {tekst.werkplekCta.titel}
               </h2>
               <p className="mt-4 text-lg text-white/85">
-                Kies een bureau, een stoel en eventueel opbergruimte, stel het
-                aantal werkplekken in en zie direct wat het kost. In één klik
-                staat alles in je offerte.
+                {tekst.werkplekCta.tekst}
               </p>
               <Link
                 href="/werkplek"
                 className="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand transition-transform hover:scale-[1.03]"
               >
-                Stel je werkplek samen
+                {tekst.werkplekCta.knop}
               </Link>
             </div>
           </div>
@@ -249,7 +219,7 @@ export default async function HomePage() {
         <Reveal className="rounded-3xl border border-rule bg-white px-8 py-12 md:px-16">
           <div className="merkbalk mx-auto mb-8 max-w-24 rounded-full" />
           <p className="text-center text-sm font-semibold uppercase tracking-[0.18em] text-ink-2">
-            Onder andere uitgevoerd voor
+            {tekst.opdrachtgeversTitel}
           </p>
           <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 md:gap-x-12">
             {opdrachtgevers.map((naam) => (
@@ -277,8 +247,8 @@ export default async function HomePage() {
         <div className="mx-auto max-w-content px-5">
           <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="kicker mb-3">Inspiratie</p>
-              <h2 className="text-3xl md:text-4xl">Kennis over inrichten</h2>
+              <p className="kicker mb-3">{tekst.blogSectie.kicker}</p>
+              <h2 className="text-3xl md:text-4xl">{tekst.blogSectie.titel}</h2>
             </div>
             <Link
               href="/blog"
