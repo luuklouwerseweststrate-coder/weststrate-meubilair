@@ -40,3 +40,6 @@ yarn-error.log*
 # Windows map-instellingen en tijdelijke commit-berichten
 desktop.ini
 .commit-msg.tmp
+
+# Gegenereerde previews van de scene-tooling
+scripts/iso-scene-preview.*
